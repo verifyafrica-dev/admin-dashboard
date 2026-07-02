@@ -29,6 +29,7 @@ import type {
 	TenantInvitationCreateUserPayload,
 	TenantInvitationVerifyData,
 	TenantInvitationVerifyPayload,
+	TenantAllListQuery,
 	TenantListQuery,
 	TenantUpdatePayload,
 	TenantUser,
@@ -99,7 +100,7 @@ export const TENANTS_V2_API = {
 			.then((res) => unwrapV2Message(res)),
 
 	ALL_LIST: async (
-		params?: TenantListQuery,
+		params?: TenantAllListQuery,
 	): Promise<PaginatedTenantAllListResult> =>
 		await $http
 			.get(TENANTS_V2_ENDPOINTS.all, { params })

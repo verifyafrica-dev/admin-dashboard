@@ -22,6 +22,7 @@ import type {
 	TenantInvitationCreatePayload,
 	TenantInvitationCreateUserPayload,
 	TenantInvitationVerifyPayload,
+	TenantAllListQuery,
 	TenantListQuery,
 	TenantUpdatePayload,
 	TenantUserMembershipUpdatePayload,
@@ -41,7 +42,7 @@ const TENANTS_V2_STALE_TIME = 60_000;
 export const TENANTS_V2_QUERY_KEYS = {
 	all: ["tenants-v2"] as const,
 	detail: (tenantId: string) => ["tenants-v2", "detail", tenantId] as const,
-	allList: (params?: TenantListQuery) =>
+	allList: (params?: TenantAllListQuery) =>
 		["tenants-v2", "all", params ?? {}] as const,
 	list: (params?: TenantListQuery) =>
 		["tenants-v2", "list", params ?? {}] as const,
@@ -74,7 +75,7 @@ export const useTenantV2DetailQuery = (
 	});
 
 export const useTenantsAllV2Query = (
-	params?: TenantListQuery,
+	params?: TenantAllListQuery,
 	enabled = true,
 ): UseQueryResult<PaginatedTenantAllListResult> =>
 	useQuery<PaginatedTenantAllListResult>({
