@@ -34,6 +34,7 @@ import {
 	TableRow,
 } from "#/components/ui/table";
 import { useDebouncedValue } from "#/hooks/use-debounced-value";
+import { InvoiceDetailsDialog } from "../../../invoices/-components/invoice-details-dialog";
 import {
 	downloadCsv,
 	formatTenantDate,
@@ -84,6 +85,8 @@ export function InvoicesTab({ tenantId }: { tenantId: string }) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [statusFilter, setStatusFilter] = useState<"all" | PaymentStatus>("all");
 	const [isExporting, setIsExporting] = useState(false);
+	const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+	const [detailsOpen, setDetailsOpen] = useState(false);
 	const debouncedSearch = useDebouncedValue(searchQuery, 300);
 
 	const invoicesQuery = useTenantInvoicesV2Query(tenantId, {
@@ -239,7 +242,14 @@ export function InvoicesTab({ tenantId }: { tenantId: string }) {
 								</TableHeader>
 								<TableBody>
 									{paginatedInvoices.map((invoice) => (
-										<InvoiceRow key={invoice.id} invoice={invoice} />
+										<InvoiceRow
+											key={invoice.id}
+											invoice={invoice}
+											onViewDetails={() => {
+												setSelectedInvoice(invoice);
+												setDetailsOpen(true);
+											}}
+										/>
 									))}
 								</TableBody>
 							</Table>
@@ -253,11 +263,27 @@ export function InvoicesTab({ tenantId }: { tenantId: string }) {
 					</>
 				)}
 			</CardContent>
+			<InvoiceDetailsDialog
+				open={detailsOpen}
+				invoice={selectedInvoice}
+				onOpenChange={(open) => {
+					setDetailsOpen(open);
+					if (!open) {
+						setSelectedInvoice(null);
+					}
+				}}
+			/>
 		</Card>
 	);
 }
 
-function InvoiceRow({ invoice }: { invoice: Invoice }) {
+function InvoiceRow({
+	invoice,
+	onViewDetails,
+}: {
+	invoice: Invoice;
+	onViewDetails: () => void;
+}) {
 	const invoiceLabel = invoice.invoice_id ?? invoice.id;
 
 	return (
@@ -290,18 +316,12 @@ function InvoiceRow({ invoice }: { invoice: Invoice }) {
 				{invoice.description}
 			</TableCell>
 			<TableCell className="pr-4 text-right sm:pr-6">
-				{invoice.file_attachment ? (
-					<div className="flex justify-end gap-1">
-						<Button variant="ghost" size="icon-sm" asChild>
-							<a
-								href={invoice.file_attachment}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<EyeIcon className="size-4" />
-								<span className="sr-only">View invoice</span>
-							</a>
-						</Button>
+				<div className="flex justify-end gap-1">
+					<Button variant="ghost" size="icon-sm" onClick={onViewDetails}>
+						<EyeIcon className="size-4" />
+						<span className="sr-only">View invoice</span>
+					</Button>
+					{invoice.file_attachment ? (
 						<Button variant="ghost" size="icon-sm" asChild>
 							<a
 								href={invoice.file_attachment}
@@ -311,10 +331,8 @@ function InvoiceRow({ invoice }: { invoice: Invoice }) {
 								<span className="sr-only">Download invoice</span>
 							</a>
 						</Button>
-					</div>
-				) : (
-					<span className="text-sm text-muted-foreground">-</span>
-				)}
+					) : null}
+				</div>
 			</TableCell>
 		</TableRow>
 	);

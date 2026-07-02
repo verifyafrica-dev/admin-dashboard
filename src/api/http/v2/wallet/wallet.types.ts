@@ -21,6 +21,13 @@ export type TransactionType = z.infer<typeof TransactionTypeSchema>;
 export const WalletTransactionsQuerySchema = WalletListQuerySchema.extend({
 	type: z.string().optional(),
 	exclude_source: z.string().optional(),
+	search: z.string().optional(),
+	payment_method: z.enum(["all", "stripe", "wallet"]).optional(),
+	created_from: z.string().optional(),
+	created_to: z.string().optional(),
+	amount_min: z.string().optional(),
+	amount_max: z.string().optional(),
+	status: z.enum(["all", "completed", "pending", "failed"]).optional(),
 });
 
 export type WalletTransactionsQuery = z.infer<
