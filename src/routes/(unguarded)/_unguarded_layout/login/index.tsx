@@ -91,8 +91,8 @@ function LoginPage() {
 
 	return (
 		<AuthPageShell
-			title="Welcome back"
-			subtitle="Sign in to your VerifyAfrica account"
+			title="Admin -Welcome back"
+			subtitle="Sign in to your VerifyAfrica admin account"
 			footer={
 				<p className="mt-6 text-center text-sm text-muted-foreground">
 					Don&apos;t have an account?{" "}

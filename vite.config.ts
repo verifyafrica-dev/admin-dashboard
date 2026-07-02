@@ -9,7 +9,7 @@ import { defineConfig } from "vite";
 
 const config = defineConfig({
 	server: {
-		allowedHosts: ["client.verifyafrica.localhost"],
+		allowedHosts: ["admin.verifyafrica.localhost"],
 	},
 	resolve: {
 		tsconfigPaths: true,

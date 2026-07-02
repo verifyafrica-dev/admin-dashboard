@@ -6,7 +6,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "portless client.verifyafrica.localhost vite",
+    "dev": "portless admin.verifyafrica.localhost vite",
     "dev:app": "vite dev --port 8010",
     "generate-routes": "tsr generate",
     "build": "vite build",
