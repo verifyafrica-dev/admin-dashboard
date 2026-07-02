@@ -25,6 +25,7 @@ import {
 	getInvoiceLabel,
 	getPaymentStatusBadgeClass,
 	getPaymentStatusLabel,
+	downloadInvoice,
 } from "../-data";
 import {
 	formatTenantMoney,
@@ -51,18 +52,9 @@ export function InvoiceDetailsDialog({
 	const invoiceLabel = getInvoiceLabel(invoice);
 
 	const handleDownload = () => {
-		if (!invoice.file_attachment) {
+		if (!downloadInvoice(invoice)) {
 			return;
 		}
-
-		const link = document.createElement("a");
-		link.href = invoice.file_attachment;
-		link.download = `invoice_${invoiceLabel}.pdf`;
-		link.target = "_blank";
-		link.rel = "noopener noreferrer";
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
 	};
 
 	return (

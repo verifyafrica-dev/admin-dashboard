@@ -45,6 +45,27 @@ export function getInvoiceLabel(invoice: Invoice) {
 	return invoice.invoice_id ?? invoice.id;
 }
 
+export function getInvoiceFilename(invoice: Invoice) {
+	return getInvoiceLabel(invoice);
+}
+
+export function downloadInvoice(invoice: Invoice) {
+	if (!invoice.file_attachment) {
+		return false;
+	}
+
+	const link = document.createElement("a");
+	link.href = invoice.file_attachment;
+	link.download = `invoice_${getInvoiceFilename(invoice)}.pdf`;
+	link.target = "_blank";
+	link.rel = "noopener noreferrer";
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+
+	return true;
+}
+
 export function getInvoicePeriod(invoice: Invoice) {
 	return invoicePeriodFormatter.format(new Date(invoice.created_at));
 }

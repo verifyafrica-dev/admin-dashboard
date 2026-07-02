@@ -16,6 +16,7 @@ import {
 	TablePagination,
 	TablePaginationSkeleton,
 } from "#/components/table-pagination";
+import { DateFilterPicker } from "#/components/date-filter-picker";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { Card, CardContent } from "#/components/ui/card";
@@ -255,37 +256,24 @@ function TopUpsPage() {
 					</div>
 
 					<div className="grid flex-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
-						<div className="space-y-1">
-							<label
-								htmlFor="top-ups-date-from"
-								className="text-xs text-muted-foreground"
-							>
-								Date from
-							</label>
-							<Input
-								id="top-ups-date-from"
-								type="date"
-								value={dateFrom}
-								onChange={(event) => setDateFrom(event.target.value)}
-								disabled={isLoading}
-							/>
-						</div>
-						<div className="space-y-1">
-							<label
-								htmlFor="top-ups-date-to"
-								className="text-xs text-muted-foreground"
-							>
-								Date to
-							</label>
-							<Input
-								id="top-ups-date-to"
-								type="date"
-								value={dateTo}
-								onChange={(event) => setDateTo(event.target.value)}
-								disabled={isLoading}
-								min={dateFrom || undefined}
-							/>
-						</div>
+						<DateFilterPicker
+							id="top-ups-date-from"
+							label="Date from"
+							value={dateFrom}
+							onChange={setDateFrom}
+							disabled={isLoading}
+							max={dateTo || undefined}
+							placeholder="Start date"
+						/>
+						<DateFilterPicker
+							id="top-ups-date-to"
+							label="Date to"
+							value={dateTo}
+							onChange={setDateTo}
+							disabled={isLoading}
+							min={dateFrom || undefined}
+							placeholder="End date"
+						/>
 
 						<Select
 							value={paymentMethodFilter}

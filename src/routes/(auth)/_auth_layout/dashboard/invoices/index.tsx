@@ -28,14 +28,21 @@ import {
 	TableHeader,
 	TableRow,
 } from "#/components/ui/table";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "#/components/ui/tooltip";
 import { useDebouncedValue } from "#/hooks/use-debounced-value";
 import { cn } from "#/lib/utils";
 import {
 	formatTenantMoney,
 	getInvoiceTotalAmount,
 } from "../tenants/$tenantId/-data";
+import { DateFilterPicker } from "#/components/date-filter-picker";
 import { InvoiceDetailsDialog } from "./-components/invoice-details-dialog";
 import {
+	downloadInvoice,
 	exportInvoicesCsv,
 	formatInvoiceDate,
 	getInvoiceLabel,
@@ -191,37 +198,24 @@ function InvoicesPage() {
 				</div>
 
 				<div className="grid gap-3 border-b p-4 sm:grid-cols-2 sm:px-6">
-					<div className="space-y-1">
-						<label
-							htmlFor="invoices-date-from"
-							className="text-xs text-muted-foreground"
-						>
-							Start Date
-						</label>
-						<Input
-							id="invoices-date-from"
-							type="date"
-							value={dateFrom}
-							onChange={(event) => setDateFrom(event.target.value)}
-							disabled={isLoading}
-						/>
-					</div>
-					<div className="space-y-1">
-						<label
-							htmlFor="invoices-date-to"
-							className="text-xs text-muted-foreground"
-						>
-							End Date
-						</label>
-						<Input
-							id="invoices-date-to"
-							type="date"
-							value={dateTo}
-							onChange={(event) => setDateTo(event.target.value)}
-							disabled={isLoading}
-							min={dateFrom || undefined}
-						/>
-					</div>
+					<DateFilterPicker
+						id="invoices-date-from"
+						label="Start Date"
+						value={dateFrom}
+						onChange={setDateFrom}
+						disabled={isLoading}
+						max={dateTo || undefined}
+						placeholder="Start date"
+					/>
+					<DateFilterPicker
+						id="invoices-date-to"
+						label="End Date"
+						value={dateTo}
+						onChange={setDateTo}
+						disabled={isLoading}
+						min={dateFrom || undefined}
+						placeholder="End date"
+					/>
 				</div>
 
 				{hasActiveFilters ? (
@@ -363,10 +357,44 @@ function InvoiceRow({
 				</Badge>
 			</TableCell>
 			<TableCell className="pr-4 text-right sm:pr-6">
-				<Button variant="ghost" size="icon-sm" onClick={onViewDetails}>
-					<EyeIcon className="size-4" />
-					<span className="sr-only">View invoice</span>
-				</Button>
+				<div className="flex items-center justify-end gap-1">
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<span className="inline-flex">
+								<Button
+									variant="ghost"
+									size="icon-sm"
+									onClick={onViewDetails}
+								>
+									<EyeIcon className="size-4" />
+									<span className="sr-only">View invoice</span>
+								</Button>
+							</span>
+						</TooltipTrigger>
+						<TooltipContent side="top">View invoice</TooltipContent>
+					</Tooltip>
+					{invoice.file_attachment ? (
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<span className="inline-flex">
+									<Button
+										variant="ghost"
+										size="icon-sm"
+										onClick={() => {
+											if (!downloadInvoice(invoice)) {
+												toast.error("Unable to download invoice");
+											}
+										}}
+									>
+										<DownloadSimpleIcon className="size-4" />
+										<span className="sr-only">Download invoice</span>
+									</Button>
+								</span>
+							</TooltipTrigger>
+							<TooltipContent side="top">Download invoice</TooltipContent>
+						</Tooltip>
+					) : null}
+				</div>
 			</TableCell>
 		</TableRow>
 	);
