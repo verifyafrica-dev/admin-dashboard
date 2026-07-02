@@ -2,18 +2,27 @@ import type { AdminUser, UserListSortBy } from "#/api/http/v2/users/users.types"
 import { formatTenantDate } from "../tenants/-data";
 import { downloadCsv } from "../tenants/$tenantId/-data";
 
-export const USER_ROLE_FILTER_OPTIONS = [
-	{ value: "all", label: "All Roles" },
-	{ value: "user", label: "User" },
-	{ value: "superuser", label: "Superuser" },
-] as const;
-
-export const ROLES = USER_ROLE_FILTER_OPTIONS.map((option) => option.value);
+export const USER_ROLE_FILTER = {
+	ALL: "all",
+	USER: "user",
+	SUPERUSER: "superuser",
+} as const;
 
 export type UserRoleFilter =
-	(typeof USER_ROLE_FILTER_OPTIONS)[number]["value"];
+	(typeof USER_ROLE_FILTER)[keyof typeof USER_ROLE_FILTER];
 
-export const DEFAULT_USER_ROLE_FILTER: UserRoleFilter = "all";
+export const USER_ROLE_FILTER_VALUES = Object.values(USER_ROLE_FILTER);
+
+export const DEFAULT_USER_ROLE_FILTER: UserRoleFilter = USER_ROLE_FILTER.ALL;
+
+export const USER_ROLE_FILTER_OPTIONS = [
+	{ value: USER_ROLE_FILTER.ALL, label: "All Roles" },
+	{ value: USER_ROLE_FILTER.USER, label: "User" },
+	{ value: USER_ROLE_FILTER.SUPERUSER, label: "Superuser" },
+] as const satisfies ReadonlyArray<{
+	value: UserRoleFilter;
+	label: string;
+}>;
 
 export const USER_TENANT_ROLE_FILTER_OPTIONS = [
 	{ value: "all", label: "All Tenant Roles" },
@@ -41,9 +50,6 @@ export const DEFAULT_USER_SORT: UserListSortBy = "recently_created";
 export function getUserDisplayName(
 	user: Pick<AdminUser, "first_name" | "last_name" | "is_superuser">,
 ): string | null {
-	if (user.is_superuser) {
-		return "SuperAdmin";
-	}
 
 	const fullName = [user.first_name, user.last_name]
 		.filter(Boolean)

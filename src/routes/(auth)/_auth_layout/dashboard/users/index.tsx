@@ -68,6 +68,7 @@ import {
 	getUserPrimaryTenantName,
 	getUserPrimaryTenantRole,
 	getUserRoleLabel,
+	USER_ROLE_FILTER,
 	USER_ROLE_FILTER_OPTIONS,
 	USER_SORT_OPTIONS,
 	USER_TENANT_ROLE_FILTER_OPTIONS,
@@ -258,7 +259,7 @@ function UsersPage() {
 
 					<div
 						className={cn("grid flex-1 gap-3 sm:grid-cols-2 lg:max-w-2xl ", {
-							"lg:grid-cols-3": roleFilter !== "superuser",
+							"lg:grid-cols-3": roleFilter !== USER_ROLE_FILTER.SUPERUSER,
 						})}
 					>
 						<Select
@@ -281,7 +282,7 @@ function UsersPage() {
 							</SelectContent>
 						</Select>
 
-						{roleFilter !== "superuser" && (
+						{roleFilter !== USER_ROLE_FILTER.SUPERUSER && (
 							<Select
 								value={tenantRoleFilter}
 								onValueChange={(value) =>

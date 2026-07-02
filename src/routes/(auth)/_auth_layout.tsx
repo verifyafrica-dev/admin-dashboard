@@ -1,6 +1,14 @@
-import { createFileRoute, Navigate, Outlet, useLocation } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	Navigate,
+	Outlet,
+	useLocation,
+} from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
-import { useMeV2Query, useUserV2LogoutMutation } from "#/api/http/v2/users/users.hooks";
+import {
+	useMeV2Query,
+	useUserV2LogoutMutation,
+} from "#/api/http/v2/users/users.hooks";
 import { Avatar, AvatarFallback, AvatarImage } from "#/components/ui/avatar";
 import { Button } from "#/components/ui/button";
 import {
@@ -39,7 +47,12 @@ function AuthLayout() {
 	if (!getUserQuery.isLoading && !getUserQuery.data?.id) {
 		deleteAllCookies();
 		useAuthStore.getState().clearAuth();
-		return <Navigate to={buildLoginRedirectUrl(location.pathname)} replace />;
+		return (
+			<Navigate
+				to={buildLoginRedirectUrl(location.pathname)}
+				replace
+			/>
+		);
 	}
 
 	const user = getUserQuery.data;
@@ -63,19 +76,27 @@ function AuthLayout() {
 							>
 								<Avatar>
 									{user?.avatar_url ? (
-										<AvatarImage src={user.avatar_url} alt={displayName} />
+										<AvatarImage
+											src={user.avatar_url}
+											alt={displayName}
+										/>
 									) : null}
 									<AvatarFallback>{initials}</AvatarFallback>
 								</Avatar>
 								<div>
-									<p className="text-sm font-semibold">{displayName}</p>
+									<p className="text-sm font-semibold capitalize">
+										{displayName}
+									</p>
 									<p className="text-sm font-medium text-muted-foreground">
 										{user?.email}
 									</p>
 								</div>
 							</button>
 						</PopoverTrigger>
-						<PopoverContent align="end" className="w-40 gap-0 p-1">
+						<PopoverContent
+							align="end"
+							className="w-40 gap-0 p-1"
+						>
 							<Button
 								variant="ghost"
 								size="sm"
