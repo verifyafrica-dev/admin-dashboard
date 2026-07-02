@@ -204,6 +204,8 @@ export const UserListQuerySchema = z.object({
 	per_page: z.number().int().positive().optional(),
 	sort_by: UserListSortBySchema.optional(),
 	search: z.string().optional(),
+	role: z.enum(["all", "user", "superuser"]).optional(),
+	tenant_role: z.enum(["all", "admin", "member"]).optional(),
 });
 
 export type UserListQuery = z.infer<typeof UserListQuerySchema>;

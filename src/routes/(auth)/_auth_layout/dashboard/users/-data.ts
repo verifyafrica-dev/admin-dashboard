@@ -2,6 +2,30 @@ import type { AdminUser, UserListSortBy } from "#/api/http/v2/users/users.types"
 import { formatTenantDate } from "../tenants/-data";
 import { downloadCsv } from "../tenants/$tenantId/-data";
 
+export const USER_ROLE_FILTER_OPTIONS = [
+	{ value: "all", label: "All Roles" },
+	{ value: "user", label: "User" },
+	{ value: "superuser", label: "Superuser" },
+] as const;
+
+export const ROLES = USER_ROLE_FILTER_OPTIONS.map((option) => option.value);
+
+export type UserRoleFilter =
+	(typeof USER_ROLE_FILTER_OPTIONS)[number]["value"];
+
+export const DEFAULT_USER_ROLE_FILTER: UserRoleFilter = "all";
+
+export const USER_TENANT_ROLE_FILTER_OPTIONS = [
+	{ value: "all", label: "All Tenant Roles" },
+	{ value: "admin", label: "Admin" },
+	{ value: "member", label: "Member" },
+] as const;
+
+export type UserTenantRoleFilter =
+	(typeof USER_TENANT_ROLE_FILTER_OPTIONS)[number]["value"];
+
+export const DEFAULT_USER_TENANT_ROLE_FILTER: UserTenantRoleFilter = "all";
+
 export const USER_SORT_OPTIONS: {
 	value: UserListSortBy;
 	label: string;
@@ -37,6 +61,18 @@ export function getUserAvatarLabel(
 
 export function getUserPrimaryTenantName(user: AdminUser) {
 	return user.tenants[0]?.name ?? "N/A";
+}
+
+export function getUserPrimaryTenantRole(user: AdminUser) {
+	if (user.is_superuser) {
+		return null;
+	}
+
+	return user.tenants[0]?.role ?? null;
+}
+
+export function formatTenantRoleLabel(role: string) {
+	return role.charAt(0).toUpperCase() + role.slice(1);
 }
 
 export function formatUserLastActive(lastLogin: string | null) {
@@ -85,15 +121,29 @@ export function canToggleUserAccount(
 
 export function exportUsersCsv(users: AdminUser[]) {
 	downloadCsv(`users_export_${new Date().toISOString().split("T")[0]}.csv`, [
-		["First Name", "Last Name", "Email", "Tenant", "Role", "Status", "Last Active"],
-		...users.map((user) => [
-			user.first_name ?? "",
-			user.last_name ?? "",
-			user.email,
-			getUserPrimaryTenantName(user),
-			getUserRoleLabel(user),
-			user.is_active ? "Active" : "Inactive",
-			formatUserLastActive(user.last_login),
-		]),
+		[
+			"First Name",
+			"Last Name",
+			"Email",
+			"Tenant",
+			"Tenant Role",
+			"Role",
+			"Status",
+			"Last Active",
+		],
+		...users.map((user) => {
+			const tenantRole = getUserPrimaryTenantRole(user);
+
+			return [
+				user.first_name ?? "",
+				user.last_name ?? "",
+				user.email,
+				getUserPrimaryTenantName(user),
+				tenantRole ? formatTenantRoleLabel(tenantRole) : "",
+				getUserRoleLabel(user),
+				user.is_active ? "Active" : "Inactive",
+				formatUserLastActive(user.last_login),
+			];
+		}),
 	]);
 }

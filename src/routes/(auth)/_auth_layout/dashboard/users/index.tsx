@@ -2,6 +2,7 @@ import {
 	ArrowClockwiseIcon,
 	DotsThreeVerticalIcon,
 	DownloadSimpleIcon,
+	FunnelIcon,
 	MagnifyingGlassIcon,
 	UsersIcon,
 } from "@phosphor-icons/react";
@@ -10,7 +11,10 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { USERS_V2_API } from "#/api/http/v2/users/users.api";
 import { useUsersV2ListQuery } from "#/api/http/v2/users/users.hooks";
-import type { AdminUser, UserListSortBy } from "#/api/http/v2/users/users.types";
+import type {
+	AdminUser,
+	UserListSortBy,
+} from "#/api/http/v2/users/users.types";
 import {
 	TablePagination,
 	TablePaginationSkeleton,
@@ -53,14 +57,22 @@ import { ToggleUserAccountDialog } from "./-components/toggle-user-account-dialo
 import { UserDetailsDialog } from "./-components/user-details-dialog";
 import {
 	canToggleUserAccount,
+	DEFAULT_USER_ROLE_FILTER,
 	DEFAULT_USER_SORT,
+	DEFAULT_USER_TENANT_ROLE_FILTER,
 	exportUsersCsv,
+	formatTenantRoleLabel,
 	formatUserLastActive,
 	getUserAvatarLabel,
 	getUserDisplayName,
 	getUserPrimaryTenantName,
+	getUserPrimaryTenantRole,
 	getUserRoleLabel,
+	USER_ROLE_FILTER_OPTIONS,
 	USER_SORT_OPTIONS,
+	USER_TENANT_ROLE_FILTER_OPTIONS,
+	type UserRoleFilter,
+	type UserTenantRoleFilter,
 } from "./-data";
 
 const PAGE_SIZE = 10;
@@ -68,6 +80,7 @@ const PAGE_SIZE = 10;
 const USER_TABLE_COLUMNS = [
 	"User",
 	"Tenant",
+	"Tenant Role",
 	"Role",
 	"Status",
 	"Last Active",
@@ -97,6 +110,11 @@ function UsersPage() {
 	const [page, setPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [sortBy, setSortBy] = useState<UserListSortBy>(DEFAULT_USER_SORT);
+	const [roleFilter, setRoleFilter] = useState<UserRoleFilter>(
+		DEFAULT_USER_ROLE_FILTER,
+	);
+	const [tenantRoleFilter, setTenantRoleFilter] =
+		useState<UserTenantRoleFilter>(DEFAULT_USER_TENANT_ROLE_FILTER);
 	const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null);
 	const [detailsOpen, setDetailsOpen] = useState(false);
 	const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
@@ -108,18 +126,20 @@ function UsersPage() {
 			page,
 			per_page: PAGE_SIZE,
 			sort_by: sortBy,
-			...(debouncedSearch.trim()
-				? { search: debouncedSearch.trim() }
+			...(debouncedSearch.trim() ? { search: debouncedSearch.trim() } : {}),
+			...(roleFilter !== DEFAULT_USER_ROLE_FILTER ? { role: roleFilter } : {}),
+			...(tenantRoleFilter !== DEFAULT_USER_TENANT_ROLE_FILTER
+				? { tenant_role: tenantRoleFilter }
 				: {}),
 		}),
-		[page, debouncedSearch, sortBy],
+		[page, debouncedSearch, sortBy, roleFilter, tenantRoleFilter],
 	);
 
 	const usersQuery = useUsersV2ListQuery(userListQuery);
 
 	useEffect(() => {
 		setPage(1);
-	}, [debouncedSearch, sortBy]);
+	}, [debouncedSearch, sortBy, roleFilter, tenantRoleFilter]);
 
 	const users = usersQuery.data?.items ?? [];
 	const totalUsers = usersQuery.data?.meta.pagination.total ?? 0;
@@ -128,7 +148,11 @@ function UsersPage() {
 		usersQuery.isPending || (usersQuery.isFetching && !usersQuery.data);
 	const isRefreshing = usersQuery.isFetching;
 	const hasActiveSearch = debouncedSearch.trim().length > 0;
-	const hasActiveFilters = hasActiveSearch || sortBy !== DEFAULT_USER_SORT;
+	const hasActiveFilters =
+		hasActiveSearch ||
+		sortBy !== DEFAULT_USER_SORT ||
+		roleFilter !== DEFAULT_USER_ROLE_FILTER ||
+		tenantRoleFilter !== DEFAULT_USER_TENANT_ROLE_FILTER;
 
 	const handleRefresh = () => {
 		void usersQuery.refetch();
@@ -144,8 +168,12 @@ function UsersPage() {
 				page: 1,
 				per_page: Math.min(totalUsers, 500),
 				sort_by: sortBy,
-				...(debouncedSearch.trim()
-					? { search: debouncedSearch.trim() }
+				...(debouncedSearch.trim() ? { search: debouncedSearch.trim() } : {}),
+				...(roleFilter !== DEFAULT_USER_ROLE_FILTER
+					? { role: roleFilter }
+					: {}),
+				...(tenantRoleFilter !== DEFAULT_USER_TENANT_ROLE_FILTER
+					? { tenant_role: tenantRoleFilter }
 					: {}),
 			});
 			exportUsersCsv(result.items);
@@ -208,9 +236,9 @@ function UsersPage() {
 				</div>
 			</div>
 
-			<Card>
-				<div className="flex flex-col gap-3 border-b p-4 sm:flex-row sm:p-6">
-					<div className="relative flex-1">
+			<Card className="gap-0 py-0">
+				<div className="border-b p-4 sm:p-6">
+					<div className="relative">
 						<MagnifyingGlassIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
 						<Input
 							value={searchQuery}
@@ -220,22 +248,96 @@ function UsersPage() {
 							disabled={isLoading}
 						/>
 					</div>
-					<Select
-						value={sortBy}
-						onValueChange={(value) => setSortBy(value as UserListSortBy)}
-						disabled={isLoading}
+				</div>
+
+				<div className="flex flex-col gap-4 border-b p-4 lg:flex-row lg:items-center sm:px-6">
+					<div className="flex items-center gap-2">
+						<FunnelIcon className="size-4 text-muted-foreground" />
+						<span className="text-sm font-medium">Filters:</span>
+					</div>
+
+					<div
+						className={cn("grid flex-1 gap-3 sm:grid-cols-2 lg:max-w-2xl ", {
+							"lg:grid-cols-3": roleFilter !== "superuser",
+						})}
 					>
-						<SelectTrigger className="w-full sm:w-[220px]">
-							<SelectValue placeholder="Sort by" />
-						</SelectTrigger>
-						<SelectContent>
-							{USER_SORT_OPTIONS.map((option) => (
-								<SelectItem key={option.value} value={option.value}>
-									{option.label}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
+						<Select
+							value={roleFilter}
+							onValueChange={(value) => setRoleFilter(value as UserRoleFilter)}
+							disabled={isLoading}
+						>
+							<SelectTrigger className="w-full">
+								<SelectValue placeholder="Role" />
+							</SelectTrigger>
+							<SelectContent>
+								{USER_ROLE_FILTER_OPTIONS.map((option) => (
+									<SelectItem
+										key={option.value}
+										value={option.value}
+									>
+										{option.label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+
+						{roleFilter !== "superuser" && (
+							<Select
+								value={tenantRoleFilter}
+								onValueChange={(value) =>
+									setTenantRoleFilter(value as UserTenantRoleFilter)
+								}
+								disabled={isLoading}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Tenant Role" />
+								</SelectTrigger>
+								<SelectContent>
+									{USER_TENANT_ROLE_FILTER_OPTIONS.map((option) => (
+										<SelectItem
+											key={option.value}
+											value={option.value}
+										>
+											{option.label}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						)}
+						<Select
+							value={sortBy}
+							onValueChange={(value) => setSortBy(value as UserListSortBy)}
+							disabled={isLoading}
+						>
+							<SelectTrigger className="w-full">
+								<SelectValue placeholder="Sort by" />
+							</SelectTrigger>
+							<SelectContent>
+								{USER_SORT_OPTIONS.map((option) => (
+									<SelectItem
+										key={option.value}
+										value={option.value}
+									>
+										{option.label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</div>
+
+					{hasActiveFilters ? (
+						<Button
+							variant="ghost"
+							onClick={() => {
+								setSearchQuery("");
+								setSortBy(DEFAULT_USER_SORT);
+								setRoleFilter(DEFAULT_USER_ROLE_FILTER);
+								setTenantRoleFilter(DEFAULT_USER_TENANT_ROLE_FILTER);
+							}}
+						>
+							Clear Filters
+						</Button>
+					) : null}
 				</div>
 
 				<CardContent className="gap-0 p-0">
@@ -362,6 +464,7 @@ function UserRow({
 	const avatarLabel = getUserAvatarLabel(user);
 	const avatarColor = getTenantAvatarColor(avatarLabel);
 	const showToggleAccount = canToggleUserAccount(user, currentUserId);
+	const tenantRole = getUserPrimaryTenantRole(user);
 
 	return (
 		<TableRow>
@@ -393,7 +496,21 @@ function UserRow({
 					</div>
 				</div>
 			</TableCell>
-			<TableCell className="capitalize">{getUserPrimaryTenantName(user)}</TableCell>
+			<TableCell className="capitalize">
+				{getUserPrimaryTenantName(user)}
+			</TableCell>
+			<TableCell>
+				{tenantRole ? (
+					<Badge
+						variant="outline"
+						className="border-blue-200 bg-blue-50 capitalize text-blue-700"
+					>
+						{formatTenantRoleLabel(tenantRole)}
+					</Badge>
+				) : (
+					<span className="text-muted-foreground">-</span>
+				)}
+			</TableCell>
 			<TableCell>
 				<Badge
 					variant="outline"
@@ -422,25 +539,40 @@ function UserRow({
 			<TableCell className="pr-4 text-right sm:pr-6">
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" size="icon-sm">
+						<Button
+							variant="ghost"
+							size="icon-sm"
+						>
 							<DotsThreeVerticalIcon className="size-4" />
 							<span className="sr-only">Open actions</span>
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
-						<DropdownMenuItem onClick={onViewDetails} className="whitespace-nowrap">
+						<DropdownMenuItem
+							onClick={onViewDetails}
+							className="whitespace-nowrap"
+						>
 							View Details
 						</DropdownMenuItem>
-						<DropdownMenuItem onClick={onResetPassword} className="whitespace-nowrap">
+						<DropdownMenuItem
+							onClick={onResetPassword}
+							className="whitespace-nowrap"
+						>
 							Reset Password
 						</DropdownMenuItem>
 						{showToggleAccount ? (
-							<DropdownMenuItem onClick={onToggleAccount} className="whitespace-nowrap">
+							<DropdownMenuItem
+								onClick={onToggleAccount}
+								className="whitespace-nowrap"
+							>
 								{user.is_active ? "Disable Account" : "Enable Account"}
 							</DropdownMenuItem>
 						) : null}
 						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={onViewActivityLog} className="whitespace-nowrap">
+						<DropdownMenuItem
+							onClick={onViewActivityLog}
+							className="whitespace-nowrap"
+						>
 							View Activity Log
 						</DropdownMenuItem>
 					</DropdownMenuContent>
@@ -454,13 +586,17 @@ function UsersTableSkeleton() {
 	return (
 		<div className="space-y-3">
 			{Array.from({ length: 5 }).map((_, index) => (
-				<div key={index} className="flex items-center gap-4 px-2">
+				<div
+					key={index}
+					className="flex items-center gap-4 px-2"
+				>
 					<Skeleton className="size-9 rounded-full" />
 					<div className="flex-1 space-y-2">
 						<Skeleton className="h-4 w-40" />
 						<Skeleton className="h-3 w-56" />
 					</div>
 					<Skeleton className="h-4 w-28" />
+					<Skeleton className="h-6 w-16" />
 					<Skeleton className="h-6 w-16" />
 					<Skeleton className="h-6 w-20" />
 					<Skeleton className="h-4 w-32" />
