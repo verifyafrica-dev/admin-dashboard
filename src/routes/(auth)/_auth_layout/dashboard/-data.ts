@@ -1,7 +1,6 @@
 import type {
 	AnalyticsDateRangeQuery,
-	AnalyticsPayload,
-	TenantAnalyticsData,
+	PlatformAnalyticsPayload,
 } from "#/api/http/v2/analytics/analytics.types";
 
 export type TimeRange = "all" | "7d" | "30d" | "90d";
@@ -17,15 +16,11 @@ const isoDateFormatter = new Intl.DateTimeFormat("en-CA", {
 	day: "2-digit",
 });
 
-export function shouldShowDashboardOnboarding(isKycVerified: boolean) {
-	return !isKycVerified;
-}
-
 export const TIME_RANGE_OPTIONS: { value: TimeRange; label: string }[] = [
-	{ value: "all", label: "All time" },
 	{ value: "7d", label: "Last 7 days" },
 	{ value: "30d", label: "Last 30 days" },
 	{ value: "90d", label: "Last 90 days" },
+	{ value: "all", label: "All time" },
 ];
 
 const TIME_RANGE_DAYS: Record<Exclude<TimeRange, "all">, number> = {
@@ -52,130 +47,159 @@ export function getAnalyticsDateRange(
 	};
 }
 
-export type TrendPoint = {
-	label: string;
-	total: number;
-	successful: number;
-};
+export const CHART_COLORS = [
+	"var(--chart-1)",
+	"var(--chart-2)",
+	"var(--chart-3)",
+	"var(--chart-4)",
+	"var(--chart-5)",
+	"#3B82F6",
+	"#EC4899",
+] as const;
 
-export type VerificationTypePoint = {
-	type: string;
-	count: number;
+export type ChartPoint = {
+	label: string;
+	value: number;
 	fill: string;
 };
 
-export type DashboardStats = {
-	totalVerifications: number;
-	successRate: number;
-	topUps: number;
-	topUpTransactions: number;
-	creditsUsed: number;
-	refunds: {
-		amount: number;
-		transactions: number;
+export type TimeSeriesPoint = {
+	label: string;
+	value: number;
+};
+
+export type AdminDashboardAlert = {
+	type: "info" | "success" | "warning";
+	message: string;
+	time: string;
+};
+
+export type AdminDashboardData = {
+	summary: {
+		totalTenants: number;
+		totalUsers: number;
+		totalVerifications: number;
+		revenue: number;
+		pendingVerifications: number;
+		activeUsers: number;
+		avgTurnaroundHours: number | null;
+		creditUsage: number;
 	};
-	typesTotal: number;
+	invitations: {
+		sent: number;
+		pending: number;
+		accepted: number;
+		topUpsTotal: number;
+	};
+	tenantGrowth: TimeSeriesPoint[];
+	verificationVolume: TimeSeriesPoint[];
+	revenueOverTime: TimeSeriesPoint[];
+	verificationTypes: ChartPoint[];
+	roleDistribution: ChartPoint[];
+	complianceStatus: ChartPoint[];
+	topTenants: Array<{
+		id: string;
+		name: string;
+		activityScore: number;
+	}>;
+	recentAlerts: AdminDashboardAlert[];
 };
 
-export type DashboardData = {
-	stats: DashboardStats;
-	trendData: TrendPoint[];
-	typeData: VerificationTypePoint[];
-};
-
-type DashboardVerificationTypeKey = "id" | "passport" | "faceMatch" | "address";
-
-function mapVerificationTypeToChartKey(
-	type: string,
-): DashboardVerificationTypeKey {
-	if (type.includes("face_match")) {
-		return "faceMatch";
-	}
-
-	if (type.includes("address")) {
-		return "address";
-	}
-
-	if (type.includes("passport")) {
-		return "passport";
-	}
-
-	return "id";
+function formatChartDate(date: string) {
+	return chartDateFormatter.format(new Date(date));
 }
 
-function getSuccessRate(statusDistribution: Record<string, number>) {
-	const total = Object.values(statusDistribution).reduce(
-		(sum, count) => sum + count,
-		0,
-	);
-
-	if (total === 0) {
-		return 0;
-	}
-
-	const successful = statusDistribution.SUCCESS ?? 0;
-	return (successful / total) * 100;
+function formatLabel(value: string) {
+	return value
+		.replace(/_/g, " ")
+		.replace(/\b\w/g, (character) => character.toUpperCase());
 }
 
-function mapTypeDistribution(
-	typeDistribution: Record<string, number>,
-): VerificationTypePoint[] {
-	const grouped = new Map<DashboardVerificationTypeKey, number>();
-
-	for (const [type, count] of Object.entries(typeDistribution)) {
-		const chartKey = mapVerificationTypeToChartKey(type);
-		grouped.set(chartKey, (grouped.get(chartKey) ?? 0) + count);
-	}
-
-	return Array.from(grouped.entries()).map(([type, count]) => ({
-		type,
-		count,
-		fill: `var(--color-${type})`,
+function mapDistribution(
+	distribution: Record<string, number>,
+): ChartPoint[] {
+	return Object.entries(distribution).map(([key, value], index) => ({
+		label: formatLabel(key),
+		value,
+		fill: CHART_COLORS[index % CHART_COLORS.length],
 	}));
 }
 
-function mapTrendData(
-	verificationVolume: TenantAnalyticsData["verifications"]["verification_volume"],
-	statusDistribution: Record<string, number>,
-): TrendPoint[] {
-	const successRate = getSuccessRate(statusDistribution) / 100;
-
-	return verificationVolume.map((point) => ({
-		label: chartDateFormatter.format(new Date(point.date)),
-		total: point.count,
-		successful: Math.round(point.count * successRate),
-	}));
-}
-
-export function mapTenantAnalyticsToDashboardData(
-	response: AnalyticsPayload,
-): DashboardData {
-	const { verifications, financials } = response.analytics;
-	const successRate = getSuccessRate(verifications.status_distribution);
-	const trendData = mapTrendData(
-		verifications.verification_volume,
-		verifications.status_distribution,
-	);
-	const typeData = mapTypeDistribution(verifications.type_distribution);
+export function mapPlatformAnalyticsToDashboardData(
+	response: PlatformAnalyticsPayload,
+): AdminDashboardData {
+	const { summary, users, tenants, verifications, financials } =
+		response.analytics;
 
 	const totalVerifications = Object.values(
-		verifications.status_distribution,
+		verifications.type_distribution,
 	).reduce((sum, count) => sum + count, 0);
 
 	return {
-		stats: {
+		summary: {
+			totalTenants: summary.total_tenants,
+			totalUsers: summary.total_users,
 			totalVerifications,
-			successRate,
-			topUps: financials.top_ups.total_amount,
-			topUpTransactions: financials.top_ups.count,
-			creditsUsed: financials.credit_usage,
-			refunds: {
-				amount: financials.refunds.total_amount,
-				transactions: financials.refunds.count,
-			},
-			typesTotal: typeData.reduce((sum, point) => sum + point.count, 0),
+			revenue: summary.total_revenue_past_30_days,
+			pendingVerifications: summary.pending_verifications,
+			activeUsers: summary.active_users_past_30_days,
+			avgTurnaroundHours: summary.avg_verification_turnaround_time_hours,
+			creditUsage: financials.credit_usage,
 		},
-		trendData,
-		typeData,
+		invitations: {
+			sent: users.invitations.sent,
+			pending: users.invitations.pending,
+			accepted: users.invitations.accepted,
+			topUpsTotal: financials.top_ups.total_amount,
+		},
+		tenantGrowth: tenants.tenant_growth.map((point) => ({
+			label: formatChartDate(point.date),
+			value: point.new_tenants,
+		})),
+		verificationVolume: verifications.verification_volume.map((point) => ({
+			label: formatChartDate(point.date),
+			value: point.count,
+		})),
+		revenueOverTime: financials.revenue_over_time.map((point) => ({
+			label: formatChartDate(point.date),
+			value: point.revenue,
+		})),
+		verificationTypes: mapDistribution(verifications.type_distribution),
+		roleDistribution: mapDistribution(users.role_distribution),
+		complianceStatus: mapDistribution(tenants.compliance_status),
+		topTenants: tenants.top_tenants_by_activity.map((tenant) => ({
+			id: tenant.tenant_id,
+			name: tenant.tenant_name,
+			activityScore: tenant.activity_score,
+		})),
+		recentAlerts: [
+			{
+				type: "info",
+				message: `${users.invitations.pending} pending user invitations`,
+				time: "Now",
+			},
+			{
+				type: "info",
+				message: `${financials.top_ups.count} top-ups`,
+				time: "Now",
+			},
+			{
+				type: "success",
+				message: `${users.invitations.accepted} invitations accepted`,
+				time: "Recent",
+			},
+		],
 	};
+}
+
+export function formatAdminNumber(value: number) {
+	return new Intl.NumberFormat().format(value);
+}
+
+export function formatAdminCurrency(value: number) {
+	return new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency: "USD",
+		maximumFractionDigits: 0,
+	}).format(value);
 }

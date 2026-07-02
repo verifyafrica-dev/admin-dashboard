@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Navigate, Outlet, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Navigate, Outlet, useLocation } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import { useMeV2Query, useUserV2LogoutMutation } from "#/api/http/v2/users/users.hooks";
 import { Avatar, AvatarFallback, AvatarImage } from "#/components/ui/avatar";
@@ -17,13 +17,7 @@ import { AppSidebar } from "#/components/app-sidebar";
 import { deleteAllCookies } from "#/lib/cookies";
 import { buildLoginRedirectUrl } from "#/lib/redirect";
 import { useAuthStore } from "#/stores/auth-store";
-import { cn } from "#/lib/utils.ts";
-import { getUserInitials } from "#/routes/(auth)/_auth_layout/dashboard/team/-data";
-
-const userMenuLinks = [
-	{ label: "Profile", to: "/dashboard/profile" },
-	{ label: "My Team", to: "/dashboard/team" },
-] as const;
+import { getUserInitials } from "#/lib/user";
 
 export const Route = createFileRoute("/(auth)/_auth_layout")({
 	component: AuthLayout,
@@ -82,29 +76,15 @@ function AuthLayout() {
 							</button>
 						</PopoverTrigger>
 						<PopoverContent align="end" className="w-40 gap-0 p-1">
-							<nav className="flex flex-col">
-								{userMenuLinks.map((item) => (
-									<Link
-										key={item.to}
-										to={item.to}
-										className={cn(
-											"rounded-md px-3 py-2 text-sm font-medium transition-colors",
-											"hover:bg-muted",
-										)}
-									>
-										{item.label}
-									</Link>
-								))}
-								<Button
-									variant="ghost"
-									size="sm"
-									className="w-full justify-start px-3"
-									onClick={() => logout()}
-									disabled={isLoggingOut}
-								>
-									Logout
-								</Button>
-							</nav>
+							<Button
+								variant="ghost"
+								size="sm"
+								className="w-full justify-start px-3"
+								onClick={() => logout()}
+								disabled={isLoggingOut}
+							>
+								Logout
+							</Button>
 						</PopoverContent>
 					</Popover>
 				</header>

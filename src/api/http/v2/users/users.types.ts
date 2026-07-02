@@ -288,6 +288,11 @@ export interface AuthResponseData {
 	user: UserSession;
 }
 
+export interface AdminAuthResponseData {
+	access_token: string;
+	user: AdminUser;
+}
+
 export interface RegisterResponseData {
 	id: string;
 	email: string;

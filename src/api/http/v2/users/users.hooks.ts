@@ -13,6 +13,7 @@ import { useAuthStore } from "#/stores/auth-store";
 import { setAccessToken } from "../../xhr";
 import { USERS_V2_API } from "./users.api";
 import type {
+	AdminAuthResponseData,
 	AdminUser,
 	AuthResponseData,
 	InvitationAcceptPayload,
@@ -51,11 +52,11 @@ export const USER_V2_QUERY_KEYS = {
 		["users-v2", "verify-forgot-password-token", token] as const,
 } as const;
 
-const toAuthStoreUser = (user: UserSession): UserDetail => ({
+const toAuthStoreUser = (user: UserSession | AdminUser): UserDetail => ({
 	...user,
 	phone_number: user.phone_number ?? undefined,
 	tenants: user.tenants,
-	created_at: "",
+	created_at: "created_at" in user ? user.created_at : "",
 });
 
 export const useUsersV2ListQuery = (
@@ -116,6 +117,21 @@ export const useVerifyForgotPasswordTokenV2Query = (
 		queryFn: () => USERS_V2_API.VERIFY_FORGOT_PASSWORD_TOKEN({ token }),
 		enabled: enabled && Boolean(token),
 		retry: false,
+	});
+
+export const useUserV2AdminLoginMutation = () =>
+	useMutation<AdminAuthResponseData, UserLoginError, UserLoginMutationInput>({
+		mutationFn: ({ payload }) => USERS_V2_API.ADMIN_LOGIN(payload),
+		onSuccess: async (data) => {
+			setAccessToken(data.access_token);
+			useAuthStore.setState({
+				access_token: data.access_token,
+				user: toAuthStoreUser(data.user),
+			});
+
+			const user = await USERS_V2_API.ME();
+			useAuthStore.setState({ user: toAuthStoreUser(user) });
+		},
 	});
 
 export const useUserV2LoginMutation = () =>

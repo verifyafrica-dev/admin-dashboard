@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { useUserV2LoginMutation } from "#/api/http/v2/users/users.hooks";
+import { useUserV2AdminLoginMutation } from "#/api/http/v2/users/users.hooks";
 import {
 	type UserLoginPayload,
 	UserLoginSchema,
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/(unguarded)/_unguarded_layout/login/")({
 function LoginPage() {
 	const { redirect_to } = Route.useSearch();
 	const navigate = useNavigate();
-	const userLoginMutation = useUserV2LoginMutation();
+	const userLoginMutation = useUserV2AdminLoginMutation();
 	const [formErrors, setFormErrors] = useState<Array<{ message: string }>>([]);
 
 	const form = useForm({
@@ -63,7 +63,7 @@ function LoginPage() {
 							return;
 						}
 
-						toast.success("Login successful");
+						toast.success("Admin login successful");
 						navigate({ to: getPostLoginPath(redirect_to) });
 					},
 					onError: (error) => {
@@ -167,14 +167,6 @@ function LoginPage() {
 					)}
 				</form.Field>
 				{formErrors.length > 0 && <FieldError errors={formErrors} />}
-				<div className="flex justify-end">
-					<Link
-						to="/forgot-password"
-						className="text-sm font-semibold text-foreground hover:underline"
-					>
-						Forgot password?
-					</Link>
-				</div>
 				<Field orientation="horizontal">
 					<Button
 						type="submit"

@@ -5,6 +5,7 @@ import {
 } from "#/api/http/shared";
 import $http from "../../xhr";
 import type {
+	AdminAuthResponseData,
 	AdminUser,
 	AuthResponseData,
 	InvitationAcceptPayload,
@@ -35,6 +36,7 @@ const USER_V2_ENDPOINTS = {
 	list: "/v2/users/",
 	detail: (id: string) => `/v2/users/${id}/`,
 	activateAccount: "/v2/users/activate-account/",
+	adminLogin: "/v2/users/admin/login/",
 	changePassword: "/v2/users/change-password/",
 	forgotPassword: "/v2/users/forgot-password/",
 	login: "/v2/users/login/",
@@ -100,6 +102,11 @@ export const USERS_V2_API = {
 		await $http
 			.post(USER_V2_ENDPOINTS.login, data)
 			.then((res) => unwrapV2Data<AuthResponseData>(res)),
+
+	ADMIN_LOGIN: async (data: UserLoginPayload): Promise<AdminAuthResponseData> =>
+		await $http
+			.post(USER_V2_ENDPOINTS.adminLogin, data)
+			.then((res) => unwrapV2Data<AdminAuthResponseData>(res)),
 
 	LOGOUT: async (): Promise<string> =>
 		await $http

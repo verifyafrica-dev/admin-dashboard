@@ -85,6 +85,7 @@ let failedRequestsQueue: Array<{
 const PUBLIC_ROUTE_FRAGMENTS = [
 	"/v2/users/register/",
 	"/v2/users/login/",
+	"/v2/users/admin/login/",
 	"/v2/users/lookup",
 	"/v2/users/activate-account/",
 	"/v2/users/forgot-password/",

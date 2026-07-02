@@ -5,6 +5,8 @@ import type {
 	V2SuccessResponse,
 } from "#/api/http/shared";
 import type {
+	AnalyticsRefunds,
+	AnalyticsTopUps,
 	PlatformAnalyticsSummary,
 	TenantAnalyticsData,
 	TenantAnalyticsVerifications,
@@ -40,19 +42,59 @@ export interface Statement {
 	billing_address: string;
 }
 
+export interface PlatformAnalyticsInvitations {
+	sent: number;
+	accepted: number;
+	expired: number;
+	pending: number;
+	canceled: number;
+}
+
+export interface PlatformAnalyticsUsers {
+	user_growth: Array<{ date: string; new_users: number }>;
+	role_distribution: Record<string, number>;
+	invitations: PlatformAnalyticsInvitations;
+}
+
+export interface PlatformAnalyticsTopTenant {
+	tenant_id: string;
+	tenant_name: string;
+	activity_score: number;
+}
+
+export interface PlatformAnalyticsTenants {
+	tenant_growth: Array<{ date: string; new_tenants: number }>;
+	top_tenants_by_activity: PlatformAnalyticsTopTenant[];
+	compliance_status: Record<string, number>;
+}
+
+export interface PlatformAnalyticsRevenuePoint {
+	date: string;
+	revenue: number;
+}
+
+export interface PlatformAnalyticsFinancials {
+	revenue_over_time: PlatformAnalyticsRevenuePoint[];
+	credit_usage: number;
+	top_ups: AnalyticsTopUps;
+	refunds: AnalyticsRefunds;
+}
+
+export interface PlatformAnalyticsData {
+	summary: PlatformAnalyticsSummary;
+	users: PlatformAnalyticsUsers;
+	tenants: PlatformAnalyticsTenants;
+	verifications: TenantAnalyticsVerifications;
+	financials: PlatformAnalyticsFinancials;
+	billing_stats: Record<string, unknown>;
+}
+
 export interface AnalyticsPayload {
 	analytics: TenantAnalyticsData;
 }
 
 export interface PlatformAnalyticsPayload {
-	analytics: {
-		summary: PlatformAnalyticsSummary;
-		users: Record<string, unknown>;
-		tenants: Record<string, unknown>;
-		verifications: TenantAnalyticsVerifications;
-		financials: Record<string, unknown>;
-		billing_stats: Record<string, unknown>;
-	};
+	analytics: PlatformAnalyticsData;
 }
 
 export type PlatformAnalyticsResponse =
