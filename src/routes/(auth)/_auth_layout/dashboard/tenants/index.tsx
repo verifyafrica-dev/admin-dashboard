@@ -8,7 +8,7 @@ import {
 	MagnifyingGlassIcon,
 	PlusIcon,
 } from "@phosphor-icons/react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { usePlatformAnalyticsV2Query } from "#/api/http/v2/analytics/analytics.hooks";
@@ -340,12 +340,16 @@ function TenantsPage() {
 													<Button
 														variant="link"
 														className="h-auto px-0"
-														onClick={() =>
-															toast.message("Tenant details page coming soon")
-														}
+														asChild
 													>
-														View Details
-														<CaretRightIcon />
+														<Link
+															to="/dashboard/tenants/$tenantId"
+															params={{ tenantId: tenant.id }}
+															search={{ tab: "overview" }}
+														>
+															View Details
+															<CaretRightIcon />
+														</Link>
 													</Button>
 												</TableCell>
 											</TableRow>

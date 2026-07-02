@@ -28,7 +28,7 @@ import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Spinner } from "#/components/ui/spinner";
 import { useAuthStore } from "#/stores/auth-store";
-import type { V2AxiosError } from "#/api/http/shared";
+import { getV2FormErrors } from "#/api/http/shared";
 import {
 	Field,
 	FieldError,
@@ -57,11 +57,10 @@ function AcceptInvitationPage() {
 	}
 
 	if (lookupQuery.isError) {
-		const axiosError = lookupQuery.error as V2AxiosError;
-		const data = axiosError.response?.data;
-		const errors = data?.errors?.length
-			? data.errors.map((message) => ({ message }))
-			: [{ message: data?.message || "Unable to load invitation details." }];
+		const errors = getV2FormErrors(
+			lookupQuery.error,
+			"Unable to load invitation details.",
+		);
 
 		return (
 			<AuthPageShell
@@ -143,22 +142,7 @@ function NewUserInvitationForm({
 					navigate({ to: "/login" });
 				},
 				onError: (error) => {
-					const axiosError = error as V2AxiosError;
-					const data = axiosError.response?.data;
-
-					if (data?.errors?.length) {
-						setFormErrors(data.errors.map((message) => ({ message })));
-						return;
-					}
-
-					if (data?.message) {
-						setFormErrors([{ message: data.message }]);
-						return;
-					}
-
-					setFormErrors([
-						{ message: axiosError.message || "Something went wrong" },
-					]);
+					setFormErrors(getV2FormErrors(error));
 				},
 			});
 		},
@@ -346,22 +330,7 @@ function ExistingUserInvitationPrompt({
 					navigate({ to: "/dashboard" });
 				},
 				onError: (error) => {
-					const axiosError = error as V2AxiosError;
-					const data = axiosError.response?.data;
-
-					if (data?.errors?.length) {
-						setFormErrors(data.errors.map((message) => ({ message })));
-						return;
-					}
-
-					if (data?.message) {
-						setFormErrors([{ message: data.message }]);
-						return;
-					}
-
-					setFormErrors([
-						{ message: axiosError.message || "Something went wrong" },
-					]);
+					setFormErrors(getV2FormErrors(error));
 				},
 			},
 		);

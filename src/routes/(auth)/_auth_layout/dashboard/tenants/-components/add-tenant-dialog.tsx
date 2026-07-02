@@ -9,7 +9,7 @@ import {
 import { type ReactNode, useMemo, useState } from "react";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { toast } from "sonner";
-import type { V2AxiosError } from "#/api/http/shared";
+import { getV2ErrorMessage } from "#/api/http/shared";
 import { useCreateBillingInformationV2Mutation } from "#/api/http/v2/billing/billing.hooks";
 import type { BillingPlan } from "#/api/http/v2/billing/billing.types";
 import { useCreateTenantV2Mutation } from "#/api/http/v2/tenants/tenants.hooks";
@@ -60,21 +60,6 @@ const INITIAL_FORM_STATE: AddTenantFormState = {
 
 function isEmail(value: string) {
 	return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-function getMutationErrorMessage(error: unknown) {
-	const axiosError = error as V2AxiosError;
-	const data = axiosError.response?.data;
-
-	if (data?.errors?.length) {
-		return data.errors.join(", ");
-	}
-
-	if (data?.message) {
-		return data.message;
-	}
-
-	return axiosError.message || "Something went wrong. Please try again.";
 }
 
 function Field({
@@ -231,7 +216,7 @@ export function AddTenantDialog({
 			resetForm();
 			onOpenChange(false);
 		} catch (error) {
-			toast.error(getMutationErrorMessage(error));
+			toast.error(getV2ErrorMessage(error));
 		}
 	};
 

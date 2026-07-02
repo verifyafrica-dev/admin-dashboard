@@ -16,7 +16,7 @@ import { Label } from "#/components/ui/label";
 import { deleteAllCookies } from "#/lib/cookies";
 import { getPostLoginPath } from "#/lib/redirect";
 import { useAuthStore } from "#/stores/auth-store";
-import type { V2AxiosError } from "#/api/http/shared";
+import { getV2FormErrors } from "#/api/http/shared";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { AuthPageShell } from "../-components";
 
@@ -67,22 +67,7 @@ function LoginPage() {
 						navigate({ to: getPostLoginPath(redirect_to) });
 					},
 					onError: (error) => {
-						const axiosError = error as V2AxiosError;
-						const data = axiosError.response?.data;
-
-						if (data?.errors?.length) {
-							setFormErrors(data.errors.map((message) => ({ message })));
-							return;
-						}
-
-						if (data?.message) {
-							setFormErrors([{ message: data.message }]);
-							return;
-						}
-
-						setFormErrors([
-							{ message: axiosError.message || "Something went wrong" },
-						]);
+						setFormErrors(getV2FormErrors(error));
 					},
 				},
 			);

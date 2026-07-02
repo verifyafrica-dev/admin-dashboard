@@ -22,7 +22,7 @@ import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Spinner } from "#/components/ui/spinner";
 import { deleteAllCookies } from "#/lib/cookies";
-import type { V2AxiosError } from "#/api/http/shared";
+import { getV2FormErrors } from "#/api/http/shared";
 import {
 	Field,
 	FieldError,
@@ -69,22 +69,7 @@ function ResetPasswordPage() {
 						navigate({ to: "/login", replace: true });
 					},
 					onError: (error) => {
-						const axiosError = error as V2AxiosError;
-						const data = axiosError.response?.data;
-
-						if (data?.errors?.length) {
-							setFormErrors(data.errors.map((message) => ({ message })));
-							return;
-						}
-
-						if (data?.message) {
-							setFormErrors([{ message: data.message }]);
-							return;
-						}
-
-						setFormErrors([
-							{ message: axiosError.message || "Something went wrong" },
-						]);
+						setFormErrors(getV2FormErrors(error));
 					},
 				},
 			);
@@ -109,15 +94,10 @@ function ResetPasswordPage() {
 	}
 
 	if (tokenVerification.isError) {
-		const axiosError = tokenVerification.error as V2AxiosError;
-		const data = axiosError.response?.data;
-		const errors = data?.errors?.length
-			? data.errors.map((message) => ({ message }))
-			: [
-					{
-						message: data?.message || "This reset link is invalid or expired.",
-					},
-				];
+		const errors = getV2FormErrors(
+			tokenVerification.error,
+			"This reset link is invalid or expired.",
+		);
 
 		return (
 			<AuthPageShell

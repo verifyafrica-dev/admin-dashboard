@@ -29,6 +29,7 @@ import { Route as authAuth_layoutDashboardTenantsIndexRouteImport } from './rout
 import { Route as authAuth_layoutDashboardMixedVerificationsIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/mixed-verifications/index'
 import { Route as authAuth_layoutDashboardInvoicesIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/invoices/index'
 import { Route as authAuth_layoutDashboardActivityLogsIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/activity-logs/index'
+import { Route as authAuth_layoutDashboardTenantsTenantIdIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/tenants/$tenantId/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -146,6 +147,12 @@ const authAuth_layoutDashboardActivityLogsIndexRoute =
     path: '/dashboard/activity-logs/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
+const authAuth_layoutDashboardTenantsTenantIdIndexRoute =
+  authAuth_layoutDashboardTenantsTenantIdIndexRouteImport.update({
+    id: '/dashboard/tenants/$tenantId/',
+    path: '/dashboard/tenants/$tenantId/',
+    getParentRoute: () => authAuth_layoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/verification-settings/': typeof authAuth_layoutDashboardVerificationSettingsIndexRoute
   '/dashboard/webhooks/': typeof authAuth_layoutDashboardWebhooksIndexRoute
   '/verify/$link/': typeof unguardedUnguarded_layoutVerifyLinkIndexRoute
+  '/dashboard/tenants/$tenantId/': typeof authAuth_layoutDashboardTenantsTenantIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -186,6 +194,7 @@ export interface FileRoutesByTo {
   '/dashboard/verification-settings': typeof authAuth_layoutDashboardVerificationSettingsIndexRoute
   '/dashboard/webhooks': typeof authAuth_layoutDashboardWebhooksIndexRoute
   '/verify/$link': typeof unguardedUnguarded_layoutVerifyLinkIndexRoute
+  '/dashboard/tenants/$tenantId': typeof authAuth_layoutDashboardTenantsTenantIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -209,6 +218,7 @@ export interface FileRoutesById {
   '/(auth)/_auth_layout/dashboard/verification-settings/': typeof authAuth_layoutDashboardVerificationSettingsIndexRoute
   '/(auth)/_auth_layout/dashboard/webhooks/': typeof authAuth_layoutDashboardWebhooksIndexRoute
   '/(unguarded)/_unguarded_layout/verify/$link/': typeof unguardedUnguarded_layoutVerifyLinkIndexRoute
+  '/(auth)/_auth_layout/dashboard/tenants/$tenantId/': typeof authAuth_layoutDashboardTenantsTenantIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -231,6 +241,7 @@ export interface FileRouteTypes {
     | '/dashboard/verification-settings/'
     | '/dashboard/webhooks/'
     | '/verify/$link/'
+    | '/dashboard/tenants/$tenantId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/dashboard/verification-settings'
     | '/dashboard/webhooks'
     | '/verify/$link'
+    | '/dashboard/tenants/$tenantId'
   id:
     | '__root__'
     | '/'
@@ -273,6 +285,7 @@ export interface FileRouteTypes {
     | '/(auth)/_auth_layout/dashboard/verification-settings/'
     | '/(auth)/_auth_layout/dashboard/webhooks/'
     | '/(unguarded)/_unguarded_layout/verify/$link/'
+    | '/(auth)/_auth_layout/dashboard/tenants/$tenantId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -423,6 +436,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authAuth_layoutDashboardActivityLogsIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
+    '/(auth)/_auth_layout/dashboard/tenants/$tenantId/': {
+      id: '/(auth)/_auth_layout/dashboard/tenants/$tenantId/'
+      path: '/dashboard/tenants/$tenantId'
+      fullPath: '/dashboard/tenants/$tenantId/'
+      preLoaderRoute: typeof authAuth_layoutDashboardTenantsTenantIdIndexRouteImport
+      parentRoute: typeof authAuth_layoutRoute
+    }
   }
 }
 
@@ -436,6 +456,7 @@ interface authAuth_layoutRouteChildren {
   authAuth_layoutDashboardUsersIndexRoute: typeof authAuth_layoutDashboardUsersIndexRoute
   authAuth_layoutDashboardVerificationSettingsIndexRoute: typeof authAuth_layoutDashboardVerificationSettingsIndexRoute
   authAuth_layoutDashboardWebhooksIndexRoute: typeof authAuth_layoutDashboardWebhooksIndexRoute
+  authAuth_layoutDashboardTenantsTenantIdIndexRoute: typeof authAuth_layoutDashboardTenantsTenantIdIndexRoute
 }
 
 const authAuth_layoutRouteChildren: authAuth_layoutRouteChildren = {
@@ -456,6 +477,8 @@ const authAuth_layoutRouteChildren: authAuth_layoutRouteChildren = {
     authAuth_layoutDashboardVerificationSettingsIndexRoute,
   authAuth_layoutDashboardWebhooksIndexRoute:
     authAuth_layoutDashboardWebhooksIndexRoute,
+  authAuth_layoutDashboardTenantsTenantIdIndexRoute:
+    authAuth_layoutDashboardTenantsTenantIdIndexRoute,
 }
 
 const authAuth_layoutRouteWithChildren = authAuth_layoutRoute._addFileChildren(

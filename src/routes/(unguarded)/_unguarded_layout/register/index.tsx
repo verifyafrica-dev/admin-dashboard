@@ -17,7 +17,7 @@ import { Button } from "#/components/ui/button";
 import { Checkbox } from "#/components/ui/checkbox";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
-import type { V2AxiosError } from "#/api/http/shared";
+import { getV2FormErrors } from "#/api/http/shared";
 import {
 	Field,
 	FieldError,
@@ -72,22 +72,7 @@ function RegisterPage() {
 						});
 					},
 					onError: (error) => {
-						const axiosError = error as V2AxiosError;
-						const data = axiosError.response?.data;
-
-						if (data?.errors?.length) {
-							setFormErrors(data.errors.map((message) => ({ message })));
-							return;
-						}
-
-						if (data?.message) {
-							setFormErrors([{ message: data.message }]);
-							return;
-						}
-
-						setFormErrors([
-							{ message: axiosError.message || "Something went wrong" },
-						]);
+						setFormErrors(getV2FormErrors(error));
 					},
 				},
 			);
