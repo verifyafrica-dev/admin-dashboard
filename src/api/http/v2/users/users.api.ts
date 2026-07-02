@@ -35,6 +35,7 @@ import type {
 const USER_V2_ENDPOINTS = {
 	list: "/v2/users/",
 	detail: (id: string) => `/v2/users/${id}/`,
+	adminResetPassword: (id: string) => `/v2/users/${id}/reset-password/`,
 	activateAccount: "/v2/users/activate-account/",
 	adminLogin: "/v2/users/admin/login/",
 	changePassword: "/v2/users/change-password/",
@@ -78,6 +79,11 @@ export const USERS_V2_API = {
 		await $http
 			.patch(USER_V2_ENDPOINTS.detail(id), data)
 			.then((res) => unwrapV2Data<AdminUser>(res)),
+
+	ADMIN_RESET_PASSWORD: async (userId: string): Promise<string> =>
+		await $http
+			.post(USER_V2_ENDPOINTS.adminResetPassword(userId), {})
+			.then((res) => unwrapV2Message(res)),
 
 	ACTIVATE_ACCOUNT: async (
 		data: UserActivateAccountPayload,

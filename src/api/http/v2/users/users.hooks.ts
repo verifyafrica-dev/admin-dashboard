@@ -273,9 +273,20 @@ export const useReplaceMeV2Mutation = () => {
 	});
 };
 
-export const useUpdateUserV2DetailMutation = (id: string) =>
-	useMutation<AdminUser, UserLoginError, UserAdminPatchUpdatePayload>({
+export const useUpdateUserV2DetailMutation = (id: string) => {
+	const queryClient = useQueryClient();
+
+	return useMutation<AdminUser, UserLoginError, UserAdminPatchUpdatePayload>({
 		mutationFn: (payload) => USERS_V2_API.UPDATE_DETAIL(id, payload),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: USER_V2_QUERY_KEYS.all });
+		},
+	});
+};
+
+export const useAdminResetUserPasswordV2Mutation = (userId: string) =>
+	useMutation<string, UserApiErrorResponse, void>({
+		mutationFn: () => USERS_V2_API.ADMIN_RESET_PASSWORD(userId),
 	});
 
 export const useReplaceUserV2DetailMutation = (id: string) =>

@@ -203,6 +203,7 @@ export const UserListQuerySchema = z.object({
 	page: z.number().int().positive().optional(),
 	per_page: z.number().int().positive().optional(),
 	sort_by: UserListSortBySchema.optional(),
+	search: z.string().optional(),
 });
 
 export type UserListQuery = z.infer<typeof UserListQuerySchema>;
@@ -261,7 +262,7 @@ export interface UserTenantMembership {
 	id: string;
 	name: string;
 	email: string;
-	enabled_countries: string[];
+	enabled_countries?: string[];
 	role: UserRole;
 	date_added: string;
 }
