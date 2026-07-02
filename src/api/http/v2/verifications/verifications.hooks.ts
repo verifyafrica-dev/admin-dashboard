@@ -360,7 +360,13 @@ export const useDeleteMixedVerificationV2Mutation = () => {
 	return useMutation({
 		mutationFn: (id: string) =>
 			VERIFICATIONS_V2_API.DELETE_MIXED_VERIFICATION(id),
-		onSuccess: () => {
+		onSuccess: (_message: string, id: string) => {
+			queryClient.invalidateQueries({
+				queryKey: VERIFICATIONS_V2_QUERY_KEYS.mixedVerificationDetail(id),
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["verifications-v2", "mixed"],
+			});
 			queryClient.invalidateQueries({
 				queryKey: VERIFICATIONS_V2_QUERY_KEYS.all,
 			});

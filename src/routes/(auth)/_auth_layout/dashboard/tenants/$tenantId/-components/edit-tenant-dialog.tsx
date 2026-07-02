@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { getV2ErrorMessage } from "#/api/http/shared";
 import { useUpdateTenantV2Mutation } from "#/api/http/v2/tenants/tenants.hooks";
 import { TenantUpdateSchema } from "#/api/http/v2/tenants/tenants.types";
+import { pickChangedFields } from "#/lib/pick-changed-fields";
 import { Button } from "#/components/ui/button";
 import {
 	Dialog,
@@ -56,8 +57,23 @@ export function EditTenantDialog({
 			onSubmit: EditTenantFormSchema,
 		},
 		onSubmit: async ({ value }) => {
+			const payload = pickChangedFields(
+				{
+					name: tenantName.trim(),
+					email: tenantEmail.trim(),
+				},
+				{
+					name: value.name.trim(),
+					email: value.email.trim(),
+				},
+			);
+
+			if (Object.keys(payload).length === 0) {
+				return;
+			}
+
 			try {
-				await updateTenantMutation.mutateAsync(value);
+				await updateTenantMutation.mutateAsync(payload);
 				toast.success("Tenant updated successfully");
 				onOpenChange(false);
 				onSuccess?.();
@@ -172,9 +188,16 @@ export function EditTenantDialog({
 						>
 							Cancel
 						</Button>
-						<Button type="submit" disabled={isSubmitting}>
-							{isSubmitting ? "Saving..." : "Save Changes"}
-						</Button>
+						<form.Subscribe selector={(state) => !state.isDefaultValue}>
+							{(isDirty) => (
+								<Button
+									type="submit"
+									disabled={isSubmitting || !isDirty}
+								>
+									{isSubmitting ? "Saving..." : "Save Changes"}
+								</Button>
+							)}
+						</form.Subscribe>
 					</DialogFooter>
 				</form>
 			</DialogContent>

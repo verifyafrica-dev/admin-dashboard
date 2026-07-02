@@ -43,7 +43,11 @@ import {
 	TableRow,
 } from "#/components/ui/table";
 import { cn } from "#/lib/utils.ts";
-import type { AdminDashboardAlert, AdminDashboardData, ChartPoint } from "../-data";
+import type {
+	AdminDashboardAlert,
+	AdminDashboardData,
+	ChartPoint,
+} from "../-data";
 import { formatAdminCurrency, formatAdminNumber } from "../-data";
 
 const tenantGrowthChartConfig = {
@@ -91,7 +95,10 @@ function MetricCard({
 						iconClassName,
 					)}
 				>
-					<Icon className="size-5" weight="fill" />
+					<Icon
+						className="size-5"
+						weight="fill"
+					/>
 				</div>
 				<div>
 					<p className="text-2xl font-semibold tracking-tight tabular-nums">
@@ -127,7 +134,8 @@ function DistributionList({
 	return (
 		<div className="space-y-3">
 			{items.map((item) => {
-				const percentage = total > 0 ? ((item.value / total) * 100).toFixed(1) : "0.0";
+				const percentage =
+					total > 0 ? ((item.value / total) * 100).toFixed(1) : "0.0";
 
 				return (
 					<div
@@ -171,7 +179,10 @@ function AlertCard({ alert }: { alert: AdminDashboardAlert }) {
 
 	return (
 		<Alert className={toneMap[alert.type]}>
-			<Icon className="size-4" weight="fill" />
+			<Icon
+				className="size-4"
+				weight="fill"
+			/>
 			<AlertTitle className="text-sm font-medium">{alert.message}</AlertTitle>
 			<AlertDescription>{alert.time}</AlertDescription>
 		</Alert>
@@ -183,12 +194,18 @@ export function AdminDashboardSkeleton() {
 		<div className="flex flex-col gap-6">
 			<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 				{Array.from({ length: 4 }).map((_, index) => (
-					<Skeleton key={index} className="h-36 rounded-xl" />
+					<Skeleton
+						key={index}
+						className="h-36 rounded-xl"
+					/>
 				))}
 			</div>
 			<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 				{Array.from({ length: 4 }).map((_, index) => (
-					<Skeleton key={index} className="h-32 rounded-xl" />
+					<Skeleton
+						key={index}
+						className="h-32 rounded-xl"
+					/>
 				))}
 			</div>
 			<div className="grid gap-4 lg:grid-cols-2">
@@ -304,7 +321,10 @@ export function AdminDashboardContent({
 			<div className="grid gap-4 lg:grid-cols-2">
 				<Card className="hidden lg:block">
 					<CardHeader>
-						<CardTitle>Tenant Growth Over Time</CardTitle>
+						<CardTitle className="font-semibold">
+							{" "}
+							Tenant Growth Over Time
+						</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<ChartContainer
@@ -313,14 +333,21 @@ export function AdminDashboardContent({
 							className="aspect-auto h-[320px] w-full"
 						>
 							<AreaChart data={data.tenantGrowth}>
-								<CartesianGrid vertical={false} strokeDasharray="3 3" />
+								<CartesianGrid
+									vertical={false}
+									strokeDasharray="3 3"
+								/>
 								<XAxis
 									dataKey="label"
 									tickLine={false}
 									axisLine={false}
 									tickMargin={8}
 								/>
-								<YAxis tickLine={false} axisLine={false} width={40} />
+								<YAxis
+									tickLine={false}
+									axisLine={false}
+									width={40}
+								/>
 								<ChartTooltip content={<ChartTooltipContent />} />
 								<Area
 									type="monotone"
@@ -337,7 +364,10 @@ export function AdminDashboardContent({
 
 				<Card>
 					<CardHeader>
-						<CardTitle>Verification Types Distribution</CardTitle>
+						<CardTitle className="font-semibold">
+							{" "}
+							Verification Types Distribution
+						</CardTitle>
 					</CardHeader>
 					<CardContent>
 						{data.verificationTypes.length === 0 ? (
@@ -357,7 +387,10 @@ export function AdminDashboardContent({
 									className="mx-auto aspect-square h-[280px] w-full max-w-[280px]"
 								>
 									<PieChart>
-										<ChartTooltip content={<ChartTooltipContent hideLabel />} />
+										<ChartTooltip
+											isAnimationActive={false}
+											content={<ChartTooltipContent hideLabel />}
+										/>
 										<Pie
 											data={data.verificationTypes}
 											dataKey="value"
@@ -367,7 +400,10 @@ export function AdminDashboardContent({
 											paddingAngle={4}
 										>
 											{data.verificationTypes.map((entry) => (
-												<Cell key={entry.label} fill={entry.fill} />
+												<Cell
+													key={entry.label}
+													fill={entry.fill}
+												/>
 											))}
 										</Pie>
 									</PieChart>
@@ -388,9 +424,9 @@ export function AdminDashboardContent({
 					data.revenueOverTime.length === 0 && "hidden",
 				)}
 			>
-				<Card>
+				<Card className="gap-10 flex flex-col">
 					<CardHeader>
-						<CardTitle>Revenue Over Time</CardTitle>
+						<CardTitle className="font-semibold"> Revenue Over Time</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<ChartContainer
@@ -399,7 +435,10 @@ export function AdminDashboardContent({
 							className="aspect-auto h-[320px] w-full"
 						>
 							<BarChart data={data.revenueOverTime}>
-								<CartesianGrid vertical={false} strokeDasharray="3 3" />
+								<CartesianGrid
+									vertical={false}
+									strokeDasharray="3 3"
+								/>
 								<XAxis
 									dataKey="label"
 									tickLine={false}
@@ -443,9 +482,12 @@ export function AdminDashboardContent({
 					</CardContent>
 				</Card>
 
-				<Card className="hidden lg:block">
+				<Card className="hidden lg:flex gap-10 flex-col">
 					<CardHeader>
-						<CardTitle>Verification Volume</CardTitle>
+						<CardTitle className="font-semibold">
+							{" "}
+							Verification Volume
+						</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<ChartContainer
@@ -454,14 +496,21 @@ export function AdminDashboardContent({
 							className="aspect-auto h-[320px] w-full"
 						>
 							<LineChart data={data.verificationVolume}>
-								<CartesianGrid vertical={false} strokeDasharray="3 3" />
+								<CartesianGrid
+									vertical={false}
+									strokeDasharray="3 3"
+								/>
 								<XAxis
 									dataKey="label"
 									tickLine={false}
 									axisLine={false}
 									tickMargin={8}
 								/>
-								<YAxis tickLine={false} axisLine={false} width={40} />
+								<YAxis
+									tickLine={false}
+									axisLine={false}
+									width={40}
+								/>
 								<ChartTooltip content={<ChartTooltipContent />} />
 								<Line
 									type="monotone"
@@ -479,7 +528,10 @@ export function AdminDashboardContent({
 			<div className="grid gap-4 xl:grid-cols-3">
 				<Card className="hidden xl:col-span-2 xl:block">
 					<CardHeader>
-						<CardTitle>Top Performing Tenants by Activity</CardTitle>
+						<CardTitle className="font-semibold">
+							{" "}
+							Top Performing Tenants by Activity
+						</CardTitle>
 					</CardHeader>
 					<CardContent>
 						{data.topTenants.length === 0 ? (
@@ -495,9 +547,7 @@ export function AdminDashboardContent({
 									<TableRow>
 										<TableHead>Tenant Name</TableHead>
 										<TableHead>Tenant ID</TableHead>
-										<TableHead className="text-right">
-											Activity Score
-										</TableHead>
+										<TableHead className="text-right">Activity Score</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -531,11 +581,14 @@ export function AdminDashboardContent({
 
 				<Card className="hidden xl:block">
 					<CardHeader>
-						<CardTitle>Recent Alerts</CardTitle>
+						<CardTitle className="font-semibold"> Recent Alerts</CardTitle>
 					</CardHeader>
 					<CardContent className="space-y-4">
 						{data.recentAlerts.map((alert) => (
-							<AlertCard key={alert.message} alert={alert} />
+							<AlertCard
+								key={alert.message}
+								alert={alert}
+							/>
 						))}
 					</CardContent>
 				</Card>
@@ -545,8 +598,14 @@ export function AdminDashboardContent({
 				<Card className="hidden lg:block">
 					<CardHeader>
 						<div className="flex items-center gap-3">
-							<UsersIcon className="size-5 text-blue-600" weight="fill" />
-							<CardTitle>User Role Distribution</CardTitle>
+							<UsersIcon
+								className="size-5 text-blue-600"
+								weight="fill"
+							/>
+							<CardTitle className="font-semibold">
+								{" "}
+								User Role Distribution
+							</CardTitle>
 						</div>
 					</CardHeader>
 					<CardContent>
@@ -560,8 +619,14 @@ export function AdminDashboardContent({
 				<Card>
 					<CardHeader>
 						<div className="flex items-center gap-3">
-							<ShieldCheckIcon className="size-5 text-emerald-600" weight="fill" />
-							<CardTitle>Tenant Compliance Status</CardTitle>
+							<ShieldCheckIcon
+								className="size-5 text-emerald-600"
+								weight="fill"
+							/>
+							<CardTitle className="font-semibold">
+								{" "}
+								Tenant Compliance Status
+							</CardTitle>
 						</div>
 					</CardHeader>
 					<CardContent>
