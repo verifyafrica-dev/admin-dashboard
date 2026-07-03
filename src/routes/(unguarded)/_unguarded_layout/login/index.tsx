@@ -80,13 +80,13 @@ function LoginPage() {
 			subtitle="Sign in to your VerifyAfrica admin account"
 			footer={
 				<p className="mt-6 text-center text-sm text-muted-foreground">
-					Don&apos;t have an account?{" "}
-					<Link
-						to="/register"
+					Forgot your password?{" "}
+					<a
+						href="mailto:dev@verifyafrica.io"
 						className="font-semibold text-foreground hover:underline"
 					>
-						Create an account
-					</Link>
+						Contact Support
+					</a>
 				</p>
 			}
 		>

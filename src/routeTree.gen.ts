@@ -12,15 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as unguardedUnguarded_layoutRouteImport } from './routes/(unguarded)/_unguarded_layout'
 import { Route as authAuth_layoutRouteImport } from './routes/(auth)/_auth_layout'
-import { Route as unguardedUnguarded_layoutResetPasswordIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/reset-password/index'
-import { Route as unguardedUnguarded_layoutRegisterIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/register/index'
 import { Route as unguardedUnguarded_layoutLoginIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/login/index'
-import { Route as unguardedUnguarded_layoutInviteIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/invite/index'
-import { Route as unguardedUnguarded_layoutForgotPasswordIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/forgot-password/index'
-import { Route as unguardedUnguarded_layoutActivateAccountIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/activate-account/index'
 import { Route as authAuth_layoutAppIndexRouteImport } from './routes/(auth)/_auth_layout/app/index'
-import { Route as unguardedUnguarded_layoutVerifyResultRouteImport } from './routes/(unguarded)/_unguarded_layout/verify/result'
-import { Route as unguardedUnguarded_layoutVerifyLinkIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/verify/$link/index'
 import { Route as authAuth_layoutAppWebhooksIndexRouteImport } from './routes/(auth)/_auth_layout/app/webhooks/index'
 import { Route as authAuth_layoutAppVerificationSettingsIndexRouteImport } from './routes/(auth)/_auth_layout/app/verification-settings/index'
 import { Route as authAuth_layoutAppUsersIndexRouteImport } from './routes/(auth)/_auth_layout/app/users/index'
@@ -45,40 +38,10 @@ const authAuth_layoutRoute = authAuth_layoutRouteImport.update({
   id: '/(auth)/_auth_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const unguardedUnguarded_layoutResetPasswordIndexRoute =
-  unguardedUnguarded_layoutResetPasswordIndexRouteImport.update({
-    id: '/reset-password/',
-    path: '/reset-password/',
-    getParentRoute: () => unguardedUnguarded_layoutRoute,
-  } as any)
-const unguardedUnguarded_layoutRegisterIndexRoute =
-  unguardedUnguarded_layoutRegisterIndexRouteImport.update({
-    id: '/register/',
-    path: '/register/',
-    getParentRoute: () => unguardedUnguarded_layoutRoute,
-  } as any)
 const unguardedUnguarded_layoutLoginIndexRoute =
   unguardedUnguarded_layoutLoginIndexRouteImport.update({
     id: '/login/',
     path: '/login/',
-    getParentRoute: () => unguardedUnguarded_layoutRoute,
-  } as any)
-const unguardedUnguarded_layoutInviteIndexRoute =
-  unguardedUnguarded_layoutInviteIndexRouteImport.update({
-    id: '/invite/',
-    path: '/invite/',
-    getParentRoute: () => unguardedUnguarded_layoutRoute,
-  } as any)
-const unguardedUnguarded_layoutForgotPasswordIndexRoute =
-  unguardedUnguarded_layoutForgotPasswordIndexRouteImport.update({
-    id: '/forgot-password/',
-    path: '/forgot-password/',
-    getParentRoute: () => unguardedUnguarded_layoutRoute,
-  } as any)
-const unguardedUnguarded_layoutActivateAccountIndexRoute =
-  unguardedUnguarded_layoutActivateAccountIndexRouteImport.update({
-    id: '/activate-account/',
-    path: '/activate-account/',
     getParentRoute: () => unguardedUnguarded_layoutRoute,
   } as any)
 const authAuth_layoutAppIndexRoute = authAuth_layoutAppIndexRouteImport.update({
@@ -86,18 +49,6 @@ const authAuth_layoutAppIndexRoute = authAuth_layoutAppIndexRouteImport.update({
   path: '/app/',
   getParentRoute: () => authAuth_layoutRoute,
 } as any)
-const unguardedUnguarded_layoutVerifyResultRoute =
-  unguardedUnguarded_layoutVerifyResultRouteImport.update({
-    id: '/verify/result',
-    path: '/verify/result',
-    getParentRoute: () => unguardedUnguarded_layoutRoute,
-  } as any)
-const unguardedUnguarded_layoutVerifyLinkIndexRoute =
-  unguardedUnguarded_layoutVerifyLinkIndexRouteImport.update({
-    id: '/verify/$link/',
-    path: '/verify/$link/',
-    getParentRoute: () => unguardedUnguarded_layoutRoute,
-  } as any)
 const authAuth_layoutAppWebhooksIndexRoute =
   authAuth_layoutAppWebhooksIndexRouteImport.update({
     id: '/app/webhooks/',
@@ -155,14 +106,8 @@ const authAuth_layoutAppTenantsTenantIdIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/verify/result': typeof unguardedUnguarded_layoutVerifyResultRoute
   '/app/': typeof authAuth_layoutAppIndexRoute
-  '/activate-account/': typeof unguardedUnguarded_layoutActivateAccountIndexRoute
-  '/forgot-password/': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
-  '/invite/': typeof unguardedUnguarded_layoutInviteIndexRoute
   '/login/': typeof unguardedUnguarded_layoutLoginIndexRoute
-  '/register/': typeof unguardedUnguarded_layoutRegisterIndexRoute
-  '/reset-password/': typeof unguardedUnguarded_layoutResetPasswordIndexRoute
   '/app/activity-logs/': typeof authAuth_layoutAppActivityLogsIndexRoute
   '/app/invoices/': typeof authAuth_layoutAppInvoicesIndexRoute
   '/app/mixed-verifications/': typeof authAuth_layoutAppMixedVerificationsIndexRoute
@@ -171,19 +116,12 @@ export interface FileRoutesByFullPath {
   '/app/users/': typeof authAuth_layoutAppUsersIndexRoute
   '/app/verification-settings/': typeof authAuth_layoutAppVerificationSettingsIndexRoute
   '/app/webhooks/': typeof authAuth_layoutAppWebhooksIndexRoute
-  '/verify/$link/': typeof unguardedUnguarded_layoutVerifyLinkIndexRoute
   '/app/tenants/$tenantId/': typeof authAuth_layoutAppTenantsTenantIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/verify/result': typeof unguardedUnguarded_layoutVerifyResultRoute
   '/app': typeof authAuth_layoutAppIndexRoute
-  '/activate-account': typeof unguardedUnguarded_layoutActivateAccountIndexRoute
-  '/forgot-password': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
-  '/invite': typeof unguardedUnguarded_layoutInviteIndexRoute
   '/login': typeof unguardedUnguarded_layoutLoginIndexRoute
-  '/register': typeof unguardedUnguarded_layoutRegisterIndexRoute
-  '/reset-password': typeof unguardedUnguarded_layoutResetPasswordIndexRoute
   '/app/activity-logs': typeof authAuth_layoutAppActivityLogsIndexRoute
   '/app/invoices': typeof authAuth_layoutAppInvoicesIndexRoute
   '/app/mixed-verifications': typeof authAuth_layoutAppMixedVerificationsIndexRoute
@@ -192,7 +130,6 @@ export interface FileRoutesByTo {
   '/app/users': typeof authAuth_layoutAppUsersIndexRoute
   '/app/verification-settings': typeof authAuth_layoutAppVerificationSettingsIndexRoute
   '/app/webhooks': typeof authAuth_layoutAppWebhooksIndexRoute
-  '/verify/$link': typeof unguardedUnguarded_layoutVerifyLinkIndexRoute
   '/app/tenants/$tenantId': typeof authAuth_layoutAppTenantsTenantIdIndexRoute
 }
 export interface FileRoutesById {
@@ -200,14 +137,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/(auth)/_auth_layout': typeof authAuth_layoutRouteWithChildren
   '/(unguarded)/_unguarded_layout': typeof unguardedUnguarded_layoutRouteWithChildren
-  '/(unguarded)/_unguarded_layout/verify/result': typeof unguardedUnguarded_layoutVerifyResultRoute
   '/(auth)/_auth_layout/app/': typeof authAuth_layoutAppIndexRoute
-  '/(unguarded)/_unguarded_layout/activate-account/': typeof unguardedUnguarded_layoutActivateAccountIndexRoute
-  '/(unguarded)/_unguarded_layout/forgot-password/': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
-  '/(unguarded)/_unguarded_layout/invite/': typeof unguardedUnguarded_layoutInviteIndexRoute
   '/(unguarded)/_unguarded_layout/login/': typeof unguardedUnguarded_layoutLoginIndexRoute
-  '/(unguarded)/_unguarded_layout/register/': typeof unguardedUnguarded_layoutRegisterIndexRoute
-  '/(unguarded)/_unguarded_layout/reset-password/': typeof unguardedUnguarded_layoutResetPasswordIndexRoute
   '/(auth)/_auth_layout/app/activity-logs/': typeof authAuth_layoutAppActivityLogsIndexRoute
   '/(auth)/_auth_layout/app/invoices/': typeof authAuth_layoutAppInvoicesIndexRoute
   '/(auth)/_auth_layout/app/mixed-verifications/': typeof authAuth_layoutAppMixedVerificationsIndexRoute
@@ -216,21 +147,14 @@ export interface FileRoutesById {
   '/(auth)/_auth_layout/app/users/': typeof authAuth_layoutAppUsersIndexRoute
   '/(auth)/_auth_layout/app/verification-settings/': typeof authAuth_layoutAppVerificationSettingsIndexRoute
   '/(auth)/_auth_layout/app/webhooks/': typeof authAuth_layoutAppWebhooksIndexRoute
-  '/(unguarded)/_unguarded_layout/verify/$link/': typeof unguardedUnguarded_layoutVerifyLinkIndexRoute
   '/(auth)/_auth_layout/app/tenants/$tenantId/': typeof authAuth_layoutAppTenantsTenantIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/verify/result'
     | '/app/'
-    | '/activate-account/'
-    | '/forgot-password/'
-    | '/invite/'
     | '/login/'
-    | '/register/'
-    | '/reset-password/'
     | '/app/activity-logs/'
     | '/app/invoices/'
     | '/app/mixed-verifications/'
@@ -239,19 +163,12 @@ export interface FileRouteTypes {
     | '/app/users/'
     | '/app/verification-settings/'
     | '/app/webhooks/'
-    | '/verify/$link/'
     | '/app/tenants/$tenantId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/verify/result'
     | '/app'
-    | '/activate-account'
-    | '/forgot-password'
-    | '/invite'
     | '/login'
-    | '/register'
-    | '/reset-password'
     | '/app/activity-logs'
     | '/app/invoices'
     | '/app/mixed-verifications'
@@ -260,21 +177,14 @@ export interface FileRouteTypes {
     | '/app/users'
     | '/app/verification-settings'
     | '/app/webhooks'
-    | '/verify/$link'
     | '/app/tenants/$tenantId'
   id:
     | '__root__'
     | '/'
     | '/(auth)/_auth_layout'
     | '/(unguarded)/_unguarded_layout'
-    | '/(unguarded)/_unguarded_layout/verify/result'
     | '/(auth)/_auth_layout/app/'
-    | '/(unguarded)/_unguarded_layout/activate-account/'
-    | '/(unguarded)/_unguarded_layout/forgot-password/'
-    | '/(unguarded)/_unguarded_layout/invite/'
     | '/(unguarded)/_unguarded_layout/login/'
-    | '/(unguarded)/_unguarded_layout/register/'
-    | '/(unguarded)/_unguarded_layout/reset-password/'
     | '/(auth)/_auth_layout/app/activity-logs/'
     | '/(auth)/_auth_layout/app/invoices/'
     | '/(auth)/_auth_layout/app/mixed-verifications/'
@@ -283,7 +193,6 @@ export interface FileRouteTypes {
     | '/(auth)/_auth_layout/app/users/'
     | '/(auth)/_auth_layout/app/verification-settings/'
     | '/(auth)/_auth_layout/app/webhooks/'
-    | '/(unguarded)/_unguarded_layout/verify/$link/'
     | '/(auth)/_auth_layout/app/tenants/$tenantId/'
   fileRoutesById: FileRoutesById
 }
@@ -316,46 +225,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authAuth_layoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(unguarded)/_unguarded_layout/reset-password/': {
-      id: '/(unguarded)/_unguarded_layout/reset-password/'
-      path: '/reset-password'
-      fullPath: '/reset-password/'
-      preLoaderRoute: typeof unguardedUnguarded_layoutResetPasswordIndexRouteImport
-      parentRoute: typeof unguardedUnguarded_layoutRoute
-    }
-    '/(unguarded)/_unguarded_layout/register/': {
-      id: '/(unguarded)/_unguarded_layout/register/'
-      path: '/register'
-      fullPath: '/register/'
-      preLoaderRoute: typeof unguardedUnguarded_layoutRegisterIndexRouteImport
-      parentRoute: typeof unguardedUnguarded_layoutRoute
-    }
     '/(unguarded)/_unguarded_layout/login/': {
       id: '/(unguarded)/_unguarded_layout/login/'
       path: '/login'
       fullPath: '/login/'
       preLoaderRoute: typeof unguardedUnguarded_layoutLoginIndexRouteImport
-      parentRoute: typeof unguardedUnguarded_layoutRoute
-    }
-    '/(unguarded)/_unguarded_layout/invite/': {
-      id: '/(unguarded)/_unguarded_layout/invite/'
-      path: '/invite'
-      fullPath: '/invite/'
-      preLoaderRoute: typeof unguardedUnguarded_layoutInviteIndexRouteImport
-      parentRoute: typeof unguardedUnguarded_layoutRoute
-    }
-    '/(unguarded)/_unguarded_layout/forgot-password/': {
-      id: '/(unguarded)/_unguarded_layout/forgot-password/'
-      path: '/forgot-password'
-      fullPath: '/forgot-password/'
-      preLoaderRoute: typeof unguardedUnguarded_layoutForgotPasswordIndexRouteImport
-      parentRoute: typeof unguardedUnguarded_layoutRoute
-    }
-    '/(unguarded)/_unguarded_layout/activate-account/': {
-      id: '/(unguarded)/_unguarded_layout/activate-account/'
-      path: '/activate-account'
-      fullPath: '/activate-account/'
-      preLoaderRoute: typeof unguardedUnguarded_layoutActivateAccountIndexRouteImport
       parentRoute: typeof unguardedUnguarded_layoutRoute
     }
     '/(auth)/_auth_layout/app/': {
@@ -364,20 +238,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof authAuth_layoutAppIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
-    }
-    '/(unguarded)/_unguarded_layout/verify/result': {
-      id: '/(unguarded)/_unguarded_layout/verify/result'
-      path: '/verify/result'
-      fullPath: '/verify/result'
-      preLoaderRoute: typeof unguardedUnguarded_layoutVerifyResultRouteImport
-      parentRoute: typeof unguardedUnguarded_layoutRoute
-    }
-    '/(unguarded)/_unguarded_layout/verify/$link/': {
-      id: '/(unguarded)/_unguarded_layout/verify/$link/'
-      path: '/verify/$link'
-      fullPath: '/verify/$link/'
-      preLoaderRoute: typeof unguardedUnguarded_layoutVerifyLinkIndexRouteImport
-      parentRoute: typeof unguardedUnguarded_layoutRoute
     }
     '/(auth)/_auth_layout/app/webhooks/': {
       id: '/(auth)/_auth_layout/app/webhooks/'
@@ -480,34 +340,13 @@ const authAuth_layoutRouteWithChildren = authAuth_layoutRoute._addFileChildren(
 )
 
 interface unguardedUnguarded_layoutRouteChildren {
-  unguardedUnguarded_layoutVerifyResultRoute: typeof unguardedUnguarded_layoutVerifyResultRoute
-  unguardedUnguarded_layoutActivateAccountIndexRoute: typeof unguardedUnguarded_layoutActivateAccountIndexRoute
-  unguardedUnguarded_layoutForgotPasswordIndexRoute: typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
-  unguardedUnguarded_layoutInviteIndexRoute: typeof unguardedUnguarded_layoutInviteIndexRoute
   unguardedUnguarded_layoutLoginIndexRoute: typeof unguardedUnguarded_layoutLoginIndexRoute
-  unguardedUnguarded_layoutRegisterIndexRoute: typeof unguardedUnguarded_layoutRegisterIndexRoute
-  unguardedUnguarded_layoutResetPasswordIndexRoute: typeof unguardedUnguarded_layoutResetPasswordIndexRoute
-  unguardedUnguarded_layoutVerifyLinkIndexRoute: typeof unguardedUnguarded_layoutVerifyLinkIndexRoute
 }
 
 const unguardedUnguarded_layoutRouteChildren: unguardedUnguarded_layoutRouteChildren =
   {
-    unguardedUnguarded_layoutVerifyResultRoute:
-      unguardedUnguarded_layoutVerifyResultRoute,
-    unguardedUnguarded_layoutActivateAccountIndexRoute:
-      unguardedUnguarded_layoutActivateAccountIndexRoute,
-    unguardedUnguarded_layoutForgotPasswordIndexRoute:
-      unguardedUnguarded_layoutForgotPasswordIndexRoute,
-    unguardedUnguarded_layoutInviteIndexRoute:
-      unguardedUnguarded_layoutInviteIndexRoute,
     unguardedUnguarded_layoutLoginIndexRoute:
       unguardedUnguarded_layoutLoginIndexRoute,
-    unguardedUnguarded_layoutRegisterIndexRoute:
-      unguardedUnguarded_layoutRegisterIndexRoute,
-    unguardedUnguarded_layoutResetPasswordIndexRoute:
-      unguardedUnguarded_layoutResetPasswordIndexRoute,
-    unguardedUnguarded_layoutVerifyLinkIndexRoute:
-      unguardedUnguarded_layoutVerifyLinkIndexRoute,
   }
 
 const unguardedUnguarded_layoutRouteWithChildren =
