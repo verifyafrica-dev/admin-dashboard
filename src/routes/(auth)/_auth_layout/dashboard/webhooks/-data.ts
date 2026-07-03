@@ -13,8 +13,12 @@ export type WebhookEventsListFilters = {
 	dateTo: string;
 };
 
-export function getWebhookEndpointUrl() {
-	return `${env.apiBaseUrl.replace(/\/$/, "")}/webhook/`;
+export function getWebhookEndpointUrls() {
+	const apiBaseUrl = env.apiBaseUrl.replace(/\/$/, "");
+	return {
+		stripe: `${apiBaseUrl}/v2/webhook/stripe/`,
+		shufti: `${apiBaseUrl}/v2/webhook/shufti/`,
+	};
 }
 
 export function buildWebhookEventsListQuery({
