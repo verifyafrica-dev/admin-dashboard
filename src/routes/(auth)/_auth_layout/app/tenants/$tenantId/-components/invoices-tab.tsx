@@ -96,7 +96,7 @@ export function InvoicesTab({ tenantId }: { tenantId: string }) {
 
 	useEffect(() => {
 		setPage(1);
-	}, [debouncedSearch, statusFilter]);
+	}, []);
 
 	const filteredInvoices = useMemo(() => {
 		return (invoicesQuery.data?.items ?? []).filter((invoice) => {

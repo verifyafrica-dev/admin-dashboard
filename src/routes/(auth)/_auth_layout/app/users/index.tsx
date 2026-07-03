@@ -140,7 +140,7 @@ function UsersPage() {
 
 	useEffect(() => {
 		setPage(1);
-	}, [debouncedSearch, sortBy, roleFilter, tenantRoleFilter]);
+	}, []);
 
 	const users = usersQuery.data?.items ?? [];
 	const totalUsers = usersQuery.data?.meta.pagination.total ?? 0;

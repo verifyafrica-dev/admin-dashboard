@@ -78,7 +78,7 @@ export function TransactionsTab({ tenantId }: { tenantId: string }) {
 
 	useEffect(() => {
 		setPage(1);
-	}, [debouncedSearch]);
+	}, []);
 
 	const filteredTransactions = useMemo(() => {
 		return (transactionsQuery.data?.items ?? []).filter((transaction) =>

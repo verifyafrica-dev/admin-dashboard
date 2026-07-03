@@ -72,7 +72,7 @@ function WebhooksPage() {
 
 	useEffect(() => {
 		setPage(1);
-	}, [debouncedSearch, dateFrom, dateTo]);
+	}, []);
 
 	const events = webhookEventsQuery.data?.items ?? [];
 	const total = webhookEventsQuery.data?.meta.pagination.total ?? 0;

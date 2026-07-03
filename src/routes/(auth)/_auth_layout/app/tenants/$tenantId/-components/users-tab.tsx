@@ -129,7 +129,7 @@ export function UsersTab({
 
 	useEffect(() => {
 		setPage(1);
-	}, [debouncedSearch]);
+	}, []);
 
 	const filteredUsers = useMemo(() => {
 		return (usersQuery.data?.items ?? []).filter((user) =>

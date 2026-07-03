@@ -103,7 +103,7 @@ export function ActivityLogsTab({ tenantId }: { tenantId: string }) {
 
 	useEffect(() => {
 		setPage(1);
-	}, [debouncedSearch, actionFilter]);
+	}, []);
 
 	const actionOptions = useMemo(() => {
 		const actions = new Set<string>();

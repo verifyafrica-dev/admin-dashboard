@@ -104,7 +104,7 @@ function InvoicesPage() {
 
 	useEffect(() => {
 		setPage(1);
-	}, [debouncedSearch, dateFrom, dateTo]);
+	}, []);
 
 	const filteredInvoices = useMemo(() => {
 		return (invoicesQuery.data?.items ?? []).filter((invoice) => {

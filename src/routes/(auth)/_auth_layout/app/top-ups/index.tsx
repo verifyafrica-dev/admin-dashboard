@@ -145,12 +145,6 @@ function TopUpsPage() {
 	useEffect(() => {
 		setPage(1);
 	}, [
-		debouncedSearch,
-		paymentMethodFilter,
-		statusFilter,
-		amountPaidFilter,
-		dateFrom,
-		dateTo,
 	]);
 
 	const topUps = topUpsQuery.data?.items ?? [];

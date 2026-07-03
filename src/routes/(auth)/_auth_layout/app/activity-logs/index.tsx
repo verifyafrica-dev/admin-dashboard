@@ -99,7 +99,7 @@ function ActivityLogsPage() {
 
 	useEffect(() => {
 		setPage(1);
-	}, [debouncedSearch, actionFilter, userId]);
+	}, []);
 
 	const actionOptions = useMemo(() => {
 		const actions = new Set<string>();

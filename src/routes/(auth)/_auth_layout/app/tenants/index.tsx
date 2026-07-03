@@ -97,7 +97,7 @@ function TenantsPage() {
 
 	useEffect(() => {
 		setPage(1);
-	}, [debouncedSearch, billingPlanFilter, kycStatusFilter]);
+	}, []);
 
 	const tenants = tenantsQuery.data?.items ?? [];
 
