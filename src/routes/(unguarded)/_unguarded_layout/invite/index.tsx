@@ -327,7 +327,7 @@ function ExistingUserInvitationPrompt({
 			{
 				onSuccess: () => {
 					toast.success("Invitation accepted successfully");
-					navigate({ to: "/dashboard" });
+					navigate({ to: "/app" });
 				},
 				onError: (error) => {
 					setFormErrors(getV2FormErrors(error));

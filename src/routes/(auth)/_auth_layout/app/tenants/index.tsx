@@ -64,7 +64,7 @@ import {
 const PAGE_SIZE = 20;
 
 export const Route = createFileRoute(
-	"/(auth)/_auth_layout/dashboard/tenants/",
+	"/(auth)/_auth_layout/app/tenants/",
 )({
 	component: TenantsPage,
 });
@@ -343,7 +343,7 @@ function TenantsPage() {
 														asChild
 													>
 														<Link
-															to="/dashboard/tenants/$tenantId"
+															to="/app/tenants/$tenantId"
 															params={{ tenantId: tenant.id }}
 															search={{ tab: "overview" }}
 														>

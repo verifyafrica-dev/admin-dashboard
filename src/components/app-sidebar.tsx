@@ -27,48 +27,48 @@ import { cn } from "#/lib/utils.ts";
 const navItems = [
 	{
 		title: "Dashboard",
-		to: "/dashboard",
+		to: "/app",
 		icon: HouseIcon,
 		isExact: true,
 	},
 	{
 		title: "Tenants",
-		to: "/dashboard/tenants",
+		to: "/app/tenants",
 		icon: BuildingsIcon,
 	},
 	{
 		title: "Users",
-		to: "/dashboard/users",
+		to: "/app/users",
 		icon: UsersIcon,
 	},
 	{
 		title: "Top-ups",
-		to: "/dashboard/top-ups",
+		to: "/app/top-ups",
 		icon: CreditCardIcon,
 	},
 	{
 		title: "Invoices",
-		to: "/dashboard/invoices",
+		to: "/app/invoices",
 		icon: ReceiptIcon,
 	},
 	{
 		title: "Verification Settings",
-		to: "/dashboard/verification-settings",
+		to: "/app/verification-settings",
 		icon: GearIcon,
 	},
 	{
 		title: "Mixed Verifications",
-		to: "/dashboard/mixed-verifications",
+		to: "/app/mixed-verifications",
 		icon: SquaresFourIcon,
 	},
 	{
 		title: "Activity Logs",
-		to: "/dashboard/activity-logs",
+		to: "/app/activity-logs",
 		icon: ClockCounterClockwiseIcon,
 	},
 	{
 		title: "Webhooks",
-		to: "/dashboard/webhooks",
+		to: "/app/webhooks",
 		icon: WebhooksLogoIcon,
 	},
 ] as const;
@@ -111,7 +111,7 @@ function SidebarNavItem({
 export function AppSidebar() {
 	return (
 		<Sidebar collapsible="icon">
-			<Link to="/dashboard">
+			<Link to="/app">
 				<SidebarHeader className="flex min-h-14 max-h-14 items-center border-b border-sidebar-border px-4 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-2">
 					<picture className="group-data-[collapsible=icon]:hidden">
 						<img

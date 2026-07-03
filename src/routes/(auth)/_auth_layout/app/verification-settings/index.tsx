@@ -21,7 +21,7 @@ import {
 } from "./-components/verification-settings-table";
 
 export const Route = createFileRoute(
-	"/(auth)/_auth_layout/dashboard/verification-settings/",
+	"/(auth)/_auth_layout/app/verification-settings/",
 )({
 	component: VerificationSettingsPage,
 });

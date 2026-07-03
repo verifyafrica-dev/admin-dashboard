@@ -61,7 +61,7 @@ const activityLogsSearchSchema = z.object({
 });
 
 export const Route = createFileRoute(
-	"/(auth)/_auth_layout/dashboard/activity-logs/",
+	"/(auth)/_auth_layout/app/activity-logs/",
 )({
 	validateSearch: activityLogsSearchSchema,
 	component: ActivityLogsPage,
@@ -159,7 +159,7 @@ function ActivityLogsPage() {
 
 	const handleClearUserFilter = () => {
 		void navigate({
-			to: "/dashboard/activity-logs",
+			to: "/app/activity-logs",
 			search: {},
 		});
 	};

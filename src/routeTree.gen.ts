@@ -18,18 +18,18 @@ import { Route as unguardedUnguarded_layoutLoginIndexRouteImport } from './route
 import { Route as unguardedUnguarded_layoutInviteIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/invite/index'
 import { Route as unguardedUnguarded_layoutForgotPasswordIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/forgot-password/index'
 import { Route as unguardedUnguarded_layoutActivateAccountIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/activate-account/index'
-import { Route as authAuth_layoutDashboardIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/index'
+import { Route as authAuth_layoutAppIndexRouteImport } from './routes/(auth)/_auth_layout/app/index'
 import { Route as unguardedUnguarded_layoutVerifyResultRouteImport } from './routes/(unguarded)/_unguarded_layout/verify/result'
 import { Route as unguardedUnguarded_layoutVerifyLinkIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/verify/$link/index'
-import { Route as authAuth_layoutDashboardWebhooksIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/webhooks/index'
-import { Route as authAuth_layoutDashboardVerificationSettingsIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/verification-settings/index'
-import { Route as authAuth_layoutDashboardUsersIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/users/index'
-import { Route as authAuth_layoutDashboardTopUpsIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/top-ups/index'
-import { Route as authAuth_layoutDashboardTenantsIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/tenants/index'
-import { Route as authAuth_layoutDashboardMixedVerificationsIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/mixed-verifications/index'
-import { Route as authAuth_layoutDashboardInvoicesIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/invoices/index'
-import { Route as authAuth_layoutDashboardActivityLogsIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/activity-logs/index'
-import { Route as authAuth_layoutDashboardTenantsTenantIdIndexRouteImport } from './routes/(auth)/_auth_layout/dashboard/tenants/$tenantId/index'
+import { Route as authAuth_layoutAppWebhooksIndexRouteImport } from './routes/(auth)/_auth_layout/app/webhooks/index'
+import { Route as authAuth_layoutAppVerificationSettingsIndexRouteImport } from './routes/(auth)/_auth_layout/app/verification-settings/index'
+import { Route as authAuth_layoutAppUsersIndexRouteImport } from './routes/(auth)/_auth_layout/app/users/index'
+import { Route as authAuth_layoutAppTopUpsIndexRouteImport } from './routes/(auth)/_auth_layout/app/top-ups/index'
+import { Route as authAuth_layoutAppTenantsIndexRouteImport } from './routes/(auth)/_auth_layout/app/tenants/index'
+import { Route as authAuth_layoutAppMixedVerificationsIndexRouteImport } from './routes/(auth)/_auth_layout/app/mixed-verifications/index'
+import { Route as authAuth_layoutAppInvoicesIndexRouteImport } from './routes/(auth)/_auth_layout/app/invoices/index'
+import { Route as authAuth_layoutAppActivityLogsIndexRouteImport } from './routes/(auth)/_auth_layout/app/activity-logs/index'
+import { Route as authAuth_layoutAppTenantsTenantIdIndexRouteImport } from './routes/(auth)/_auth_layout/app/tenants/$tenantId/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -81,12 +81,11 @@ const unguardedUnguarded_layoutActivateAccountIndexRoute =
     path: '/activate-account/',
     getParentRoute: () => unguardedUnguarded_layoutRoute,
   } as any)
-const authAuth_layoutDashboardIndexRoute =
-  authAuth_layoutDashboardIndexRouteImport.update({
-    id: '/dashboard/',
-    path: '/dashboard/',
-    getParentRoute: () => authAuth_layoutRoute,
-  } as any)
+const authAuth_layoutAppIndexRoute = authAuth_layoutAppIndexRouteImport.update({
+  id: '/app/',
+  path: '/app/',
+  getParentRoute: () => authAuth_layoutRoute,
+} as any)
 const unguardedUnguarded_layoutVerifyResultRoute =
   unguardedUnguarded_layoutVerifyResultRouteImport.update({
     id: '/verify/result',
@@ -99,102 +98,102 @@ const unguardedUnguarded_layoutVerifyLinkIndexRoute =
     path: '/verify/$link/',
     getParentRoute: () => unguardedUnguarded_layoutRoute,
   } as any)
-const authAuth_layoutDashboardWebhooksIndexRoute =
-  authAuth_layoutDashboardWebhooksIndexRouteImport.update({
-    id: '/dashboard/webhooks/',
-    path: '/dashboard/webhooks/',
+const authAuth_layoutAppWebhooksIndexRoute =
+  authAuth_layoutAppWebhooksIndexRouteImport.update({
+    id: '/app/webhooks/',
+    path: '/app/webhooks/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
-const authAuth_layoutDashboardVerificationSettingsIndexRoute =
-  authAuth_layoutDashboardVerificationSettingsIndexRouteImport.update({
-    id: '/dashboard/verification-settings/',
-    path: '/dashboard/verification-settings/',
+const authAuth_layoutAppVerificationSettingsIndexRoute =
+  authAuth_layoutAppVerificationSettingsIndexRouteImport.update({
+    id: '/app/verification-settings/',
+    path: '/app/verification-settings/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
-const authAuth_layoutDashboardUsersIndexRoute =
-  authAuth_layoutDashboardUsersIndexRouteImport.update({
-    id: '/dashboard/users/',
-    path: '/dashboard/users/',
+const authAuth_layoutAppUsersIndexRoute =
+  authAuth_layoutAppUsersIndexRouteImport.update({
+    id: '/app/users/',
+    path: '/app/users/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
-const authAuth_layoutDashboardTopUpsIndexRoute =
-  authAuth_layoutDashboardTopUpsIndexRouteImport.update({
-    id: '/dashboard/top-ups/',
-    path: '/dashboard/top-ups/',
+const authAuth_layoutAppTopUpsIndexRoute =
+  authAuth_layoutAppTopUpsIndexRouteImport.update({
+    id: '/app/top-ups/',
+    path: '/app/top-ups/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
-const authAuth_layoutDashboardTenantsIndexRoute =
-  authAuth_layoutDashboardTenantsIndexRouteImport.update({
-    id: '/dashboard/tenants/',
-    path: '/dashboard/tenants/',
+const authAuth_layoutAppTenantsIndexRoute =
+  authAuth_layoutAppTenantsIndexRouteImport.update({
+    id: '/app/tenants/',
+    path: '/app/tenants/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
-const authAuth_layoutDashboardMixedVerificationsIndexRoute =
-  authAuth_layoutDashboardMixedVerificationsIndexRouteImport.update({
-    id: '/dashboard/mixed-verifications/',
-    path: '/dashboard/mixed-verifications/',
+const authAuth_layoutAppMixedVerificationsIndexRoute =
+  authAuth_layoutAppMixedVerificationsIndexRouteImport.update({
+    id: '/app/mixed-verifications/',
+    path: '/app/mixed-verifications/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
-const authAuth_layoutDashboardInvoicesIndexRoute =
-  authAuth_layoutDashboardInvoicesIndexRouteImport.update({
-    id: '/dashboard/invoices/',
-    path: '/dashboard/invoices/',
+const authAuth_layoutAppInvoicesIndexRoute =
+  authAuth_layoutAppInvoicesIndexRouteImport.update({
+    id: '/app/invoices/',
+    path: '/app/invoices/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
-const authAuth_layoutDashboardActivityLogsIndexRoute =
-  authAuth_layoutDashboardActivityLogsIndexRouteImport.update({
-    id: '/dashboard/activity-logs/',
-    path: '/dashboard/activity-logs/',
+const authAuth_layoutAppActivityLogsIndexRoute =
+  authAuth_layoutAppActivityLogsIndexRouteImport.update({
+    id: '/app/activity-logs/',
+    path: '/app/activity-logs/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
-const authAuth_layoutDashboardTenantsTenantIdIndexRoute =
-  authAuth_layoutDashboardTenantsTenantIdIndexRouteImport.update({
-    id: '/dashboard/tenants/$tenantId/',
-    path: '/dashboard/tenants/$tenantId/',
+const authAuth_layoutAppTenantsTenantIdIndexRoute =
+  authAuth_layoutAppTenantsTenantIdIndexRouteImport.update({
+    id: '/app/tenants/$tenantId/',
+    path: '/app/tenants/$tenantId/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/verify/result': typeof unguardedUnguarded_layoutVerifyResultRoute
-  '/dashboard/': typeof authAuth_layoutDashboardIndexRoute
+  '/app/': typeof authAuth_layoutAppIndexRoute
   '/activate-account/': typeof unguardedUnguarded_layoutActivateAccountIndexRoute
   '/forgot-password/': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
   '/invite/': typeof unguardedUnguarded_layoutInviteIndexRoute
   '/login/': typeof unguardedUnguarded_layoutLoginIndexRoute
   '/register/': typeof unguardedUnguarded_layoutRegisterIndexRoute
   '/reset-password/': typeof unguardedUnguarded_layoutResetPasswordIndexRoute
-  '/dashboard/activity-logs/': typeof authAuth_layoutDashboardActivityLogsIndexRoute
-  '/dashboard/invoices/': typeof authAuth_layoutDashboardInvoicesIndexRoute
-  '/dashboard/mixed-verifications/': typeof authAuth_layoutDashboardMixedVerificationsIndexRoute
-  '/dashboard/tenants/': typeof authAuth_layoutDashboardTenantsIndexRoute
-  '/dashboard/top-ups/': typeof authAuth_layoutDashboardTopUpsIndexRoute
-  '/dashboard/users/': typeof authAuth_layoutDashboardUsersIndexRoute
-  '/dashboard/verification-settings/': typeof authAuth_layoutDashboardVerificationSettingsIndexRoute
-  '/dashboard/webhooks/': typeof authAuth_layoutDashboardWebhooksIndexRoute
+  '/app/activity-logs/': typeof authAuth_layoutAppActivityLogsIndexRoute
+  '/app/invoices/': typeof authAuth_layoutAppInvoicesIndexRoute
+  '/app/mixed-verifications/': typeof authAuth_layoutAppMixedVerificationsIndexRoute
+  '/app/tenants/': typeof authAuth_layoutAppTenantsIndexRoute
+  '/app/top-ups/': typeof authAuth_layoutAppTopUpsIndexRoute
+  '/app/users/': typeof authAuth_layoutAppUsersIndexRoute
+  '/app/verification-settings/': typeof authAuth_layoutAppVerificationSettingsIndexRoute
+  '/app/webhooks/': typeof authAuth_layoutAppWebhooksIndexRoute
   '/verify/$link/': typeof unguardedUnguarded_layoutVerifyLinkIndexRoute
-  '/dashboard/tenants/$tenantId/': typeof authAuth_layoutDashboardTenantsTenantIdIndexRoute
+  '/app/tenants/$tenantId/': typeof authAuth_layoutAppTenantsTenantIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/verify/result': typeof unguardedUnguarded_layoutVerifyResultRoute
-  '/dashboard': typeof authAuth_layoutDashboardIndexRoute
+  '/app': typeof authAuth_layoutAppIndexRoute
   '/activate-account': typeof unguardedUnguarded_layoutActivateAccountIndexRoute
   '/forgot-password': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
   '/invite': typeof unguardedUnguarded_layoutInviteIndexRoute
   '/login': typeof unguardedUnguarded_layoutLoginIndexRoute
   '/register': typeof unguardedUnguarded_layoutRegisterIndexRoute
   '/reset-password': typeof unguardedUnguarded_layoutResetPasswordIndexRoute
-  '/dashboard/activity-logs': typeof authAuth_layoutDashboardActivityLogsIndexRoute
-  '/dashboard/invoices': typeof authAuth_layoutDashboardInvoicesIndexRoute
-  '/dashboard/mixed-verifications': typeof authAuth_layoutDashboardMixedVerificationsIndexRoute
-  '/dashboard/tenants': typeof authAuth_layoutDashboardTenantsIndexRoute
-  '/dashboard/top-ups': typeof authAuth_layoutDashboardTopUpsIndexRoute
-  '/dashboard/users': typeof authAuth_layoutDashboardUsersIndexRoute
-  '/dashboard/verification-settings': typeof authAuth_layoutDashboardVerificationSettingsIndexRoute
-  '/dashboard/webhooks': typeof authAuth_layoutDashboardWebhooksIndexRoute
+  '/app/activity-logs': typeof authAuth_layoutAppActivityLogsIndexRoute
+  '/app/invoices': typeof authAuth_layoutAppInvoicesIndexRoute
+  '/app/mixed-verifications': typeof authAuth_layoutAppMixedVerificationsIndexRoute
+  '/app/tenants': typeof authAuth_layoutAppTenantsIndexRoute
+  '/app/top-ups': typeof authAuth_layoutAppTopUpsIndexRoute
+  '/app/users': typeof authAuth_layoutAppUsersIndexRoute
+  '/app/verification-settings': typeof authAuth_layoutAppVerificationSettingsIndexRoute
+  '/app/webhooks': typeof authAuth_layoutAppWebhooksIndexRoute
   '/verify/$link': typeof unguardedUnguarded_layoutVerifyLinkIndexRoute
-  '/dashboard/tenants/$tenantId': typeof authAuth_layoutDashboardTenantsTenantIdIndexRoute
+  '/app/tenants/$tenantId': typeof authAuth_layoutAppTenantsTenantIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -202,90 +201,90 @@ export interface FileRoutesById {
   '/(auth)/_auth_layout': typeof authAuth_layoutRouteWithChildren
   '/(unguarded)/_unguarded_layout': typeof unguardedUnguarded_layoutRouteWithChildren
   '/(unguarded)/_unguarded_layout/verify/result': typeof unguardedUnguarded_layoutVerifyResultRoute
-  '/(auth)/_auth_layout/dashboard/': typeof authAuth_layoutDashboardIndexRoute
+  '/(auth)/_auth_layout/app/': typeof authAuth_layoutAppIndexRoute
   '/(unguarded)/_unguarded_layout/activate-account/': typeof unguardedUnguarded_layoutActivateAccountIndexRoute
   '/(unguarded)/_unguarded_layout/forgot-password/': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
   '/(unguarded)/_unguarded_layout/invite/': typeof unguardedUnguarded_layoutInviteIndexRoute
   '/(unguarded)/_unguarded_layout/login/': typeof unguardedUnguarded_layoutLoginIndexRoute
   '/(unguarded)/_unguarded_layout/register/': typeof unguardedUnguarded_layoutRegisterIndexRoute
   '/(unguarded)/_unguarded_layout/reset-password/': typeof unguardedUnguarded_layoutResetPasswordIndexRoute
-  '/(auth)/_auth_layout/dashboard/activity-logs/': typeof authAuth_layoutDashboardActivityLogsIndexRoute
-  '/(auth)/_auth_layout/dashboard/invoices/': typeof authAuth_layoutDashboardInvoicesIndexRoute
-  '/(auth)/_auth_layout/dashboard/mixed-verifications/': typeof authAuth_layoutDashboardMixedVerificationsIndexRoute
-  '/(auth)/_auth_layout/dashboard/tenants/': typeof authAuth_layoutDashboardTenantsIndexRoute
-  '/(auth)/_auth_layout/dashboard/top-ups/': typeof authAuth_layoutDashboardTopUpsIndexRoute
-  '/(auth)/_auth_layout/dashboard/users/': typeof authAuth_layoutDashboardUsersIndexRoute
-  '/(auth)/_auth_layout/dashboard/verification-settings/': typeof authAuth_layoutDashboardVerificationSettingsIndexRoute
-  '/(auth)/_auth_layout/dashboard/webhooks/': typeof authAuth_layoutDashboardWebhooksIndexRoute
+  '/(auth)/_auth_layout/app/activity-logs/': typeof authAuth_layoutAppActivityLogsIndexRoute
+  '/(auth)/_auth_layout/app/invoices/': typeof authAuth_layoutAppInvoicesIndexRoute
+  '/(auth)/_auth_layout/app/mixed-verifications/': typeof authAuth_layoutAppMixedVerificationsIndexRoute
+  '/(auth)/_auth_layout/app/tenants/': typeof authAuth_layoutAppTenantsIndexRoute
+  '/(auth)/_auth_layout/app/top-ups/': typeof authAuth_layoutAppTopUpsIndexRoute
+  '/(auth)/_auth_layout/app/users/': typeof authAuth_layoutAppUsersIndexRoute
+  '/(auth)/_auth_layout/app/verification-settings/': typeof authAuth_layoutAppVerificationSettingsIndexRoute
+  '/(auth)/_auth_layout/app/webhooks/': typeof authAuth_layoutAppWebhooksIndexRoute
   '/(unguarded)/_unguarded_layout/verify/$link/': typeof unguardedUnguarded_layoutVerifyLinkIndexRoute
-  '/(auth)/_auth_layout/dashboard/tenants/$tenantId/': typeof authAuth_layoutDashboardTenantsTenantIdIndexRoute
+  '/(auth)/_auth_layout/app/tenants/$tenantId/': typeof authAuth_layoutAppTenantsTenantIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/verify/result'
-    | '/dashboard/'
+    | '/app/'
     | '/activate-account/'
     | '/forgot-password/'
     | '/invite/'
     | '/login/'
     | '/register/'
     | '/reset-password/'
-    | '/dashboard/activity-logs/'
-    | '/dashboard/invoices/'
-    | '/dashboard/mixed-verifications/'
-    | '/dashboard/tenants/'
-    | '/dashboard/top-ups/'
-    | '/dashboard/users/'
-    | '/dashboard/verification-settings/'
-    | '/dashboard/webhooks/'
+    | '/app/activity-logs/'
+    | '/app/invoices/'
+    | '/app/mixed-verifications/'
+    | '/app/tenants/'
+    | '/app/top-ups/'
+    | '/app/users/'
+    | '/app/verification-settings/'
+    | '/app/webhooks/'
     | '/verify/$link/'
-    | '/dashboard/tenants/$tenantId/'
+    | '/app/tenants/$tenantId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/verify/result'
-    | '/dashboard'
+    | '/app'
     | '/activate-account'
     | '/forgot-password'
     | '/invite'
     | '/login'
     | '/register'
     | '/reset-password'
-    | '/dashboard/activity-logs'
-    | '/dashboard/invoices'
-    | '/dashboard/mixed-verifications'
-    | '/dashboard/tenants'
-    | '/dashboard/top-ups'
-    | '/dashboard/users'
-    | '/dashboard/verification-settings'
-    | '/dashboard/webhooks'
+    | '/app/activity-logs'
+    | '/app/invoices'
+    | '/app/mixed-verifications'
+    | '/app/tenants'
+    | '/app/top-ups'
+    | '/app/users'
+    | '/app/verification-settings'
+    | '/app/webhooks'
     | '/verify/$link'
-    | '/dashboard/tenants/$tenantId'
+    | '/app/tenants/$tenantId'
   id:
     | '__root__'
     | '/'
     | '/(auth)/_auth_layout'
     | '/(unguarded)/_unguarded_layout'
     | '/(unguarded)/_unguarded_layout/verify/result'
-    | '/(auth)/_auth_layout/dashboard/'
+    | '/(auth)/_auth_layout/app/'
     | '/(unguarded)/_unguarded_layout/activate-account/'
     | '/(unguarded)/_unguarded_layout/forgot-password/'
     | '/(unguarded)/_unguarded_layout/invite/'
     | '/(unguarded)/_unguarded_layout/login/'
     | '/(unguarded)/_unguarded_layout/register/'
     | '/(unguarded)/_unguarded_layout/reset-password/'
-    | '/(auth)/_auth_layout/dashboard/activity-logs/'
-    | '/(auth)/_auth_layout/dashboard/invoices/'
-    | '/(auth)/_auth_layout/dashboard/mixed-verifications/'
-    | '/(auth)/_auth_layout/dashboard/tenants/'
-    | '/(auth)/_auth_layout/dashboard/top-ups/'
-    | '/(auth)/_auth_layout/dashboard/users/'
-    | '/(auth)/_auth_layout/dashboard/verification-settings/'
-    | '/(auth)/_auth_layout/dashboard/webhooks/'
+    | '/(auth)/_auth_layout/app/activity-logs/'
+    | '/(auth)/_auth_layout/app/invoices/'
+    | '/(auth)/_auth_layout/app/mixed-verifications/'
+    | '/(auth)/_auth_layout/app/tenants/'
+    | '/(auth)/_auth_layout/app/top-ups/'
+    | '/(auth)/_auth_layout/app/users/'
+    | '/(auth)/_auth_layout/app/verification-settings/'
+    | '/(auth)/_auth_layout/app/webhooks/'
     | '/(unguarded)/_unguarded_layout/verify/$link/'
-    | '/(auth)/_auth_layout/dashboard/tenants/$tenantId/'
+    | '/(auth)/_auth_layout/app/tenants/$tenantId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -359,11 +358,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof unguardedUnguarded_layoutActivateAccountIndexRouteImport
       parentRoute: typeof unguardedUnguarded_layoutRoute
     }
-    '/(auth)/_auth_layout/dashboard/': {
-      id: '/(auth)/_auth_layout/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof authAuth_layoutDashboardIndexRouteImport
+    '/(auth)/_auth_layout/app/': {
+      id: '/(auth)/_auth_layout/app/'
+      path: '/app'
+      fullPath: '/app/'
+      preLoaderRoute: typeof authAuth_layoutAppIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
     '/(unguarded)/_unguarded_layout/verify/result': {
@@ -380,105 +379,100 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof unguardedUnguarded_layoutVerifyLinkIndexRouteImport
       parentRoute: typeof unguardedUnguarded_layoutRoute
     }
-    '/(auth)/_auth_layout/dashboard/webhooks/': {
-      id: '/(auth)/_auth_layout/dashboard/webhooks/'
-      path: '/dashboard/webhooks'
-      fullPath: '/dashboard/webhooks/'
-      preLoaderRoute: typeof authAuth_layoutDashboardWebhooksIndexRouteImport
+    '/(auth)/_auth_layout/app/webhooks/': {
+      id: '/(auth)/_auth_layout/app/webhooks/'
+      path: '/app/webhooks'
+      fullPath: '/app/webhooks/'
+      preLoaderRoute: typeof authAuth_layoutAppWebhooksIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
-    '/(auth)/_auth_layout/dashboard/verification-settings/': {
-      id: '/(auth)/_auth_layout/dashboard/verification-settings/'
-      path: '/dashboard/verification-settings'
-      fullPath: '/dashboard/verification-settings/'
-      preLoaderRoute: typeof authAuth_layoutDashboardVerificationSettingsIndexRouteImport
+    '/(auth)/_auth_layout/app/verification-settings/': {
+      id: '/(auth)/_auth_layout/app/verification-settings/'
+      path: '/app/verification-settings'
+      fullPath: '/app/verification-settings/'
+      preLoaderRoute: typeof authAuth_layoutAppVerificationSettingsIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
-    '/(auth)/_auth_layout/dashboard/users/': {
-      id: '/(auth)/_auth_layout/dashboard/users/'
-      path: '/dashboard/users'
-      fullPath: '/dashboard/users/'
-      preLoaderRoute: typeof authAuth_layoutDashboardUsersIndexRouteImport
+    '/(auth)/_auth_layout/app/users/': {
+      id: '/(auth)/_auth_layout/app/users/'
+      path: '/app/users'
+      fullPath: '/app/users/'
+      preLoaderRoute: typeof authAuth_layoutAppUsersIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
-    '/(auth)/_auth_layout/dashboard/top-ups/': {
-      id: '/(auth)/_auth_layout/dashboard/top-ups/'
-      path: '/dashboard/top-ups'
-      fullPath: '/dashboard/top-ups/'
-      preLoaderRoute: typeof authAuth_layoutDashboardTopUpsIndexRouteImport
+    '/(auth)/_auth_layout/app/top-ups/': {
+      id: '/(auth)/_auth_layout/app/top-ups/'
+      path: '/app/top-ups'
+      fullPath: '/app/top-ups/'
+      preLoaderRoute: typeof authAuth_layoutAppTopUpsIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
-    '/(auth)/_auth_layout/dashboard/tenants/': {
-      id: '/(auth)/_auth_layout/dashboard/tenants/'
-      path: '/dashboard/tenants'
-      fullPath: '/dashboard/tenants/'
-      preLoaderRoute: typeof authAuth_layoutDashboardTenantsIndexRouteImport
+    '/(auth)/_auth_layout/app/tenants/': {
+      id: '/(auth)/_auth_layout/app/tenants/'
+      path: '/app/tenants'
+      fullPath: '/app/tenants/'
+      preLoaderRoute: typeof authAuth_layoutAppTenantsIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
-    '/(auth)/_auth_layout/dashboard/mixed-verifications/': {
-      id: '/(auth)/_auth_layout/dashboard/mixed-verifications/'
-      path: '/dashboard/mixed-verifications'
-      fullPath: '/dashboard/mixed-verifications/'
-      preLoaderRoute: typeof authAuth_layoutDashboardMixedVerificationsIndexRouteImport
+    '/(auth)/_auth_layout/app/mixed-verifications/': {
+      id: '/(auth)/_auth_layout/app/mixed-verifications/'
+      path: '/app/mixed-verifications'
+      fullPath: '/app/mixed-verifications/'
+      preLoaderRoute: typeof authAuth_layoutAppMixedVerificationsIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
-    '/(auth)/_auth_layout/dashboard/invoices/': {
-      id: '/(auth)/_auth_layout/dashboard/invoices/'
-      path: '/dashboard/invoices'
-      fullPath: '/dashboard/invoices/'
-      preLoaderRoute: typeof authAuth_layoutDashboardInvoicesIndexRouteImport
+    '/(auth)/_auth_layout/app/invoices/': {
+      id: '/(auth)/_auth_layout/app/invoices/'
+      path: '/app/invoices'
+      fullPath: '/app/invoices/'
+      preLoaderRoute: typeof authAuth_layoutAppInvoicesIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
-    '/(auth)/_auth_layout/dashboard/activity-logs/': {
-      id: '/(auth)/_auth_layout/dashboard/activity-logs/'
-      path: '/dashboard/activity-logs'
-      fullPath: '/dashboard/activity-logs/'
-      preLoaderRoute: typeof authAuth_layoutDashboardActivityLogsIndexRouteImport
+    '/(auth)/_auth_layout/app/activity-logs/': {
+      id: '/(auth)/_auth_layout/app/activity-logs/'
+      path: '/app/activity-logs'
+      fullPath: '/app/activity-logs/'
+      preLoaderRoute: typeof authAuth_layoutAppActivityLogsIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
-    '/(auth)/_auth_layout/dashboard/tenants/$tenantId/': {
-      id: '/(auth)/_auth_layout/dashboard/tenants/$tenantId/'
-      path: '/dashboard/tenants/$tenantId'
-      fullPath: '/dashboard/tenants/$tenantId/'
-      preLoaderRoute: typeof authAuth_layoutDashboardTenantsTenantIdIndexRouteImport
+    '/(auth)/_auth_layout/app/tenants/$tenantId/': {
+      id: '/(auth)/_auth_layout/app/tenants/$tenantId/'
+      path: '/app/tenants/$tenantId'
+      fullPath: '/app/tenants/$tenantId/'
+      preLoaderRoute: typeof authAuth_layoutAppTenantsTenantIdIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
   }
 }
 
 interface authAuth_layoutRouteChildren {
-  authAuth_layoutDashboardIndexRoute: typeof authAuth_layoutDashboardIndexRoute
-  authAuth_layoutDashboardActivityLogsIndexRoute: typeof authAuth_layoutDashboardActivityLogsIndexRoute
-  authAuth_layoutDashboardInvoicesIndexRoute: typeof authAuth_layoutDashboardInvoicesIndexRoute
-  authAuth_layoutDashboardMixedVerificationsIndexRoute: typeof authAuth_layoutDashboardMixedVerificationsIndexRoute
-  authAuth_layoutDashboardTenantsIndexRoute: typeof authAuth_layoutDashboardTenantsIndexRoute
-  authAuth_layoutDashboardTopUpsIndexRoute: typeof authAuth_layoutDashboardTopUpsIndexRoute
-  authAuth_layoutDashboardUsersIndexRoute: typeof authAuth_layoutDashboardUsersIndexRoute
-  authAuth_layoutDashboardVerificationSettingsIndexRoute: typeof authAuth_layoutDashboardVerificationSettingsIndexRoute
-  authAuth_layoutDashboardWebhooksIndexRoute: typeof authAuth_layoutDashboardWebhooksIndexRoute
-  authAuth_layoutDashboardTenantsTenantIdIndexRoute: typeof authAuth_layoutDashboardTenantsTenantIdIndexRoute
+  authAuth_layoutAppIndexRoute: typeof authAuth_layoutAppIndexRoute
+  authAuth_layoutAppActivityLogsIndexRoute: typeof authAuth_layoutAppActivityLogsIndexRoute
+  authAuth_layoutAppInvoicesIndexRoute: typeof authAuth_layoutAppInvoicesIndexRoute
+  authAuth_layoutAppMixedVerificationsIndexRoute: typeof authAuth_layoutAppMixedVerificationsIndexRoute
+  authAuth_layoutAppTenantsIndexRoute: typeof authAuth_layoutAppTenantsIndexRoute
+  authAuth_layoutAppTopUpsIndexRoute: typeof authAuth_layoutAppTopUpsIndexRoute
+  authAuth_layoutAppUsersIndexRoute: typeof authAuth_layoutAppUsersIndexRoute
+  authAuth_layoutAppVerificationSettingsIndexRoute: typeof authAuth_layoutAppVerificationSettingsIndexRoute
+  authAuth_layoutAppWebhooksIndexRoute: typeof authAuth_layoutAppWebhooksIndexRoute
+  authAuth_layoutAppTenantsTenantIdIndexRoute: typeof authAuth_layoutAppTenantsTenantIdIndexRoute
 }
 
 const authAuth_layoutRouteChildren: authAuth_layoutRouteChildren = {
-  authAuth_layoutDashboardIndexRoute: authAuth_layoutDashboardIndexRoute,
-  authAuth_layoutDashboardActivityLogsIndexRoute:
-    authAuth_layoutDashboardActivityLogsIndexRoute,
-  authAuth_layoutDashboardInvoicesIndexRoute:
-    authAuth_layoutDashboardInvoicesIndexRoute,
-  authAuth_layoutDashboardMixedVerificationsIndexRoute:
-    authAuth_layoutDashboardMixedVerificationsIndexRoute,
-  authAuth_layoutDashboardTenantsIndexRoute:
-    authAuth_layoutDashboardTenantsIndexRoute,
-  authAuth_layoutDashboardTopUpsIndexRoute:
-    authAuth_layoutDashboardTopUpsIndexRoute,
-  authAuth_layoutDashboardUsersIndexRoute:
-    authAuth_layoutDashboardUsersIndexRoute,
-  authAuth_layoutDashboardVerificationSettingsIndexRoute:
-    authAuth_layoutDashboardVerificationSettingsIndexRoute,
-  authAuth_layoutDashboardWebhooksIndexRoute:
-    authAuth_layoutDashboardWebhooksIndexRoute,
-  authAuth_layoutDashboardTenantsTenantIdIndexRoute:
-    authAuth_layoutDashboardTenantsTenantIdIndexRoute,
+  authAuth_layoutAppIndexRoute: authAuth_layoutAppIndexRoute,
+  authAuth_layoutAppActivityLogsIndexRoute:
+    authAuth_layoutAppActivityLogsIndexRoute,
+  authAuth_layoutAppInvoicesIndexRoute: authAuth_layoutAppInvoicesIndexRoute,
+  authAuth_layoutAppMixedVerificationsIndexRoute:
+    authAuth_layoutAppMixedVerificationsIndexRoute,
+  authAuth_layoutAppTenantsIndexRoute: authAuth_layoutAppTenantsIndexRoute,
+  authAuth_layoutAppTopUpsIndexRoute: authAuth_layoutAppTopUpsIndexRoute,
+  authAuth_layoutAppUsersIndexRoute: authAuth_layoutAppUsersIndexRoute,
+  authAuth_layoutAppVerificationSettingsIndexRoute:
+    authAuth_layoutAppVerificationSettingsIndexRoute,
+  authAuth_layoutAppWebhooksIndexRoute: authAuth_layoutAppWebhooksIndexRoute,
+  authAuth_layoutAppTenantsTenantIdIndexRoute:
+    authAuth_layoutAppTenantsTenantIdIndexRoute,
 }
 
 const authAuth_layoutRouteWithChildren = authAuth_layoutRoute._addFileChildren(

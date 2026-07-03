@@ -81,7 +81,7 @@ const TOP_UP_TABLE_COLUMNS = [
 ] as const;
 
 export const Route = createFileRoute(
-	"/(auth)/_auth_layout/dashboard/top-ups/",
+	"/(auth)/_auth_layout/app/top-ups/",
 )({
 	component: TopUpsPage,
 });

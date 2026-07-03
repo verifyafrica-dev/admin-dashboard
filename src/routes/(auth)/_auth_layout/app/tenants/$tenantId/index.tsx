@@ -56,7 +56,7 @@ const tenantDetailSearchSchema = z.object({
 });
 
 export const Route = createFileRoute(
-	"/(auth)/_auth_layout/dashboard/tenants/$tenantId/",
+	"/(auth)/_auth_layout/app/tenants/$tenantId/",
 )({
 	validateSearch: tenantDetailSearchSchema,
 	component: TenantDetailPage,
@@ -170,7 +170,7 @@ function TenantDetailPage() {
 
 	const handleTabChange = (nextTab: string) => {
 		void navigate({
-			to: "/dashboard/tenants/$tenantId",
+			to: "/app/tenants/$tenantId",
 			params: { tenantId },
 			search: {
 				tab: nextTab as TenantDetailTab,
@@ -185,7 +185,7 @@ function TenantDetailPage() {
 
 	const handleComplianceSubTabChange = (nextSubTab: ComplianceSubTab) => {
 		void navigate({
-			to: "/dashboard/tenants/$tenantId",
+			to: "/app/tenants/$tenantId",
 			params: { tenantId },
 			search: {
 				tab: TENANT_DETAIL_TABS.COMPLIANCE,
@@ -344,7 +344,7 @@ function TenantDetailPage() {
 				tenantName={tenant?.name ?? ""}
 				onOpenChange={setDeleteOpen}
 				onDeleted={() => {
-					void navigate({ to: "/dashboard/tenants" });
+					void navigate({ to: "/app/tenants" });
 				}}
 			/>
 		</div>

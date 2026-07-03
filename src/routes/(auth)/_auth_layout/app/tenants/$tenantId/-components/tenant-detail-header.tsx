@@ -29,7 +29,7 @@ export function TenantDetailHeader({
 				className="w-fit text-muted-foreground hover:text-foreground font-medium"
 				asChild
 			>
-				<Link to="/dashboard/tenants">
+				<Link to="/app/tenants">
 					<ArrowLeftIcon />
 					Back to All Tenants
 				</Link>

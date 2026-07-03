@@ -88,7 +88,7 @@ const USER_TABLE_COLUMNS = [
 	"Actions",
 ] as const;
 
-export const Route = createFileRoute("/(auth)/_auth_layout/dashboard/users/")({
+export const Route = createFileRoute("/(auth)/_auth_layout/app/users/")({
 	component: UsersPage,
 });
 
@@ -200,7 +200,7 @@ function UsersPage() {
 
 	const handleViewActivityLog = (user: AdminUser) => {
 		void navigate({
-			to: "/dashboard/activity-logs",
+			to: "/app/activity-logs",
 			search: { user: user.id },
 		});
 	};

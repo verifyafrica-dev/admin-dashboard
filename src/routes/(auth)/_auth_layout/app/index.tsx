@@ -21,7 +21,7 @@ import {
 	type TimeRange,
 } from "./-data";
 
-export const Route = createFileRoute("/(auth)/_auth_layout/dashboard/")({
+export const Route = createFileRoute("/(auth)/_auth_layout/app/")({
 	component: DashboardPage,
 });
 

@@ -40,7 +40,7 @@ import {
 } from "./-data";
 
 export const Route = createFileRoute(
-	"/(auth)/_auth_layout/dashboard/mixed-verifications/",
+	"/(auth)/_auth_layout/app/mixed-verifications/",
 )({
 	component: MixedVerificationsPage,
 });

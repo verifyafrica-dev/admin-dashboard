@@ -43,7 +43,7 @@ import { WebhookEndpointCard } from "./-components/webhook-endpoint-card";
 const WEBHOOK_TABLE_COLUMNS = ["", "Event ID", "Source", "Created Date"] as const;
 
 export const Route = createFileRoute(
-	"/(auth)/_auth_layout/dashboard/webhooks/",
+	"/(auth)/_auth_layout/app/webhooks/",
 )({
 	component: WebhooksPage,
 });

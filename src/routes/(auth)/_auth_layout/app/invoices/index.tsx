@@ -71,7 +71,7 @@ const INVOICE_TABLE_COLUMNS = [
 ] as const;
 
 export const Route = createFileRoute(
-	"/(auth)/_auth_layout/dashboard/invoices/",
+	"/(auth)/_auth_layout/app/invoices/",
 )({
 	component: InvoicesPage,
 });
