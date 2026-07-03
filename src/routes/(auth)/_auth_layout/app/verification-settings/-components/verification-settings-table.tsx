@@ -10,6 +10,7 @@ import {
 	TableRow,
 } from "#/components/ui/table";
 import { cn } from "#/lib/utils.ts";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import type { VerificationPrice } from "#/api/http/v2/verifications/verifications.types";
 import {
 	createVerificationPriceDraft,
@@ -54,9 +55,9 @@ function PriceInput({
 export function VerificationSettingsTableSkeleton() {
 	return (
 		<div className="space-y-3">
-			{Array.from({ length: 8 }).map((_, index) => (
+			{createSkeletonKeys(8, "verification-settings-row").map((key) => (
 				<Skeleton
-					key={index}
+					key={key}
 					className="h-14 rounded-lg"
 				/>
 			))}

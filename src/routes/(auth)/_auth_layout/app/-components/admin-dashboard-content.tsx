@@ -43,6 +43,7 @@ import {
 	TableRow,
 } from "#/components/ui/table";
 import { cn } from "#/lib/utils.ts";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import type {
 	AdminDashboardAlert,
 	AdminDashboardData,
@@ -193,17 +194,17 @@ export function AdminDashboardSkeleton() {
 	return (
 		<div className="flex flex-col gap-6">
 			<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-				{Array.from({ length: 4 }).map((_, index) => (
+				{createSkeletonKeys(4, "dashboard-stat").map((key) => (
 					<Skeleton
-						key={index}
+						key={key}
 						className="h-36 rounded-xl"
 					/>
 				))}
 			</div>
 			<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-				{Array.from({ length: 4 }).map((_, index) => (
+				{createSkeletonKeys(4, "dashboard-metric").map((key) => (
 					<Skeleton
-						key={index}
+						key={key}
 						className="h-32 rounded-xl"
 					/>
 				))}

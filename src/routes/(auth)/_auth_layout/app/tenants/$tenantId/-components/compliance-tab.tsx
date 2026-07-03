@@ -32,6 +32,18 @@ import {
 import { ComplianceDocumentsSection } from "./compliance-documents-section";
 import { RejectComplianceDialog } from "./reject-compliance-dialog";
 
+function getCompliancePersonKey(
+	person: Record<string, unknown>,
+	role: "director" | "ubo",
+): string {
+	return [
+		role,
+		getComplianceFieldValue(person, "name"),
+		getComplianceFieldValue(person, "id_number"),
+		getComplianceFieldValue(person, "date_of_birth"),
+	].join("|");
+}
+
 function getComplianceReviewState(tenant?: TenantDetail) {
 	const kyc = tenant?.kyc;
 
@@ -372,7 +384,7 @@ export function ComplianceTab({
 					) : (
 						directors.map((director, index) => (
 							<ComplianceSection
-								key={`director-${index}`}
+								key={getCompliancePersonKey(director, "director")}
 								title={`Director ${index + 1}`}
 								icon={UsersIcon}
 								fields={[
@@ -400,7 +412,7 @@ export function ComplianceTab({
 					) : (
 						ubos.map((ubo, index) => (
 							<ComplianceSection
-								key={`ubo-${index}`}
+								key={getCompliancePersonKey(ubo, "ubo")}
 								title={`Ultimate Beneficial Owner ${index + 1}`}
 								icon={UsersIcon}
 								fields={[

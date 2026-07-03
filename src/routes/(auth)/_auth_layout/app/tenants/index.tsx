@@ -41,6 +41,7 @@ import {
 } from "#/components/ui/table";
 import { getUserInitials } from "#/lib/user.ts";
 import { cn } from "#/lib/utils.ts";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import { AddTenantDialog } from "./-components/add-tenant-dialog";
 import { KycStatusBadge } from "./-components/kyc-status-badge";
 import {
@@ -380,8 +381,8 @@ function TenantsPage() {
 function TenantsTableSkeleton() {
 	return (
 		<div className="space-y-3">
-			{Array.from({ length: 6 }).map((_, index) => (
-				<div key={index} className="flex items-center gap-4 px-2">
+			{createSkeletonKeys(6, "tenant-row").map((key) => (
+				<div key={key} className="flex items-center gap-4 px-2">
 					<Skeleton className="size-10 rounded-lg" />
 					<div className="flex-1 space-y-2">
 						<Skeleton className="h-4 w-48" />

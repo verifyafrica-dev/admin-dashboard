@@ -50,6 +50,7 @@ import {
 import { useDebouncedValue } from "#/hooks/use-debounced-value";
 import { getUserInitials } from "#/lib/user.ts";
 import { cn } from "#/lib/utils.ts";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import { useAuthStore } from "#/stores/auth-store";
 import { getTenantAvatarColor } from "../tenants/-data";
 import { ResetPasswordDialog } from "./-components/reset-password-dialog";
@@ -586,9 +587,9 @@ function UserRow({
 function UsersTableSkeleton() {
 	return (
 		<div className="space-y-3">
-			{Array.from({ length: 5 }).map((_, index) => (
+			{createSkeletonKeys(5, "user-row").map((key) => (
 				<div
-					key={index}
+					key={key}
 					className="flex items-center gap-4 px-2"
 				>
 					<Skeleton className="size-9 rounded-full" />

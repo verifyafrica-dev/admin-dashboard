@@ -31,6 +31,7 @@ import {
 	TooltipTrigger,
 } from "#/components/ui/tooltip";
 import { cn } from "#/lib/utils.ts";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import { DeleteMixedVerificationDialog } from "./-components/delete-mixed-verification-dialog";
 import { MixedVerificationFormDialog } from "./-components/mixed-verification-form-dialog";
 import {
@@ -111,9 +112,9 @@ function MixedVerificationsPage() {
 				<CardContent className="pt-6">
 					{templatesQuery.isLoading ? (
 						<div className="space-y-3">
-							{Array.from({ length: 5 }).map((_, index) => (
+							{createSkeletonKeys(5, "mixed-verification-row").map((key) => (
 								<Skeleton
-									key={index}
+									key={key}
 									className="h-16 rounded-lg"
 								/>
 							))}

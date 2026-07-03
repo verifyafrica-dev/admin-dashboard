@@ -7,6 +7,7 @@ import {
 import { Card, CardContent } from "#/components/ui/card";
 import { Skeleton } from "#/components/ui/skeleton";
 import { cn } from "#/lib/utils.ts";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import { formatAdminNumber } from "../../-data";
 import type { TenantStats } from "../-data";
 
@@ -77,8 +78,8 @@ export function TenantsStatCards({ stats }: { stats: TenantStats }) {
 export function TenantsStatCardsSkeleton() {
 	return (
 		<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-			{Array.from({ length: 4 }).map((_, index) => (
-				<Card key={index}>
+			{createSkeletonKeys(4, "tenant-stat").map((key) => (
+				<Card key={key}>
 					<CardContent className="flex flex-col gap-3">
 						<Skeleton className="size-10 rounded-xl" />
 						<div className="space-y-2">

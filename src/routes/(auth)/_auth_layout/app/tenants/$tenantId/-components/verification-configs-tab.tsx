@@ -12,6 +12,7 @@ import { Label } from "#/components/ui/label";
 import { Skeleton } from "#/components/ui/skeleton";
 import { Switch } from "#/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "#/components/ui/tabs";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import {
 	VERIFICATION_PROVIDER_TABS,
 	type VerificationProviderTab,
@@ -140,8 +141,11 @@ export function VerificationConfigsTab({
 						<TabsContent key={provider} value={provider} className="space-y-4">
 							{isLoading ? (
 								<div className="space-y-3">
-									{Array.from({ length: 5 }).map((_, index) => (
-										<Skeleton key={index} className="h-24 rounded-lg" />
+									{createSkeletonKeys(
+										5,
+										`verification-config-${provider}`,
+									).map((key) => (
+										<Skeleton key={key} className="h-24 rounded-lg" />
 									))}
 								</div>
 							) : rowsByProvider[provider].length === 0 ? (

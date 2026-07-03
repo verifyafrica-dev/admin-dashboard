@@ -15,6 +15,7 @@ import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card";
 import { Skeleton } from "#/components/ui/skeleton";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import { getBillingPlanLabel } from "../../-data";
 import { KycStatusBadge } from "../../-components/kyc-status-badge";
 import {
@@ -218,8 +219,8 @@ function OverviewTabSkeleton() {
 	return (
 		<div className="flex flex-col gap-6">
 			<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-				{Array.from({ length: 4 }).map((_, index) => (
-					<Skeleton key={index} className="h-28 rounded-xl" />
+				{createSkeletonKeys(4, "tenant-overview-stat").map((key) => (
+					<Skeleton key={key} className="h-28 rounded-xl" />
 				))}
 			</div>
 			<div className="grid gap-6 lg:grid-cols-2">

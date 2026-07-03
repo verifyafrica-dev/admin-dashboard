@@ -30,6 +30,7 @@ import {
 } from "#/components/ui/table";
 import { useDebouncedValue } from "#/hooks/use-debounced-value";
 import { cn } from "#/lib/utils";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import {
 	buildWebhookEventsListQuery,
 	formatWebhookEventData,
@@ -300,8 +301,8 @@ function WebhookEventRow({
 function WebhooksTableSkeleton() {
 	return (
 		<div className="space-y-3">
-			{Array.from({ length: 5 }).map((_, index) => (
-				<Skeleton key={index} className="h-12 rounded-lg" />
+			{createSkeletonKeys(5, "webhook-row").map((key) => (
+				<Skeleton key={key} className="h-12 rounded-lg" />
 			))}
 		</div>
 	);

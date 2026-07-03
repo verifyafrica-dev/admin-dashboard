@@ -65,13 +65,22 @@ export function groupVerificationPrices(
 	}, {});
 
 	return Object.entries(grouped)
-		.filter(([, plans]) => plans.payg && plans.enterprise)
-		.sort(([typeA], [typeB]) => typeA.localeCompare(typeB))
-		.map(([verificationType, plans]) => ({
-			verificationType,
-			payg: plans.payg!,
-			enterprise: plans.enterprise!,
-		}));
+		.flatMap(([verificationType, plans]) => {
+			if (!plans.payg || !plans.enterprise) {
+				return [];
+			}
+
+			return [
+				{
+					verificationType,
+					payg: plans.payg,
+					enterprise: plans.enterprise,
+				},
+			];
+		})
+		.sort((rowA, rowB) =>
+			rowA.verificationType.localeCompare(rowB.verificationType),
+		);
 }
 
 export function createVerificationPriceDraft(

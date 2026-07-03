@@ -44,6 +44,7 @@ import {
 	TableRow,
 } from "#/components/ui/table";
 import { useDebouncedValue } from "#/hooks/use-debounced-value";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import { formatTenantDate } from "../tenants/-data";
 import { formatTenantMoney } from "../tenants/$tenantId/-data";
 import { TopUpDetailsDialog } from "./-components/top-up-details-dialog";
@@ -472,8 +473,8 @@ function TopUpRow({
 function TopUpsTableSkeleton() {
 	return (
 		<div className="space-y-3">
-			{Array.from({ length: 5 }).map((_, index) => (
-				<div key={index} className="flex items-center gap-4 px-2">
+			{createSkeletonKeys(5, "top-up-row").map((key) => (
+				<div key={key} className="flex items-center gap-4 px-2">
 					<Skeleton className="h-4 w-20" />
 					<Skeleton className="h-4 w-28" />
 					<Skeleton className="h-4 w-20" />

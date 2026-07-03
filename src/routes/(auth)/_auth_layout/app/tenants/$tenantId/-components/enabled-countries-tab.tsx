@@ -6,6 +6,7 @@ import { Checkbox } from "#/components/ui/checkbox";
 import { Label } from "#/components/ui/label";
 import { Skeleton } from "#/components/ui/skeleton";
 import { Switch } from "#/components/ui/switch";
+import { createSkeletonKeys } from "#/lib/skeleton-keys";
 import { groupCountriesByRegion } from "../-data";
 
 export function EnabledCountriesTab({
@@ -72,7 +73,9 @@ export function EnabledCountriesTab({
 		setEnabledCountries((current) => {
 			if (selected) {
 				const next = new Set(current);
-				countries.forEach((country) => next.add(country.code));
+				for (const country of countries) {
+					next.add(country.code);
+				}
 				return Array.from(next);
 			}
 
@@ -128,8 +131,8 @@ export function EnabledCountriesTab({
 			<CardContent className="space-y-4 pt-6">
 				{isLoading ? (
 					<div className="space-y-4">
-						{Array.from({ length: 3 }).map((_, index) => (
-							<Skeleton key={index} className="h-48 rounded-xl" />
+						{createSkeletonKeys(3, "enabled-country-region").map((key) => (
+							<Skeleton key={key} className="h-48 rounded-xl" />
 						))}
 					</div>
 				) : (
