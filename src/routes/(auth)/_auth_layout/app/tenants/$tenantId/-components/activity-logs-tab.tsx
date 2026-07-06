@@ -1,5 +1,4 @@
 import {
-	DownloadSimpleIcon,
 	ListBulletsIcon,
 	MagnifyingGlassIcon,
 } from "@phosphor-icons/react";
@@ -12,7 +11,6 @@ import {
 	TablePaginationSkeleton,
 } from "#/components/table-pagination";
 import { Badge } from "#/components/ui/badge";
-import { Button } from "#/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card";
 import { Input } from "#/components/ui/input";
 import {
@@ -33,7 +31,11 @@ import {
 } from "#/components/ui/table";
 import { useDebouncedValue } from "#/hooks/use-debounced-value";
 import { createSkeletonKeys } from "#/lib/skeleton-keys";
-import { downloadCsv, formatTenantDate, matchesActivityLogSearch } from "../-data";
+import {
+	downloadCsv,
+	formatTenantDate,
+	matchesActivityLogSearch,
+} from "../-data";
 
 const PAGE_SIZE = 20;
 
@@ -94,7 +96,7 @@ export function ActivityLogsTab({ tenantId }: { tenantId: string }) {
 	const [page, setPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [actionFilter, setActionFilter] = useState("all");
-	const [isExporting, setIsExporting] = useState(false);
+	const [_isExporting, setIsExporting] = useState(false);
 	const debouncedSearch = useDebouncedValue(searchQuery, 300);
 
 	const activityLogsQuery = useTenantActivityLogsV2Query(tenantId, {
@@ -134,7 +136,7 @@ export function ActivityLogsTab({ tenantId }: { tenantId: string }) {
 	const hasActiveFilters =
 		debouncedSearch.trim().length > 0 || actionFilter !== "all";
 
-	const handleExport = () => {
+	const _handleExport = () => {
 		if (filteredLogs.length === 0) {
 			return;
 		}
@@ -175,14 +177,14 @@ export function ActivityLogsTab({ tenantId }: { tenantId: string }) {
 			<CardHeader className="gap-4 border-b">
 				<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 					<CardTitle className="font-semibold">Activity Logs</CardTitle>
-					<Button
+					{/* <Button
 						variant="outline"
 						disabled={isExporting || filteredLogs.length === 0}
 						onClick={handleExport}
 					>
 						<DownloadSimpleIcon />
 						{isExporting ? "Exporting..." : "Export"}
-					</Button>
+					</Button> */}
 				</div>
 				<div className="flex flex-col gap-3 sm:flex-row">
 					<div className="relative flex-1">
@@ -206,7 +208,10 @@ export function ActivityLogsTab({ tenantId }: { tenantId: string }) {
 						<SelectContent>
 							<SelectItem value="all">All Actions</SelectItem>
 							{actionOptions.map((action) => (
-								<SelectItem key={action} value={action}>
+								<SelectItem
+									key={action}
+									value={action}
+								>
 									{formatActionLabel(action)}
 								</SelectItem>
 							))}
@@ -254,7 +259,10 @@ export function ActivityLogsTab({ tenantId }: { tenantId: string }) {
 								</TableHeader>
 								<TableBody>
 									{filteredLogs.map((log) => (
-										<ActivityLogRow key={log.id} log={log} />
+										<ActivityLogRow
+											key={log.id}
+											log={log}
+										/>
 									))}
 								</TableBody>
 							</Table>
@@ -279,12 +287,18 @@ function ActivityLogRow({ log }: { log: ActivityLog }) {
 				{formatTenantDate(log.created_at)}
 			</TableCell>
 			<TableCell>
-				<Badge variant="outline" className={getActionBadgeClass(log.action)}>
+				<Badge
+					variant="outline"
+					className={getActionBadgeClass(log.action)}
+				>
 					{formatActionLabel(log.action)}
 				</Badge>
 			</TableCell>
 			<TableCell>{log.user_name ?? "Unknown User"}</TableCell>
-			<TableCell className="max-w-md truncate" title={log.description}>
+			<TableCell
+				className="max-w-md truncate"
+				title={log.description}
+			>
 				{log.description}
 			</TableCell>
 			<TableCell className="pr-4 sm:pr-6">{log.ip_address ?? "-"}</TableCell>
@@ -296,7 +310,10 @@ function ActivityLogsTableSkeleton() {
 	return (
 		<div className="space-y-3">
 			{createSkeletonKeys(5, "tenant-activity-log-row").map((key) => (
-				<div key={key} className="flex items-center gap-4 px-2">
+				<div
+					key={key}
+					className="flex items-center gap-4 px-2"
+				>
 					<Skeleton className="h-4 w-36" />
 					<Skeleton className="h-6 w-28" />
 					<Skeleton className="h-4 w-24" />

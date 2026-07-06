@@ -1,6 +1,5 @@
 import {
 	CreditCardIcon,
-	DownloadSimpleIcon,
 	EyeIcon,
 	MagnifyingGlassIcon,
 } from "@phosphor-icons/react";
@@ -69,7 +68,7 @@ export function TransactionsTab({ tenantId }: { tenantId: string }) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [selectedTransaction, setSelectedTransaction] =
 		useState<WalletTransaction | null>(null);
-	const [isExporting, setIsExporting] = useState(false);
+	const [_isExporting, setIsExporting] = useState(false);
 	const debouncedSearch = useDebouncedValue(searchQuery, 300);
 
 	const transactionsQuery = useTenantTransactionsV2Query(tenantId, {
@@ -93,7 +92,7 @@ export function TransactionsTab({ tenantId }: { tenantId: string }) {
 		(transactionsQuery.isFetching && !transactionsQuery.data);
 	const hasActiveSearch = debouncedSearch.trim().length > 0;
 
-	const handleExport = () => {
+	const _handleExport = () => {
 		if (filteredTransactions.length === 0) {
 			return;
 		}
@@ -137,14 +136,14 @@ export function TransactionsTab({ tenantId }: { tenantId: string }) {
 				<CardHeader className="gap-4 border-b">
 					<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 						<CardTitle className="font-semibold">Transactions</CardTitle>
-						<Button
+						{/* <Button
 							variant="outline"
 							disabled={isExporting || filteredTransactions.length === 0}
 							onClick={handleExport}
 						>
 							<DownloadSimpleIcon />
 							{isExporting ? "Exporting..." : "Export"}
-						</Button>
+						</Button> */}
 					</div>
 					<div className="relative">
 						<MagnifyingGlassIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -227,9 +226,7 @@ export function TransactionsTab({ tenantId }: { tenantId: string }) {
 													<Button
 														variant="ghost"
 														size="icon-sm"
-														onClick={() =>
-															setSelectedTransaction(transaction)
-														}
+														onClick={() => setSelectedTransaction(transaction)}
 													>
 														<EyeIcon className="size-4" />
 														<span className="sr-only">View transaction</span>
@@ -265,7 +262,10 @@ export function TransactionsTab({ tenantId }: { tenantId: string }) {
 					</DialogHeader>
 					{selectedTransaction ? (
 						<div className="grid gap-4 sm:grid-cols-2">
-							<DetailField label="Reference" value={selectedTransaction.reference} />
+							<DetailField
+								label="Reference"
+								value={selectedTransaction.reference}
+							/>
 							<DetailField
 								label="Date"
 								value={formatTenantDate(selectedTransaction.created_at)}
@@ -274,7 +274,10 @@ export function TransactionsTab({ tenantId }: { tenantId: string }) {
 								label="Amount"
 								value={formatTenantMoney(selectedTransaction.amount)}
 							/>
-							<DetailField label="Type" value={selectedTransaction.type} />
+							<DetailField
+								label="Type"
+								value={selectedTransaction.type}
+							/>
 							<DetailField
 								label="Balance Before"
 								value={formatTenantMoney(selectedTransaction.balance_before)}
@@ -320,7 +323,10 @@ function TransactionsTableSkeleton() {
 	return (
 		<div className="space-y-3">
 			{createSkeletonKeys(5, "tenant-transaction-row").map((key) => (
-				<div key={key} className="flex items-center gap-4 px-2">
+				<div
+					key={key}
+					className="flex items-center gap-4 px-2"
+				>
 					<Skeleton className="h-4 w-28" />
 					<Skeleton className="h-4 w-32" />
 					<Skeleton className="h-4 w-20" />

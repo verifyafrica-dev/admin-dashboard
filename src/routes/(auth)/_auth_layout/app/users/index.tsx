@@ -1,7 +1,6 @@
 import {
 	ArrowClockwiseIcon,
 	DotsThreeVerticalIcon,
-	DownloadSimpleIcon,
 	FunnelIcon,
 	MagnifyingGlassIcon,
 	UsersIcon,
@@ -93,7 +92,10 @@ export const Route = createFileRoute("/(auth)/_auth_layout/app/users/")({
 	head: () => ({
 		meta: [
 			{ title: "Users | VerifyAfrica" },
-			{ name: "description", content: "Manage admin users, permissions, and account statuses." },
+			{
+				name: "description",
+				content: "Manage admin users, permissions, and account statuses.",
+			},
 		],
 	}),
 	component: UsersPage,
@@ -166,7 +168,7 @@ function UsersPage() {
 		void usersQuery.refetch();
 	};
 
-	const handleExport = async () => {
+	const _handleExport = async () => {
 		if (totalUsers === 0) {
 			return;
 		}
@@ -222,14 +224,14 @@ function UsersPage() {
 					</p>
 				</div>
 				<div className="flex flex-col gap-2 sm:flex-row">
-					<Button
+					{/* <Button
 						variant="outline"
 						onClick={handleExport}
 						disabled={isLoading || totalUsers === 0}
 					>
 						<DownloadSimpleIcon />
 						Export
-					</Button>
+					</Button> */}
 					<Button
 						variant="outline"
 						onClick={handleRefresh}

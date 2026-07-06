@@ -6,7 +6,10 @@ import {
 } from "@phosphor-icons/react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import type { Invoice, PaymentStatus } from "#/api/http/v2/billing/billing.types";
+import type {
+	Invoice,
+	PaymentStatus,
+} from "#/api/http/v2/billing/billing.types";
 import { useTenantInvoicesV2Query } from "#/api/http/v2/billing/billing.hooks";
 import {
 	paginateItems,
@@ -84,8 +87,10 @@ function getInvoiceTableHeadClassName(index: number, total: number) {
 export function InvoicesTab({ tenantId }: { tenantId: string }) {
 	const [page, setPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState("");
-	const [statusFilter, setStatusFilter] = useState<"all" | PaymentStatus>("all");
-	const [isExporting, setIsExporting] = useState(false);
+	const [statusFilter, setStatusFilter] = useState<"all" | PaymentStatus>(
+		"all",
+	);
+	const [_isExporting, setIsExporting] = useState(false);
 	const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
 	const [detailsOpen, setDetailsOpen] = useState(false);
 	const debouncedSearch = useDebouncedValue(searchQuery, 300);
@@ -109,7 +114,11 @@ export function InvoicesTab({ tenantId }: { tenantId: string }) {
 		});
 	}, [debouncedSearch, invoicesQuery.data?.items, statusFilter]);
 
-	const { items: paginatedInvoices, total, safePage } = useMemo(
+	const {
+		items: paginatedInvoices,
+		total,
+		safePage,
+	} = useMemo(
 		() => paginateItems(filteredInvoices, page, PAGE_SIZE),
 		[filteredInvoices, page],
 	);
@@ -120,7 +129,7 @@ export function InvoicesTab({ tenantId }: { tenantId: string }) {
 	const hasActiveFilters =
 		debouncedSearch.trim().length > 0 || statusFilter !== "all";
 
-	const handleExport = () => {
+	const _handleExport = () => {
 		if (filteredInvoices.length === 0) {
 			return;
 		}
@@ -163,14 +172,14 @@ export function InvoicesTab({ tenantId }: { tenantId: string }) {
 			<CardHeader className="gap-4 border-b">
 				<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 					<CardTitle className="font-semibold">Invoices</CardTitle>
-					<Button
+					{/* <Button
 						variant="outline"
 						disabled={isExporting || filteredInvoices.length === 0}
 						onClick={handleExport}
 					>
 						<DownloadSimpleIcon />
 						{isExporting ? "Exporting..." : "Export"}
-					</Button>
+					</Button> */}
 				</div>
 				<div className="flex flex-col gap-3 sm:flex-row">
 					<div className="relative flex-1">
@@ -195,7 +204,10 @@ export function InvoicesTab({ tenantId }: { tenantId: string }) {
 						</SelectTrigger>
 						<SelectContent>
 							{STATUS_FILTER_OPTIONS.map((option) => (
-								<SelectItem key={option.value} value={option.value}>
+								<SelectItem
+									key={option.value}
+									value={option.value}
+								>
 									{option.label}
 								</SelectItem>
 							))}
@@ -313,17 +325,28 @@ function InvoiceRow({
 					{invoice.payment_status ?? "Unknown"}
 				</Badge>
 			</TableCell>
-			<TableCell className="max-w-xs truncate" title={invoice.description}>
+			<TableCell
+				className="max-w-xs truncate"
+				title={invoice.description}
+			>
 				{invoice.description}
 			</TableCell>
 			<TableCell className="pr-4 text-right sm:pr-6">
 				<div className="flex justify-end gap-1">
-					<Button variant="ghost" size="icon-sm" onClick={onViewDetails}>
+					<Button
+						variant="ghost"
+						size="icon-sm"
+						onClick={onViewDetails}
+					>
 						<EyeIcon className="size-4" />
 						<span className="sr-only">View invoice</span>
 					</Button>
 					{invoice.file_attachment ? (
-						<Button variant="ghost" size="icon-sm" asChild>
+						<Button
+							variant="ghost"
+							size="icon-sm"
+							asChild
+						>
 							<a
 								href={invoice.file_attachment}
 								download={`invoice_${invoiceLabel}.pdf`}
@@ -343,7 +366,10 @@ function InvoicesTableSkeleton() {
 	return (
 		<div className="space-y-3">
 			{createSkeletonKeys(5, "tenant-invoice-row").map((key) => (
-				<div key={key} className="flex items-center gap-4 px-2">
+				<div
+					key={key}
+					className="flex items-center gap-4 px-2"
+				>
 					<Skeleton className="h-4 w-28" />
 					<Skeleton className="h-4 w-24" />
 					<Skeleton className="h-4 w-24" />

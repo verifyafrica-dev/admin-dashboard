@@ -71,13 +71,14 @@ const INVOICE_TABLE_COLUMNS = [
 	"Actions",
 ] as const;
 
-export const Route = createFileRoute(
-	"/(auth)/_auth_layout/app/invoices/",
-)({
+export const Route = createFileRoute("/(auth)/_auth_layout/app/invoices/")({
 	head: () => ({
 		meta: [
 			{ title: "Invoices | VerifyAfrica" },
-			{ name: "description", content: "Review invoices, billing records, and payment history." },
+			{
+				name: "description",
+				content: "Review invoices, billing records, and payment history.",
+			},
 		],
 	}),
 	component: InvoicesPage,
@@ -122,7 +123,11 @@ function InvoicesPage() {
 		});
 	}, [debouncedSearch, dateFrom, dateTo, invoicesQuery.data?.items]);
 
-	const { items: paginatedInvoices, total, safePage } = useMemo(
+	const {
+		items: paginatedInvoices,
+		total,
+		safePage,
+	} = useMemo(
 		() => paginateItems(filteredInvoices, page, PAGE_SIZE),
 		[filteredInvoices, page],
 	);
@@ -141,7 +146,7 @@ function InvoicesPage() {
 		void invoicesQuery.refetch();
 	};
 
-	const handleExport = () => {
+	const _handleExport = () => {
 		if (filteredInvoices.length === 0) {
 			return;
 		}
@@ -168,14 +173,14 @@ function InvoicesPage() {
 					</p>
 				</div>
 				<div className="flex flex-col gap-2 sm:flex-row">
-					<Button
+					{/* <Button
 						variant="outline"
 						onClick={handleExport}
 						disabled={isLoading || filteredInvoices.length === 0}
 					>
 						<DownloadSimpleIcon />
 						Export
-					</Button>
+					</Button> */}
 					<Button
 						variant="outline"
 						onClick={handleRefresh}
@@ -342,7 +347,10 @@ function InvoiceRow({
 					</div>
 				) : null}
 			</TableCell>
-			<TableCell className="max-w-xs truncate" title={invoice.description}>
+			<TableCell
+				className="max-w-xs truncate"
+				title={invoice.description}
+			>
 				{invoice.description || "-"}
 			</TableCell>
 			<TableCell className="font-semibold">
@@ -411,7 +419,10 @@ function InvoicesTableSkeleton() {
 	return (
 		<div className="space-y-3">
 			{createSkeletonKeys(5, "invoice-row").map((key) => (
-				<div key={key} className="flex items-center gap-4 px-2">
+				<div
+					key={key}
+					className="flex items-center gap-4 px-2"
+				>
 					<Skeleton className="h-4 w-24" />
 					<Skeleton className="h-4 w-28" />
 					<Skeleton className="h-4 w-32" />
