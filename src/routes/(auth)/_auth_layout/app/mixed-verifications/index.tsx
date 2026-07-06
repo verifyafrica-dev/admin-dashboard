@@ -43,6 +43,12 @@ import {
 export const Route = createFileRoute(
 	"/(auth)/_auth_layout/app/mixed-verifications/",
 )({
+	head: () => ({
+		meta: [
+			{ title: "Mixed Verifications | VerifyAfrica" },
+			{ name: "description", content: "Track and manage mixed verification requests across tenants." },
+		],
+	}),
 	component: MixedVerificationsPage,
 });
 

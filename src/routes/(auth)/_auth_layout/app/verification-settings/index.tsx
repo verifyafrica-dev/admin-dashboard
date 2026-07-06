@@ -23,6 +23,12 @@ import {
 export const Route = createFileRoute(
 	"/(auth)/_auth_layout/app/verification-settings/",
 )({
+	head: () => ({
+		meta: [
+			{ title: "Verification Settings | VerifyAfrica" },
+			{ name: "description", content: "Configure global verification rules, providers, and defaults." },
+		],
+	}),
 	component: VerificationSettingsPage,
 });
 

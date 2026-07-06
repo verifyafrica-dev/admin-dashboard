@@ -29,6 +29,12 @@ import { useAuthStore } from "#/stores/auth-store";
 import { getUserInitials } from "#/lib/user";
 
 export const Route = createFileRoute("/(auth)/_auth_layout")({
+	head: () => ({
+		meta: [
+			{ title: "Admin Workspace | VerifyAfrica" },
+			{ name: "description", content: "Access authenticated admin pages and manage platform operations." },
+		],
+	}),
 	component: AuthLayout,
 });
 

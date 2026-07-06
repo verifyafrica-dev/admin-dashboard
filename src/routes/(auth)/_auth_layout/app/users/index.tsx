@@ -90,6 +90,12 @@ const USER_TABLE_COLUMNS = [
 ] as const;
 
 export const Route = createFileRoute("/(auth)/_auth_layout/app/users/")({
+	head: () => ({
+		meta: [
+			{ title: "Users | VerifyAfrica" },
+			{ name: "description", content: "Manage admin users, permissions, and account statuses." },
+		],
+	}),
 	component: UsersPage,
 });
 

@@ -58,6 +58,12 @@ const tenantDetailSearchSchema = z.object({
 export const Route = createFileRoute(
 	"/(auth)/_auth_layout/app/tenants/$tenantId/",
 )({
+	head: () => ({
+		meta: [
+			{ title: "Tenant Details | VerifyAfrica" },
+			{ name: "description", content: "View and manage details, activity, and settings for a specific tenant." },
+		],
+	}),
 	validateSearch: tenantDetailSearchSchema,
 	component: TenantDetailPage,
 });

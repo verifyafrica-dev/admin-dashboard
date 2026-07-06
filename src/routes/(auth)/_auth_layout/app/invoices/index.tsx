@@ -74,6 +74,12 @@ const INVOICE_TABLE_COLUMNS = [
 export const Route = createFileRoute(
 	"/(auth)/_auth_layout/app/invoices/",
 )({
+	head: () => ({
+		meta: [
+			{ title: "Invoices | VerifyAfrica" },
+			{ name: "description", content: "Review invoices, billing records, and payment history." },
+		],
+	}),
 	component: InvoicesPage,
 });
 

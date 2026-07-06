@@ -18,6 +18,12 @@ import { AuthPageShell } from "../-components";
 export const Route = createFileRoute(
 	"/(unguarded)/_unguarded_layout/forgot-password/",
 )({
+	head: () => ({
+		meta: [
+			{ title: "Forgot Password | VerifyAfrica" },
+			{ name: "description", content: "Request a reset link to recover your admin account password." },
+		],
+	}),
 	component: ForgotPasswordPage,
 });
 

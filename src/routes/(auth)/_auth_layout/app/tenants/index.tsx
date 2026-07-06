@@ -67,6 +67,12 @@ const PAGE_SIZE = 20;
 export const Route = createFileRoute(
 	"/(auth)/_auth_layout/app/tenants/",
 )({
+	head: () => ({
+		meta: [
+			{ title: "Tenants | VerifyAfrica" },
+			{ name: "description", content: "Review and manage all tenant organizations on VerifyAfrica." },
+		],
+	}),
 	component: TenantsPage,
 });
 

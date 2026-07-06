@@ -84,6 +84,12 @@ const TOP_UP_TABLE_COLUMNS = [
 export const Route = createFileRoute(
 	"/(auth)/_auth_layout/app/top-ups/",
 )({
+	head: () => ({
+		meta: [
+			{ title: "Credit Top-ups | VerifyAfrica" },
+			{ name: "description", content: "Monitor and manage tenant wallet credit top-up transactions." },
+		],
+	}),
 	component: TopUpsPage,
 });
 

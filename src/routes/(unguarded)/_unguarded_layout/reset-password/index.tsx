@@ -28,6 +28,12 @@ const resetPasswordSearchSchema = z.object({
 export const Route = createFileRoute(
 	"/(unguarded)/_unguarded_layout/reset-password/",
 )({
+	head: () => ({
+		meta: [
+			{ title: "Reset Password | VerifyAfrica" },
+			{ name: "description", content: "Set a new password to regain access to your admin account." },
+		],
+	}),
 	validateSearch: resetPasswordSearchSchema,
 	beforeLoad: ({ search }) => {
 		if (!search.email) {

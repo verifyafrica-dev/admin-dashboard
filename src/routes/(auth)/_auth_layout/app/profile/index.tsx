@@ -20,6 +20,12 @@ const profileSearchSchema = z.object({
 });
 
 export const Route = createFileRoute("/(auth)/_auth_layout/app/profile/")({
+	head: () => ({
+		meta: [
+			{ title: "Profile | VerifyAfrica" },
+			{ name: "description", content: "Manage your admin profile details and account security settings." },
+		],
+	}),
 	validateSearch: profileSearchSchema,
 	component: ProfilePage,
 });

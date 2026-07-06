@@ -64,6 +64,12 @@ const activityLogsSearchSchema = z.object({
 export const Route = createFileRoute(
 	"/(auth)/_auth_layout/app/activity-logs/",
 )({
+	head: () => ({
+		meta: [
+			{ title: "Activity Logs | VerifyAfrica" },
+			{ name: "description", content: "Audit actions and system events across the admin platform." },
+		],
+	}),
 	validateSearch: activityLogsSearchSchema,
 	component: ActivityLogsPage,
 });

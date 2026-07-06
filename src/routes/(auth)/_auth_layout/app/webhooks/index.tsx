@@ -46,6 +46,12 @@ const WEBHOOK_TABLE_COLUMNS = ["", "Event ID", "Source", "Created Date"] as cons
 export const Route = createFileRoute(
 	"/(auth)/_auth_layout/app/webhooks/",
 )({
+	head: () => ({
+		meta: [
+			{ title: "Webhooks | VerifyAfrica" },
+			{ name: "description", content: "Monitor webhook delivery events and integration status." },
+		],
+	}),
 	component: WebhooksPage,
 });
 

@@ -22,6 +22,12 @@ import {
 } from "./-data";
 
 export const Route = createFileRoute("/(auth)/_auth_layout/app/")({
+	head: () => ({
+		meta: [
+			{ title: "Dashboard | VerifyAfrica" },
+			{ name: "description", content: "View key admin metrics and monitor platform activity at a glance." },
+		],
+	}),
 	component: DashboardPage,
 });
 
