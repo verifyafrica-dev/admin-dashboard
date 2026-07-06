@@ -6,6 +6,9 @@ import {
 import $http from "../../xhr";
 import type {
 	AdminAuthResponseData,
+	AdminChangePasswordWithOtpPayload,
+	AdminRequestPasswordOtpPayload,
+	AdminResetPasswordWithOtpPayload,
 	AdminUser,
 	AuthResponseData,
 	InvitationAcceptPayload,
@@ -38,6 +41,10 @@ const USER_V2_ENDPOINTS = {
 	adminResetPassword: (id: string) => `/v2/users/${id}/reset-password/`,
 	activateAccount: "/v2/users/activate-account/",
 	adminLogin: "/v2/users/admin/login/",
+	adminForgotPassword: "/v2/users/admin/forgot-password/",
+	adminResetPasswordWithOtp: "/v2/users/admin/reset-password/",
+	adminRequestChangePasswordOtp: "/v2/users/admin/request-change-password-otp/",
+	adminChangePasswordWithOtp: "/v2/users/admin/change-password-with-otp/",
 	changePassword: "/v2/users/change-password/",
 	forgotPassword: "/v2/users/forgot-password/",
 	login: "/v2/users/login/",
@@ -113,6 +120,32 @@ export const USERS_V2_API = {
 		await $http
 			.post(USER_V2_ENDPOINTS.adminLogin, data)
 			.then((res) => unwrapV2Data<AdminAuthResponseData>(res)),
+
+	ADMIN_REQUEST_CHANGE_PASSWORD_OTP: async (): Promise<string> =>
+		await $http
+			.post(USER_V2_ENDPOINTS.adminRequestChangePasswordOtp, {})
+			.then((res) => unwrapV2Message(res)),
+
+	ADMIN_CHANGE_PASSWORD_WITH_OTP: async (
+		data: AdminChangePasswordWithOtpPayload,
+	): Promise<string> =>
+		await $http
+			.post(USER_V2_ENDPOINTS.adminChangePasswordWithOtp, data)
+			.then((res) => unwrapV2Message(res)),
+
+	ADMIN_FORGOT_PASSWORD: async (
+		data: AdminRequestPasswordOtpPayload,
+	): Promise<string> =>
+		await $http
+			.post(USER_V2_ENDPOINTS.adminForgotPassword, data)
+			.then((res) => unwrapV2Message(res)),
+
+	ADMIN_RESET_PASSWORD_WITH_OTP: async (
+		data: AdminResetPasswordWithOtpPayload,
+	): Promise<string> =>
+		await $http
+			.post(USER_V2_ENDPOINTS.adminResetPasswordWithOtp, data)
+			.then((res) => unwrapV2Message(res)),
 
 	LOGOUT: async (): Promise<string> =>
 		await $http

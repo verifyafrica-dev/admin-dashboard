@@ -144,6 +144,76 @@ export type UserChangePasswordFormValues = z.infer<
 	typeof UserChangePasswordFormSchema
 >;
 
+export const AdminRequestPasswordOtpSchema = z.object({
+	email: z.email({ message: "Invalid email address" }),
+});
+
+export type AdminRequestPasswordOtpPayload = z.infer<
+	typeof AdminRequestPasswordOtpSchema
+>;
+
+export const AdminResetPasswordWithOtpSchema = z.object({
+	email: z.email({ message: "Invalid email address" }),
+	otp: z
+		.string()
+		.length(5, { message: "OTP must be 5 characters" }),
+	new_password: z
+		.string()
+		.min(8, { message: "Password must be at least 8 characters long" }),
+	confirm_new_password: z
+		.string()
+		.min(8, { message: "Password must be at least 8 characters long" }),
+});
+
+export type AdminResetPasswordWithOtpPayload = z.infer<
+	typeof AdminResetPasswordWithOtpSchema
+>;
+
+export const AdminResetPasswordWithOtpFormSchema =
+	AdminResetPasswordWithOtpSchema.refine(
+		(data) => data.new_password === data.confirm_new_password,
+		{
+			message: "Passwords do not match",
+			path: ["confirm_new_password"],
+		},
+	);
+
+export type AdminResetPasswordWithOtpFormValues = z.infer<
+	typeof AdminResetPasswordWithOtpFormSchema
+>;
+
+export const AdminChangePasswordWithOtpSchema = z.object({
+	old_password: z
+		.string()
+		.min(1, { message: "Current password is required" }),
+	otp: z
+		.string()
+		.length(5, { message: "OTP must be 5 characters" }),
+	new_password: z
+		.string()
+		.min(8, { message: "Password must be at least 8 characters long" }),
+	confirm_new_password: z
+		.string()
+		.min(8, { message: "Password must be at least 8 characters long" }),
+});
+
+export type AdminChangePasswordWithOtpPayload = z.infer<
+	typeof AdminChangePasswordWithOtpSchema
+>;
+
+export const AdminChangePasswordWithOtpFormSchema =
+	AdminChangePasswordWithOtpSchema.refine(
+		(data) => data.new_password === data.confirm_new_password,
+		{
+			message: "Passwords do not match",
+			path: ["confirm_new_password"],
+		},
+	);
+
+export type AdminChangePasswordWithOtpFormValues = z.infer<
+	typeof AdminChangePasswordWithOtpFormSchema
+>;
+
 export const UserResetPasswordSchema = z.object({
 	token: z.uuid({ message: "Invalid reset token" }),
 	new_password: z

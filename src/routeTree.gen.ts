@@ -12,13 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as unguardedUnguarded_layoutRouteImport } from './routes/(unguarded)/_unguarded_layout'
 import { Route as authAuth_layoutRouteImport } from './routes/(auth)/_auth_layout'
+import { Route as unguardedUnguarded_layoutResetPasswordIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/reset-password/index'
 import { Route as unguardedUnguarded_layoutLoginIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/login/index'
+import { Route as unguardedUnguarded_layoutForgotPasswordIndexRouteImport } from './routes/(unguarded)/_unguarded_layout/forgot-password/index'
 import { Route as authAuth_layoutAppIndexRouteImport } from './routes/(auth)/_auth_layout/app/index'
 import { Route as authAuth_layoutAppWebhooksIndexRouteImport } from './routes/(auth)/_auth_layout/app/webhooks/index'
 import { Route as authAuth_layoutAppVerificationSettingsIndexRouteImport } from './routes/(auth)/_auth_layout/app/verification-settings/index'
 import { Route as authAuth_layoutAppUsersIndexRouteImport } from './routes/(auth)/_auth_layout/app/users/index'
 import { Route as authAuth_layoutAppTopUpsIndexRouteImport } from './routes/(auth)/_auth_layout/app/top-ups/index'
 import { Route as authAuth_layoutAppTenantsIndexRouteImport } from './routes/(auth)/_auth_layout/app/tenants/index'
+import { Route as authAuth_layoutAppProfileIndexRouteImport } from './routes/(auth)/_auth_layout/app/profile/index'
 import { Route as authAuth_layoutAppMixedVerificationsIndexRouteImport } from './routes/(auth)/_auth_layout/app/mixed-verifications/index'
 import { Route as authAuth_layoutAppInvoicesIndexRouteImport } from './routes/(auth)/_auth_layout/app/invoices/index'
 import { Route as authAuth_layoutAppActivityLogsIndexRouteImport } from './routes/(auth)/_auth_layout/app/activity-logs/index'
@@ -38,10 +41,22 @@ const authAuth_layoutRoute = authAuth_layoutRouteImport.update({
   id: '/(auth)/_auth_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const unguardedUnguarded_layoutResetPasswordIndexRoute =
+  unguardedUnguarded_layoutResetPasswordIndexRouteImport.update({
+    id: '/reset-password/',
+    path: '/reset-password/',
+    getParentRoute: () => unguardedUnguarded_layoutRoute,
+  } as any)
 const unguardedUnguarded_layoutLoginIndexRoute =
   unguardedUnguarded_layoutLoginIndexRouteImport.update({
     id: '/login/',
     path: '/login/',
+    getParentRoute: () => unguardedUnguarded_layoutRoute,
+  } as any)
+const unguardedUnguarded_layoutForgotPasswordIndexRoute =
+  unguardedUnguarded_layoutForgotPasswordIndexRouteImport.update({
+    id: '/forgot-password/',
+    path: '/forgot-password/',
     getParentRoute: () => unguardedUnguarded_layoutRoute,
   } as any)
 const authAuth_layoutAppIndexRoute = authAuth_layoutAppIndexRouteImport.update({
@@ -79,6 +94,12 @@ const authAuth_layoutAppTenantsIndexRoute =
     path: '/app/tenants/',
     getParentRoute: () => authAuth_layoutRoute,
   } as any)
+const authAuth_layoutAppProfileIndexRoute =
+  authAuth_layoutAppProfileIndexRouteImport.update({
+    id: '/app/profile/',
+    path: '/app/profile/',
+    getParentRoute: () => authAuth_layoutRoute,
+  } as any)
 const authAuth_layoutAppMixedVerificationsIndexRoute =
   authAuth_layoutAppMixedVerificationsIndexRouteImport.update({
     id: '/app/mixed-verifications/',
@@ -107,10 +128,13 @@ const authAuth_layoutAppTenantsTenantIdIndexRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app/': typeof authAuth_layoutAppIndexRoute
+  '/forgot-password/': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
   '/login/': typeof unguardedUnguarded_layoutLoginIndexRoute
+  '/reset-password/': typeof unguardedUnguarded_layoutResetPasswordIndexRoute
   '/app/activity-logs/': typeof authAuth_layoutAppActivityLogsIndexRoute
   '/app/invoices/': typeof authAuth_layoutAppInvoicesIndexRoute
   '/app/mixed-verifications/': typeof authAuth_layoutAppMixedVerificationsIndexRoute
+  '/app/profile/': typeof authAuth_layoutAppProfileIndexRoute
   '/app/tenants/': typeof authAuth_layoutAppTenantsIndexRoute
   '/app/top-ups/': typeof authAuth_layoutAppTopUpsIndexRoute
   '/app/users/': typeof authAuth_layoutAppUsersIndexRoute
@@ -121,10 +145,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof authAuth_layoutAppIndexRoute
+  '/forgot-password': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
   '/login': typeof unguardedUnguarded_layoutLoginIndexRoute
+  '/reset-password': typeof unguardedUnguarded_layoutResetPasswordIndexRoute
   '/app/activity-logs': typeof authAuth_layoutAppActivityLogsIndexRoute
   '/app/invoices': typeof authAuth_layoutAppInvoicesIndexRoute
   '/app/mixed-verifications': typeof authAuth_layoutAppMixedVerificationsIndexRoute
+  '/app/profile': typeof authAuth_layoutAppProfileIndexRoute
   '/app/tenants': typeof authAuth_layoutAppTenantsIndexRoute
   '/app/top-ups': typeof authAuth_layoutAppTopUpsIndexRoute
   '/app/users': typeof authAuth_layoutAppUsersIndexRoute
@@ -138,10 +165,13 @@ export interface FileRoutesById {
   '/(auth)/_auth_layout': typeof authAuth_layoutRouteWithChildren
   '/(unguarded)/_unguarded_layout': typeof unguardedUnguarded_layoutRouteWithChildren
   '/(auth)/_auth_layout/app/': typeof authAuth_layoutAppIndexRoute
+  '/(unguarded)/_unguarded_layout/forgot-password/': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
   '/(unguarded)/_unguarded_layout/login/': typeof unguardedUnguarded_layoutLoginIndexRoute
+  '/(unguarded)/_unguarded_layout/reset-password/': typeof unguardedUnguarded_layoutResetPasswordIndexRoute
   '/(auth)/_auth_layout/app/activity-logs/': typeof authAuth_layoutAppActivityLogsIndexRoute
   '/(auth)/_auth_layout/app/invoices/': typeof authAuth_layoutAppInvoicesIndexRoute
   '/(auth)/_auth_layout/app/mixed-verifications/': typeof authAuth_layoutAppMixedVerificationsIndexRoute
+  '/(auth)/_auth_layout/app/profile/': typeof authAuth_layoutAppProfileIndexRoute
   '/(auth)/_auth_layout/app/tenants/': typeof authAuth_layoutAppTenantsIndexRoute
   '/(auth)/_auth_layout/app/top-ups/': typeof authAuth_layoutAppTopUpsIndexRoute
   '/(auth)/_auth_layout/app/users/': typeof authAuth_layoutAppUsersIndexRoute
@@ -154,10 +184,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app/'
+    | '/forgot-password/'
     | '/login/'
+    | '/reset-password/'
     | '/app/activity-logs/'
     | '/app/invoices/'
     | '/app/mixed-verifications/'
+    | '/app/profile/'
     | '/app/tenants/'
     | '/app/top-ups/'
     | '/app/users/'
@@ -168,10 +201,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/app'
+    | '/forgot-password'
     | '/login'
+    | '/reset-password'
     | '/app/activity-logs'
     | '/app/invoices'
     | '/app/mixed-verifications'
+    | '/app/profile'
     | '/app/tenants'
     | '/app/top-ups'
     | '/app/users'
@@ -184,10 +220,13 @@ export interface FileRouteTypes {
     | '/(auth)/_auth_layout'
     | '/(unguarded)/_unguarded_layout'
     | '/(auth)/_auth_layout/app/'
+    | '/(unguarded)/_unguarded_layout/forgot-password/'
     | '/(unguarded)/_unguarded_layout/login/'
+    | '/(unguarded)/_unguarded_layout/reset-password/'
     | '/(auth)/_auth_layout/app/activity-logs/'
     | '/(auth)/_auth_layout/app/invoices/'
     | '/(auth)/_auth_layout/app/mixed-verifications/'
+    | '/(auth)/_auth_layout/app/profile/'
     | '/(auth)/_auth_layout/app/tenants/'
     | '/(auth)/_auth_layout/app/top-ups/'
     | '/(auth)/_auth_layout/app/users/'
@@ -225,11 +264,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authAuth_layoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(unguarded)/_unguarded_layout/reset-password/': {
+      id: '/(unguarded)/_unguarded_layout/reset-password/'
+      path: '/reset-password'
+      fullPath: '/reset-password/'
+      preLoaderRoute: typeof unguardedUnguarded_layoutResetPasswordIndexRouteImport
+      parentRoute: typeof unguardedUnguarded_layoutRoute
+    }
     '/(unguarded)/_unguarded_layout/login/': {
       id: '/(unguarded)/_unguarded_layout/login/'
       path: '/login'
       fullPath: '/login/'
       preLoaderRoute: typeof unguardedUnguarded_layoutLoginIndexRouteImport
+      parentRoute: typeof unguardedUnguarded_layoutRoute
+    }
+    '/(unguarded)/_unguarded_layout/forgot-password/': {
+      id: '/(unguarded)/_unguarded_layout/forgot-password/'
+      path: '/forgot-password'
+      fullPath: '/forgot-password/'
+      preLoaderRoute: typeof unguardedUnguarded_layoutForgotPasswordIndexRouteImport
       parentRoute: typeof unguardedUnguarded_layoutRoute
     }
     '/(auth)/_auth_layout/app/': {
@@ -274,6 +327,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authAuth_layoutAppTenantsIndexRouteImport
       parentRoute: typeof authAuth_layoutRoute
     }
+    '/(auth)/_auth_layout/app/profile/': {
+      id: '/(auth)/_auth_layout/app/profile/'
+      path: '/app/profile'
+      fullPath: '/app/profile/'
+      preLoaderRoute: typeof authAuth_layoutAppProfileIndexRouteImport
+      parentRoute: typeof authAuth_layoutRoute
+    }
     '/(auth)/_auth_layout/app/mixed-verifications/': {
       id: '/(auth)/_auth_layout/app/mixed-verifications/'
       path: '/app/mixed-verifications'
@@ -310,6 +370,7 @@ interface authAuth_layoutRouteChildren {
   authAuth_layoutAppActivityLogsIndexRoute: typeof authAuth_layoutAppActivityLogsIndexRoute
   authAuth_layoutAppInvoicesIndexRoute: typeof authAuth_layoutAppInvoicesIndexRoute
   authAuth_layoutAppMixedVerificationsIndexRoute: typeof authAuth_layoutAppMixedVerificationsIndexRoute
+  authAuth_layoutAppProfileIndexRoute: typeof authAuth_layoutAppProfileIndexRoute
   authAuth_layoutAppTenantsIndexRoute: typeof authAuth_layoutAppTenantsIndexRoute
   authAuth_layoutAppTopUpsIndexRoute: typeof authAuth_layoutAppTopUpsIndexRoute
   authAuth_layoutAppUsersIndexRoute: typeof authAuth_layoutAppUsersIndexRoute
@@ -325,6 +386,7 @@ const authAuth_layoutRouteChildren: authAuth_layoutRouteChildren = {
   authAuth_layoutAppInvoicesIndexRoute: authAuth_layoutAppInvoicesIndexRoute,
   authAuth_layoutAppMixedVerificationsIndexRoute:
     authAuth_layoutAppMixedVerificationsIndexRoute,
+  authAuth_layoutAppProfileIndexRoute: authAuth_layoutAppProfileIndexRoute,
   authAuth_layoutAppTenantsIndexRoute: authAuth_layoutAppTenantsIndexRoute,
   authAuth_layoutAppTopUpsIndexRoute: authAuth_layoutAppTopUpsIndexRoute,
   authAuth_layoutAppUsersIndexRoute: authAuth_layoutAppUsersIndexRoute,
@@ -340,13 +402,19 @@ const authAuth_layoutRouteWithChildren = authAuth_layoutRoute._addFileChildren(
 )
 
 interface unguardedUnguarded_layoutRouteChildren {
+  unguardedUnguarded_layoutForgotPasswordIndexRoute: typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
   unguardedUnguarded_layoutLoginIndexRoute: typeof unguardedUnguarded_layoutLoginIndexRoute
+  unguardedUnguarded_layoutResetPasswordIndexRoute: typeof unguardedUnguarded_layoutResetPasswordIndexRoute
 }
 
 const unguardedUnguarded_layoutRouteChildren: unguardedUnguarded_layoutRouteChildren =
   {
+    unguardedUnguarded_layoutForgotPasswordIndexRoute:
+      unguardedUnguarded_layoutForgotPasswordIndexRoute,
     unguardedUnguarded_layoutLoginIndexRoute:
       unguardedUnguarded_layoutLoginIndexRoute,
+    unguardedUnguarded_layoutResetPasswordIndexRoute:
+      unguardedUnguarded_layoutResetPasswordIndexRoute,
   }
 
 const unguardedUnguarded_layoutRouteWithChildren =

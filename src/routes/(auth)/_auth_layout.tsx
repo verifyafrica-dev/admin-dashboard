@@ -1,5 +1,6 @@
 import {
 	createFileRoute,
+	Link,
 	Navigate,
 	Outlet,
 	useLocation,
@@ -97,6 +98,14 @@ function AuthLayout() {
 							align="end"
 							className="w-40 gap-0 p-1"
 						>
+							<Button
+								variant="ghost"
+								size="sm"
+								className="w-full justify-start px-3"
+								asChild
+							>
+								<Link to="/app/profile">Profile</Link>
+							</Button>
 							<Button
 								variant="ghost"
 								size="sm"

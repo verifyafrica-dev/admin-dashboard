@@ -6,6 +6,7 @@ import {
 	HouseIcon,
 	ReceiptIcon,
 	SquaresFourIcon,
+	UserCircleIcon,
 	UsersIcon,
 	WebhooksLogoIcon,
 	type IconWeight,
@@ -40,6 +41,11 @@ const navItems = [
 		title: "Users",
 		to: "/app/users",
 		icon: UsersIcon,
+	},
+	{
+		title: "Profile",
+		to: "/app/profile",
+		icon: UserCircleIcon,
 	},
 	{
 		title: "Top-ups",

@@ -1,6 +1,6 @@
 import { ArrowRightIcon, LockIcon } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -81,12 +81,12 @@ function LoginPage() {
 			footer={
 				<p className="mt-6 text-center text-sm text-muted-foreground">
 					Forgot your password?{" "}
-					<a
-						href="mailto:dev@verifyafrica.io"
+					<Link
+						to="/forgot-password"
 						className="font-semibold text-foreground hover:underline"
 					>
-						Contact Support
-					</a>
+						Reset it here
+					</Link>
 				</p>
 			}
 		>

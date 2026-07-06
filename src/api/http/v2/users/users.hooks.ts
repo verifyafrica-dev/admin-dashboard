@@ -14,6 +14,9 @@ import { setAccessToken } from "../../xhr";
 import { USERS_V2_API } from "./users.api";
 import type {
 	AdminAuthResponseData,
+	AdminChangePasswordWithOtpPayload,
+	AdminRequestPasswordOtpPayload,
+	AdminResetPasswordWithOtpPayload,
 	AdminUser,
 	AuthResponseData,
 	InvitationAcceptPayload,
@@ -216,6 +219,26 @@ export const useUserV2TokenRefreshMutation = () =>
 export const useUserV2ChangePasswordMutation = () =>
 	useMutation<string, UserLoginError, UserChangePasswordPayload>({
 		mutationFn: USERS_V2_API.CHANGE_PASSWORD,
+	});
+
+export const useAdminRequestChangePasswordOtpV2Mutation = () =>
+	useMutation<string, UserApiErrorResponse, void>({
+		mutationFn: USERS_V2_API.ADMIN_REQUEST_CHANGE_PASSWORD_OTP,
+	});
+
+export const useAdminChangePasswordWithOtpV2Mutation = () =>
+	useMutation<string, UserApiErrorResponse, AdminChangePasswordWithOtpPayload>({
+		mutationFn: USERS_V2_API.ADMIN_CHANGE_PASSWORD_WITH_OTP,
+	});
+
+export const useAdminForgotPasswordV2Mutation = () =>
+	useMutation<string, UserApiErrorResponse, AdminRequestPasswordOtpPayload>({
+		mutationFn: USERS_V2_API.ADMIN_FORGOT_PASSWORD,
+	});
+
+export const useAdminResetPasswordWithOtpV2Mutation = () =>
+	useMutation<string, UserApiErrorResponse, AdminResetPasswordWithOtpPayload>({
+		mutationFn: USERS_V2_API.ADMIN_RESET_PASSWORD_WITH_OTP,
 	});
 
 export const useUserV2LogoutMutation = () => {
