@@ -30,7 +30,10 @@ import {
 	type ComplianceSubTab,
 } from "../-constants";
 import { ComplianceDocumentsSection } from "./compliance-documents-section";
-import { RejectComplianceDialog } from "./reject-compliance-dialog";
+import {
+	RejectComplianceDialog,
+	type RejectComplianceSubmitPayload,
+} from "./reject-compliance-dialog";
 
 function getCompliancePersonKey(
 	person: Record<string, unknown>,
@@ -67,8 +70,8 @@ function getComplianceReviewState(tenant?: TenantDetail) {
 				: "Compliance approval has been revoked.",
 			badgeClassName: "border-red-200 bg-red-50 text-red-700",
 			canApprove: true,
-			canReject: false,
-			rejectLabel: "Reject",
+			canReject: true,
+			rejectLabel: "Update Rejection",
 		};
 	}
 
@@ -141,12 +144,13 @@ export function ComplianceTab({
 		}
 	};
 
-	const handleReject = async (reason: string) => {
+	const handleReject = async (payload: RejectComplianceSubmitPayload) => {
 		try {
 			await updateTenantMutation.mutateAsync({
 				kyc_verified: false,
-				general_rejected_reason: reason,
-				reject_reason: reason,
+				general_rejected_reason: payload.general_rejected_reason,
+				section_rejected_reason: payload.section_rejected_reason,
+				reject_reason: payload.general_rejected_reason,
 			});
 			toast.success(
 				reviewState.label === "Approved"
@@ -616,8 +620,10 @@ export function ComplianceTab({
 				open={rejectDialogOpen}
 				isRevokingApproval={reviewState.label === "Approved"}
 				isSubmitting={isSaving}
+				initialGeneralRejectedReason={tenant?.general_rejected_reason}
+				initialSectionRejectedReason={tenant?.section_rejected_reason}
 				onOpenChange={setRejectDialogOpen}
-				onSubmit={(reason) => void handleReject(reason)}
+				onSubmit={(payload) => void handleReject(payload)}
 			/>
 		</>
 	);

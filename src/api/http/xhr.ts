@@ -119,8 +119,7 @@ const isTokenExpiredError = (error: {
 }) => {
 	return (
 		error?.response?.status === StatusCodes.UNAUTHORIZED ||
-		error?.response?.data?.code === "token_not_valid" ||
-		error?.response?.status === StatusCodes.FORBIDDEN
+		error?.response?.data?.code === "token_not_valid"
 	);
 };
 
