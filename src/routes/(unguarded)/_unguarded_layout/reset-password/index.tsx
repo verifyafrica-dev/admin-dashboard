@@ -1,6 +1,11 @@
 import { ArrowRightIcon, LockIcon } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	Link,
+	redirect,
+	useNavigate,
+} from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -34,6 +39,7 @@ export const Route = createFileRoute(
 
 function ResetPasswordPage() {
 	const { email } = Route.useSearch();
+	const navigate = useNavigate();
 	const safeEmail = email ?? "";
 	const resetPasswordMutation = useAdminResetPasswordWithOtpV2Mutation();
 	const [formErrors, setFormErrors] = useState<Array<{ message: string }>>([]);
@@ -53,6 +59,7 @@ function ResetPasswordPage() {
 			await resetPasswordMutation.mutateAsync(value, {
 				onSuccess: () => {
 					toast.success("Password reset successful");
+					navigate({ to: "/login", replace: true });
 				},
 				onError: (error) => {
 					setFormErrors(getV2FormErrors(error));
