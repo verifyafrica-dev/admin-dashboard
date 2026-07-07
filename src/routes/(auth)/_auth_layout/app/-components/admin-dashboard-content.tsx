@@ -120,9 +120,11 @@ function MetricCard({
 function DistributionList({
 	items,
 	total,
+	showCountInLabel = false,
 }: {
 	items: ChartPoint[];
 	total: number;
+	showCountInLabel?: boolean;
 }) {
 	if (items.length === 0) {
 		return (
@@ -137,6 +139,9 @@ function DistributionList({
 			{items.map((item) => {
 				const percentage =
 					total > 0 ? ((item.value / total) * 100).toFixed(1) : "0.0";
+				const label = showCountInLabel
+					? `${item.label} (${formatAdminNumber(item.value)})`
+					: item.label;
 
 				return (
 					<div
@@ -148,12 +153,14 @@ function DistributionList({
 								className="size-3 rounded-full"
 								style={{ backgroundColor: item.fill }}
 							/>
-							<span className="text-sm font-medium">{item.label}</span>
+							<span className="text-sm font-medium">{label}</span>
 						</div>
 						<div className="text-right">
-							<p className="text-sm font-semibold tabular-nums">
-								{formatAdminNumber(item.value)}
-							</p>
+							{!showCountInLabel ? (
+								<p className="text-sm font-semibold tabular-nums">
+									{formatAdminNumber(item.value)}
+								</p>
+							) : null}
 							<p className="text-xs text-muted-foreground">{percentage}%</p>
 						</div>
 					</div>
@@ -228,10 +235,6 @@ export function AdminDashboardContent({
 	data: AdminDashboardData;
 	chartKey: string;
 }) {
-	const verificationTypesTotal = data.verificationTypes.reduce(
-		(sum, item) => sum + item.value,
-		0,
-	);
 	const roleDistributionTotal = data.roleDistribution.reduce(
 		(sum, item) => sum + item.value,
 		0,
@@ -239,6 +242,9 @@ export function AdminDashboardContent({
 	const complianceTotal = data.complianceStatus.reduce(
 		(sum, item) => sum + item.value,
 		0,
+	);
+	const verificationTypeChartData = data.verificationTypes.filter(
+		(item) => item.value > 0,
 	);
 
 	return (
@@ -371,12 +377,12 @@ export function AdminDashboardContent({
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
-						{data.verificationTypes.length === 0 ? (
+						{verificationTypeChartData.length === 0 ? (
 							<p className="py-16 text-center text-sm text-muted-foreground">
 								No verification type data available
 							</p>
 						) : (
-							<div className="grid gap-6 lg:grid-cols-2">
+							<div>
 								<ChartContainer
 									key={`${chartKey}-verification-types`}
 									config={Object.fromEntries(
@@ -393,14 +399,14 @@ export function AdminDashboardContent({
 											content={<ChartTooltipContent hideLabel />}
 										/>
 										<Pie
-											data={data.verificationTypes}
+											data={verificationTypeChartData}
 											dataKey="value"
 											nameKey="label"
 											innerRadius={60}
 											outerRadius={100}
 											paddingAngle={4}
 										>
-											{data.verificationTypes.map((entry) => (
+											{verificationTypeChartData.map((entry) => (
 												<Cell
 													key={entry.label}
 													fill={entry.fill}
@@ -409,10 +415,24 @@ export function AdminDashboardContent({
 										</Pie>
 									</PieChart>
 								</ChartContainer>
-								<DistributionList
-									items={data.verificationTypes.slice(0, 4)}
-									total={verificationTypesTotal}
-								/>
+								<div className="mt-4 space-y-2">
+									<div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+										{data.verificationTypes.map((entry) => (
+											<div
+												key={entry.label}
+												className="flex items-center gap-2 text-xs text-muted-foreground"
+											>
+												<span
+													className="size-2 shrink-0 rounded-full"
+													style={{ backgroundColor: entry.fill }}
+												/>
+												<span>
+													{entry.label} ({formatAdminNumber(entry.value)})
+												</span>
+											</div>
+										))}
+									</div>
+								</div>
 							</div>
 						)}
 					</CardContent>

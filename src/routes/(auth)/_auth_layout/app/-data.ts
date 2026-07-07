@@ -2,6 +2,7 @@ import type {
 	AnalyticsDateRangeQuery,
 	PlatformAnalyticsPayload,
 } from "#/api/http/v2/analytics/analytics.types";
+import { VerificationTypeSchema } from "#/api/http/v2/verifications/verifications.types";
 
 export type TimeRange = "all" | "7d" | "30d" | "90d";
 
@@ -125,6 +126,16 @@ function mapDistribution(
 	}));
 }
 
+function mapVerificationTypeDistribution(
+	distribution: Record<string, number>,
+): ChartPoint[] {
+	return VerificationTypeSchema.options.map((type, index) => ({
+		label: formatLabel(type),
+		value: distribution[type] ?? 0,
+		fill: CHART_COLORS[index % CHART_COLORS.length],
+	}));
+}
+
 export function mapPlatformAnalyticsToDashboardData(
 	response: PlatformAnalyticsPayload,
 ): AdminDashboardData {
@@ -164,7 +175,9 @@ export function mapPlatformAnalyticsToDashboardData(
 			label: formatChartDate(point.date),
 			value: point.revenue,
 		})),
-		verificationTypes: mapDistribution(verifications.type_distribution),
+		verificationTypes: mapVerificationTypeDistribution(
+			verifications.type_distribution,
+		),
 		roleDistribution: mapDistribution(users.role_distribution),
 		complianceStatus: mapDistribution(tenants.compliance_status),
 		topTenants: tenants.top_tenants_by_activity.map((tenant) => ({
