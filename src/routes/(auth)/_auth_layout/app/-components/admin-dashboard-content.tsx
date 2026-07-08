@@ -404,7 +404,6 @@ export function AdminDashboardContent({
 											nameKey="label"
 											innerRadius={60}
 											outerRadius={100}
-											paddingAngle={4}
 										>
 											{verificationTypeChartData.map((entry) => (
 												<Cell
