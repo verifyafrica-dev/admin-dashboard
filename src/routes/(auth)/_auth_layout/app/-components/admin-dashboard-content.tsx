@@ -417,7 +417,7 @@ export function AdminDashboardContent({
 								</ChartContainer>
 								<div className="mt-4 space-y-2">
 									<div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-										{data.verificationTypes.map((entry) => (
+										{verificationTypeChartData.map((entry) => (
 											<div
 												key={entry.label}
 												className="flex items-center gap-2 text-xs text-muted-foreground"

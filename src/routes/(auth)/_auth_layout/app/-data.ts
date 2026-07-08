@@ -2,7 +2,7 @@ import type {
 	AnalyticsDateRangeQuery,
 	PlatformAnalyticsPayload,
 } from "#/api/http/v2/analytics/analytics.types";
-import { VerificationTypeSchema } from "#/api/http/v2/verifications/verifications.types";
+import { VERIFICATION_TYPES_BY_PRODUCT } from "#/api/http/v2/verifications/verifications.types";
 
 export type TimeRange = "all" | "7d" | "30d" | "90d";
 
@@ -129,11 +129,16 @@ function mapDistribution(
 function mapVerificationTypeDistribution(
 	distribution: Record<string, number>,
 ): ChartPoint[] {
-	return VerificationTypeSchema.options.map((type, index) => ({
-		label: formatLabel(type),
-		value: distribution[type] ?? 0,
-		fill: CHART_COLORS[index % CHART_COLORS.length],
-	}));
+	return Object.entries(VERIFICATION_TYPES_BY_PRODUCT).map(
+		([productLabel, verificationTypes], index) => ({
+			label: productLabel,
+			value: verificationTypes.reduce(
+				(sum, verificationType) => sum + (distribution[verificationType] ?? 0),
+				0,
+			),
+			fill: CHART_COLORS[index % CHART_COLORS.length],
+		}),
+	);
 }
 
 export function mapPlatformAnalyticsToDashboardData(
