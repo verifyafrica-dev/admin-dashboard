@@ -7,7 +7,7 @@
 
 export const env = {
   // API Configuration
-  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8300/api',
+  apiBaseUrl: import.meta.env.VITE_API_BASE_URL,
 
   // App Configuration
   appName: import.meta.env.VITE_APP_NAME || 'Verify Africa',
