@@ -516,13 +516,6 @@ export function ComplianceTab({
 								),
 							],
 							[
-								"KYC/KYB Process",
-								getComplianceFieldValue(
-									complianceData.onboarding_questionnaire,
-									"kyc_kyb_process",
-								),
-							],
-							[
 								"AML/CTF Officer",
 								getComplianceFieldValue(
 									complianceData.onboarding_questionnaire,

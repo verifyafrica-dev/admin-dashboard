@@ -98,7 +98,6 @@ export interface OnboardingQuestionnaire {
 		name: string;
 		email: string;
 	};
-	kyc_kyb_process: string;
 }
 
 export interface ComplianceDeclarations {
@@ -256,7 +255,6 @@ export const KycOnboardingQuestionnaireFormSchema = z.object({
 		.min(1, "Main banking/payment partners is required"),
 	amlCtfOfficerName: z.string().trim().min(1, "AML/CTF Officer name is required"),
 	amlCtfOfficerEmail: z.email("Please enter a valid email address"),
-	kyc_kyb_process: z.string().trim().min(1, "KYC/KYB process is required"),
 });
 
 export type KycOnboardingQuestionnaireFormValues = z.infer<
@@ -412,7 +410,6 @@ export function createEmptyKYBApplication(): KYBApplication {
 			average_client_transaction_size_eur: 0,
 			high_risk_jurisdictions_fatf_exposure: "",
 			main_banking_payment_partners: "",
-			kyc_kyb_process: "",
 		},
 		compliance_declarations: {
 			not_engaged_in_prohibited_activities: false,
@@ -653,11 +650,6 @@ export function normalizeComplianceData(data: unknown): KYBApplication {
 							),
 						}
 					: undefined,
-			kyc_kyb_process: String(
-				onboardingQuestionnaireRaw.kyc_kyb_process ??
-					onboardingQuestionnaireRaw.kycKybProcess ??
-					"",
-			),
 		},
 		compliance_declarations:
 			complianceDeclarationsRaw === true
