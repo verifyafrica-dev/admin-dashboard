@@ -12,17 +12,6 @@ const isBrowser = typeof window !== "undefined";
 
 const getBrowserHost = () => (isBrowser ? window.location.host : "");
 
-const getBaseUrl = () => {
-	const host = getBrowserHost();
-	if (host.includes("verifyafrica.io")) {
-		return "https://api.verifyafrica.io/api";
-	}
-
-	return env.apiBaseUrl;
-};
-
-const BASE_URL = getBaseUrl();
-
 const getTokenPrefix = (): string => {
 	const host = getBrowserHost();
 	if (host.includes("localhost")) return "local:";
@@ -66,7 +55,7 @@ const clearTokensAndLogout = () => {
 };
 
 const $http = axios.create({
-	baseURL: BASE_URL,
+	baseURL: env.apiBaseUrl,
 	timeout: 30000,
 	headers: {
 		"Content-Type": "application/json",
@@ -107,7 +96,7 @@ const shouldUseAccessToken = (url: string) => {
 const refreshAccessToken = async () => {
 	const response = await axios.post<
 		V2SuccessResponse<{ access_token: string }>
-	>(`${BASE_URL}${REFRESH_TOKEN_ENDPOINT}`, undefined, {
+	>(`${env.apiBaseUrl}${REFRESH_TOKEN_ENDPOINT}`, undefined, {
 		withCredentials: true,
 	});
 
