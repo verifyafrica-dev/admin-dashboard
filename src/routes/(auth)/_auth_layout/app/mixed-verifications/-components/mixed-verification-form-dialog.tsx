@@ -81,10 +81,7 @@ export function MixedVerificationFormDialog({
 				} else {
 					const payload = buildMixedVerificationPayload(value);
 					await createMutation.mutateAsync({
-						payload: {
-							...payload,
-							is_test: false,
-						},
+						payload,
 					});
 					toast.success("Mixed verification created");
 				}

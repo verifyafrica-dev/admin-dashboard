@@ -25,7 +25,6 @@ export const MixedVerificationFormSchema = z.object({
 			"Enter a valid price",
 		),
 	is_active: z.boolean(),
-	is_test: z.boolean(),
 	is_custom: z.boolean(),
 });
 
@@ -40,7 +39,6 @@ export const EMPTY_MIXED_VERIFICATION_FORM: MixedVerificationFormValues = {
 	journey_id: "",
 	price: "",
 	is_active: true,
-	is_test: false,
 	is_custom: false,
 };
 
@@ -72,7 +70,6 @@ export function toMixedVerificationFormValues(
 		journey_id: template.journey_id ?? "",
 		price: template.price ?? "",
 		is_active: template.is_active,
-		is_test: template.is_test,
 		is_custom: template.is_custom,
 	};
 }
@@ -87,7 +84,6 @@ export function buildMixedVerificationPayload(
 		journey_id: values.journey_id.trim(),
 		price: values.price.trim(),
 		is_active: values.is_active,
-		is_test: values.is_test,
 		is_custom: false,
 	};
 }
