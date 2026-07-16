@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as unguardedUnguarded_layoutRouteImport } from './routes/(unguarded)/_unguarded_layout'
 import { Route as authAuth_layoutRouteImport } from './routes/(auth)/_auth_layout'
@@ -27,6 +28,11 @@ import { Route as authAuth_layoutAppInvoicesIndexRouteImport } from './routes/(a
 import { Route as authAuth_layoutAppActivityLogsIndexRouteImport } from './routes/(auth)/_auth_layout/app/activity-logs/index'
 import { Route as authAuth_layoutAppTenantsTenantIdIndexRouteImport } from './routes/(auth)/_auth_layout/app/tenants/$tenantId/index'
 
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -127,6 +133,7 @@ const authAuth_layoutAppTenantsTenantIdIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/app/': typeof authAuth_layoutAppIndexRoute
   '/forgot-password/': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
   '/login/': typeof unguardedUnguarded_layoutLoginIndexRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/app': typeof authAuth_layoutAppIndexRoute
   '/forgot-password': typeof unguardedUnguarded_layoutForgotPasswordIndexRoute
   '/login': typeof unguardedUnguarded_layoutLoginIndexRoute
@@ -162,6 +170,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/(auth)/_auth_layout': typeof authAuth_layoutRouteWithChildren
   '/(unguarded)/_unguarded_layout': typeof unguardedUnguarded_layoutRouteWithChildren
   '/(auth)/_auth_layout/app/': typeof authAuth_layoutAppIndexRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$'
     | '/app/'
     | '/forgot-password/'
     | '/login/'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$'
     | '/app'
     | '/forgot-password'
     | '/login'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/$'
     | '/(auth)/_auth_layout'
     | '/(unguarded)/_unguarded_layout'
     | '/(auth)/_auth_layout/app/'
@@ -237,12 +249,20 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SplatRoute: typeof SplatRoute
   authAuth_layoutRoute: typeof authAuth_layoutRouteWithChildren
   unguardedUnguarded_layoutRoute: typeof unguardedUnguarded_layoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -424,6 +444,7 @@ const unguardedUnguarded_layoutRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SplatRoute: SplatRoute,
   authAuth_layoutRoute: authAuth_layoutRouteWithChildren,
   unguardedUnguarded_layoutRoute: unguardedUnguarded_layoutRouteWithChildren,
 }
