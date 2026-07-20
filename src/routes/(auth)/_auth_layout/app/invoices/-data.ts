@@ -112,7 +112,7 @@ export function matchesAdminInvoiceSearch(invoice: Invoice, query: string) {
 		invoice.invoice_id,
 		invoice.tenant,
 		invoice.tenant_name,
-		invoice.tenant_tenant_id,
+		invoice.tenant_slug,
 		invoice.description,
 		getInvoiceTotalAmount(invoice),
 	]
@@ -173,7 +173,7 @@ export function exportInvoicesCsv(invoices: Invoice[]) {
 		...invoices.map((invoice) => [
 			getInvoiceLabel(invoice),
 			invoice.tenant_name ?? "Unknown",
-			invoice.tenant_tenant_id ?? invoice.tenant,
+			invoice.tenant_slug ?? invoice.tenant,
 			invoice.description ?? "",
 			formatTenantMoney(
 				getInvoiceTotalAmount(invoice),

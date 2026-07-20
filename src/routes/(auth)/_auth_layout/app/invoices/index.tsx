@@ -341,9 +341,9 @@ function InvoiceRow({
 			</TableCell>
 			<TableCell>
 				<div className="capitalize">{invoice.tenant_name ?? "N/A"}</div>
-				{invoice.tenant_tenant_id ? (
+				{invoice.tenant_slug ? (
 					<div className="text-xs text-muted-foreground">
-						{invoice.tenant_tenant_id}
+						{invoice.tenant_slug}
 					</div>
 				) : null}
 			</TableCell>

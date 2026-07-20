@@ -333,6 +333,7 @@ export type UserAdminPatchUpdatePayload = z.infer<
 export interface UserTenantMembership {
 	id: string;
 	name: string;
+	slug: string;
 	email: string;
 	enabled_countries?: string[];
 	role: UserRole;

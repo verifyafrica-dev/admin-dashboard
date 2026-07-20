@@ -319,7 +319,7 @@ function TenantsPage() {
 																{tenant.name}
 															</p>
 															<p className="truncate text-xs text-muted-foreground">
-																ID: {tenant.tenant_id}
+																ID: {tenant.slug}
 															</p>
 														</div>
 													</div>

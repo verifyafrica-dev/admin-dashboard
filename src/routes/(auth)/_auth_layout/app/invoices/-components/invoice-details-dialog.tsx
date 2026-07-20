@@ -84,7 +84,7 @@ export function InvoiceDetailsDialog({
 						<div className="grid gap-4 sm:grid-cols-2">
 							<DetailField
 								label="Tenant ID"
-								value={invoice.tenant_tenant_id ?? invoice.tenant}
+								value={invoice.tenant_slug ?? invoice.tenant}
 							/>
 							<DetailField
 								label="Tenant Email"
