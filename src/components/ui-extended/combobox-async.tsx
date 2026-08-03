@@ -41,10 +41,7 @@ export type AsyncComboboxSearchResult = {
 export type AsyncComboboxProps = {
 	value: AsyncComboboxOption[];
 	onChange: (value: AsyncComboboxOption[]) => void;
-	onSearch: (
-		query: string,
-		page: number,
-	) => Promise<AsyncComboboxSearchResult>;
+	onSearch: (query: string, page: number) => Promise<AsyncComboboxSearchResult>;
 	placeholder?: string;
 	searchPlaceholder?: string;
 	emptyMessage?: string;
@@ -160,7 +157,10 @@ export function AsyncCombobox({
 
 	return (
 		<div className={cn("flex w-full flex-col gap-2", className)}>
-			<Popover open={open} onOpenChange={setOpen}>
+			<Popover
+				open={open}
+				onOpenChange={setOpen}
+			>
 				<PopoverTrigger asChild>
 					<Button
 						type="button"
@@ -172,9 +172,7 @@ export function AsyncCombobox({
 						className="h-auto min-h-9 w-full justify-between px-3 py-2 font-normal"
 					>
 						<span className="truncate text-left text-muted-foreground">
-							{value.length > 0
-								? `${value.length} selected`
-								: placeholder}
+							{value.length > 0 ? `${value.length} selected` : placeholder}
 						</span>
 						<CaretUpDownIcon className="ml-2 size-4 shrink-0 opacity-50" />
 					</Button>
@@ -183,7 +181,10 @@ export function AsyncCombobox({
 					className="w-(--radix-popover-trigger-width) p-0"
 					align="start"
 				>
-					<Command shouldFilter={false} id={listboxId}>
+					<Command
+						shouldFilter={false}
+						id={listboxId}
+					>
 						<CommandInput
 							value={search}
 							onValueChange={setSearch}
@@ -267,7 +268,6 @@ export function AsyncCombobox({
 					{value.map((option) => (
 						<Badge
 							key={option.value}
-							variant="secondary"
 							className="gap-1 pr-1"
 						>
 							<span className="max-w-56 truncate">{option.label}</span>
