@@ -1,9 +1,15 @@
 import { useForm } from "@tanstack/react-form";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { getV2ErrorMessage } from "#/api/http/shared";
 import { useSendCustomMessageV2Mutation } from "#/api/http/v2/mail/mail.hooks";
+import { USERS_V2_API } from "#/api/http/v2/users/users.api";
+import type { AdminUser } from "#/api/http/v2/users/users.types";
+import {
+	AsyncCombobox,
+	type AsyncComboboxOption,
+} from "#/components/ui-extended/combobox-async";
 import { Button } from "#/components/ui/button";
 import {
 	Dialog,
@@ -14,56 +20,41 @@ import {
 	DialogTitle,
 } from "#/components/ui/dialog";
 import { Input } from "#/components/ui/input";
+import { Label } from "#/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "#/components/ui/radio-group";
 import { Textarea } from "#/components/ui/textarea";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+	Field,
+	FieldError,
+	FieldGroup,
+	FieldLabel,
+} from "@/components/ui/field";
+
+type AudienceMode = "all_users" | "selected_users";
 
 type SendMessageFormValues = {
 	subject: string;
 	message: string;
-	recipients: string;
+	audience: AudienceMode;
 };
 
 const SendMessageFormSchema = z.object({
 	subject: z.string().trim().min(1, "Subject is required").max(200),
 	message: z.string().trim().min(1, "Message is required"),
-	recipients: z
-		.string()
-		.trim()
-		.min(1, "Add at least one recipient email")
-		.superRefine((value, context) => {
-			const emails = value
-				.split(/[\n,;]+/)
-				.map((email) => email.trim())
-				.filter(Boolean);
-			if (emails.length === 0) {
-				context.addIssue({
-					code: "custom",
-					message: "Add at least one recipient email",
-				});
-				return;
-			}
-			for (const email of emails) {
-				if (!z.string().email().safeParse(email).success) {
-					context.addIssue({
-						code: "custom",
-						message: `Invalid email: ${email}`,
-					});
-					return;
-				}
-			}
-		}),
+	audience: z.enum(["all_users", "selected_users"]),
 });
 
-function parseRecipientEmails(value: string): string[] {
-	const seen = new Set<string>();
-	const emails: string[] = [];
-	for (const part of value.split(/[\n,;]+/)) {
-		const email = part.trim().toLowerCase();
-		if (!email || seen.has(email)) continue;
-		seen.add(email);
-		emails.push(email);
-	}
-	return emails;
+function userToOption(user: AdminUser): AsyncComboboxOption {
+	const fullName = [user.first_name, user.last_name]
+		.filter(Boolean)
+		.join(" ")
+		.trim();
+	const businessName = user.tenants?.[0]?.name;
+	return {
+		value: user.email,
+		label: fullName || user.email,
+		description: [user.email, businessName].filter(Boolean).join(" · "),
+	};
 }
 
 export function SendMessageDialog({
@@ -75,12 +66,28 @@ export function SendMessageDialog({
 }) {
 	const sendMessageMutation = useSendCustomMessageV2Mutation();
 	const isSubmitting = sendMessageMutation.isPending;
+	const [selectedUsers, setSelectedUsers] = useState<AsyncComboboxOption[]>([]);
+	const [recipientError, setRecipientError] = useState<string | null>(null);
 
 	const defaultValues: SendMessageFormValues = {
 		subject: "",
 		message: "",
-		recipients: "",
+		audience: "selected_users",
 	};
+
+	const searchUsers = useCallback(async (query: string, page: number) => {
+		const result = await USERS_V2_API.LIST({
+			page,
+			per_page: 20,
+			search: query || undefined,
+			sort_by: "recently_created",
+		});
+		const pagination = result.meta.pagination;
+		return {
+			items: result.items.map(userToOption),
+			hasMore: pagination.current_page < pagination.total_pages,
+		};
+	}, []);
 
 	const form = useForm({
 		defaultValues,
@@ -88,16 +95,27 @@ export function SendMessageDialog({
 			onSubmit: SendMessageFormSchema,
 		},
 		onSubmit: async ({ value }) => {
+			if (value.audience === "selected_users" && selectedUsers.length === 0) {
+				setRecipientError("Select at least one recipient");
+				return;
+			}
+			setRecipientError(null);
+
 			try {
 				const result = await sendMessageMutation.mutateAsync({
 					subject: value.subject.trim(),
-					message: value.message.trim(),
-					recipient_emails: parseRecipientEmails(value.recipients),
+					message: value.message,
+					audience: value.audience,
+					recipient_emails:
+						value.audience === "selected_users"
+							? selectedUsers.map((user) => user.value)
+							: [],
 				});
 				toast.success(
-					`Message queued for ${result.queued_count} recipient${result.queued_count === 1 ? "" : "s"}.`,
+					`Message queued for ${result.queued_count} recipient${result.queued_count === 1 ? "" : "s"} (${result.batch_count} batch${result.batch_count === 1 ? "" : "es"}).`,
 				);
 				form.reset();
+				setSelectedUsers([]);
 				onOpenChange(false);
 			} catch (error) {
 				toast.error(getV2ErrorMessage(error));
@@ -108,6 +126,8 @@ export function SendMessageDialog({
 	useEffect(() => {
 		if (!open) {
 			form.reset();
+			setSelectedUsers([]);
+			setRecipientError(null);
 		}
 	}, [open, form]);
 
@@ -117,13 +137,22 @@ export function SendMessageDialog({
 	};
 
 	return (
-		<Dialog open={open} onOpenChange={handleOpenChange}>
-			<DialogContent className="sm:max-w-lg" showCloseButton={!isSubmitting}>
+		<Dialog
+			open={open}
+			onOpenChange={handleOpenChange}
+		>
+			<DialogContent
+				className="sm:max-w-lg"
+				showCloseButton={!isSubmitting}
+			>
 				<DialogHeader>
-					<DialogTitle>Send custom message</DialogTitle>
+					<DialogTitle className="font-semibold">
+						Send custom message
+					</DialogTitle>
 					<DialogDescription>
-						Send an announcement email to selected recipients using the
-						VerifyAfrica custom message template.
+						Send an announcement email using the VerifyAfrica custom message
+						template. Batch delivery is queued through Celery (up to 100
+						recipients per Resend request).
 					</DialogDescription>
 				</DialogHeader>
 
@@ -147,9 +176,7 @@ export function SendMessageDialog({
 										id="custom-message-subject"
 										value={field.state.value}
 										onBlur={field.handleBlur}
-										onChange={(event) =>
-											field.handleChange(event.target.value)
-										}
+										onChange={(event) => field.handleChange(event.target.value)}
 										disabled={isSubmitting}
 										placeholder="e.g. Platform maintenance notice"
 										aria-invalid={field.state.meta.errors.length > 0}
@@ -165,51 +192,89 @@ export function SendMessageDialog({
 									className="flex flex-col gap-2"
 									data-invalid={field.state.meta.errors.length > 0}
 								>
-									<FieldLabel htmlFor="custom-message-body">
-										Message
-									</FieldLabel>
+									<FieldLabel htmlFor="custom-message-body">Message</FieldLabel>
 									<Textarea
 										id="custom-message-body"
 										value={field.state.value}
 										onBlur={field.handleBlur}
-										onChange={(event) =>
-											field.handleChange(event.target.value)
-										}
+										onChange={(event) => field.handleChange(event.target.value)}
 										disabled={isSubmitting}
 										rows={8}
 										placeholder="Write the announcement body…"
 										aria-invalid={field.state.meta.errors.length > 0}
 									/>
+									<p className="text-xs text-muted-foreground">
+										Line breaks from this field are preserved in the email.
+									</p>
 									<FieldError errors={field.state.meta.errors} />
 								</Field>
 							)}
 						</form.Field>
 
-						<form.Field name="recipients">
+						<form.Field name="audience">
 							{(field) => (
-								<Field
-									className="flex flex-col gap-2"
-									data-invalid={field.state.meta.errors.length > 0}
-								>
-									<FieldLabel htmlFor="custom-message-recipients">
-										Recipients
-									</FieldLabel>
-									<Textarea
-										id="custom-message-recipients"
+								<Field className="flex flex-col gap-3">
+									<FieldLabel>Recipients</FieldLabel>
+									<RadioGroup
 										value={field.state.value}
-										onBlur={field.handleBlur}
-										onChange={(event) =>
-											field.handleChange(event.target.value)
-										}
+										onValueChange={(next) => {
+											field.handleChange(next as AudienceMode);
+											setRecipientError(null);
+										}}
 										disabled={isSubmitting}
-										rows={4}
-										placeholder={"one@example.com\ntwo@example.com"}
-										aria-invalid={field.state.meta.errors.length > 0}
-									/>
-									<p className="text-xs text-muted-foreground">
-										Enter one email per line (commas also accepted).
-									</p>
-									<FieldError errors={field.state.meta.errors} />
+										className="gap-3"
+									>
+										<div className="flex items-start gap-2">
+											<RadioGroupItem
+												value="all_users"
+												id="audience-all-users"
+												className="mt-0.5"
+											/>
+											<div className="grid gap-1">
+												<Label htmlFor="audience-all-users">All users</Label>
+												<p className="text-xs text-muted-foreground">
+													Queue a Resend batch send to every active user.
+												</p>
+											</div>
+										</div>
+										<div className="flex items-start gap-2">
+											<RadioGroupItem
+												value="selected_users"
+												id="audience-selected-users"
+												className="mt-0.5"
+											/>
+											<div className="grid gap-1">
+												<Label htmlFor="audience-selected-users">
+													Select users
+												</Label>
+												<p className="text-xs text-muted-foreground">
+													Search by user email or business name.
+												</p>
+											</div>
+										</div>
+									</RadioGroup>
+
+									{field.state.value === "selected_users" ? (
+										<div className="mt-1 flex flex-col gap-2">
+											<AsyncCombobox
+												value={selectedUsers}
+												onChange={(next) => {
+													setSelectedUsers(next);
+													setRecipientError(null);
+												}}
+												onSearch={searchUsers}
+												disabled={isSubmitting}
+												placeholder="Search users…"
+												searchPlaceholder="Search by email or business name…"
+												emptyMessage="No users found."
+											/>
+											{recipientError ? (
+												<p className="text-sm text-destructive">
+													{recipientError}
+												</p>
+											) : null}
+										</div>
+									) : null}
 								</Field>
 							)}
 						</form.Field>
@@ -224,7 +289,10 @@ export function SendMessageDialog({
 						>
 							Cancel
 						</Button>
-						<Button type="submit" disabled={isSubmitting}>
+						<Button
+							type="submit"
+							disabled={isSubmitting}
+						>
 							{isSubmitting ? "Sending…" : "Send message"}
 						</Button>
 					</DialogFooter>
