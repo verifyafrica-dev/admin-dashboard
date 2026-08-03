@@ -1,4 +1,4 @@
-import { ArrowClockwiseIcon } from "@phosphor-icons/react";
+import { ArrowClockwiseIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { usePlatformAnalyticsV2Query } from "#/api/http/v2/analytics/analytics.hooks";
@@ -14,6 +14,7 @@ import {
 	AdminDashboardContent,
 	AdminDashboardSkeleton,
 } from "./-components/admin-dashboard-content";
+import { SendMessageDialog } from "./-components/send-message-dialog";
 import {
 	getAnalyticsDateRange,
 	mapPlatformAnalyticsToDashboardData,
@@ -33,6 +34,7 @@ export const Route = createFileRoute("/(auth)/_auth_layout/app/")({
 
 function DashboardPage() {
 	const [timeRange, setTimeRange] = useState<TimeRange>("30d");
+	const [sendMessageOpen, setSendMessageOpen] = useState(false);
 	const analyticsDateRange = useMemo(
 		() => getAnalyticsDateRange(timeRange),
 		[timeRange],
@@ -79,6 +81,13 @@ function DashboardPage() {
 						</SelectContent>
 					</Select>
 					<Button
+						variant="outline"
+						onClick={() => setSendMessageOpen(true)}
+					>
+						<EnvelopeSimpleIcon weight="bold" />
+						Send message
+					</Button>
+					<Button
 						onClick={() => platformAnalyticsQuery.refetch()}
 						disabled={isLoading}
 					>
@@ -100,6 +109,11 @@ function DashboardPage() {
 			) : data ? (
 				<AdminDashboardContent data={data} chartKey={chartKey} />
 			) : null}
+
+			<SendMessageDialog
+				open={sendMessageOpen}
+				onOpenChange={setSendMessageOpen}
+			/>
 		</div>
 	);
 }
