@@ -5,7 +5,6 @@ import {
 	ListBulletsIcon,
 	ListNumbersIcon,
 	QuotesIcon,
-	TableIcon,
 	TextBolderIcon,
 	TextItalicIcon,
 	TextStrikethroughIcon,
@@ -25,6 +24,7 @@ import {
 	ButtonGroupSeparator,
 } from "#/components/ui/button-group";
 import { RichTextEditorLinkPopover } from "#/components/ui-extended/rich-text-editor-link-popover";
+import { RichTextEditorTablePicker } from "#/components/ui-extended/rich-text-editor-table-picker";
 import { cn } from "#/lib/utils.ts";
 
 type RichTextEditorProps = {
@@ -58,6 +58,10 @@ function ToolbarButton({
 			type="button"
 			variant={isActive ? "default" : "ghost"}
 			size="icon-sm"
+			onMouseDown={(event) => {
+				// Keep the editor selection when clicking toolbar controls.
+				event.preventDefault();
+			}}
 			onClick={onClick}
 			disabled={disabled}
 			aria-label={label}
@@ -97,6 +101,7 @@ export function RichTextEditor({
 }: RichTextEditorProps) {
 	const editor = useEditor({
 		immediatelyRender: false,
+		shouldRerenderOnTransaction: true,
 		extensions: [
 			StarterKit.configure({
 				heading: false,
@@ -234,20 +239,7 @@ export function RichTextEditor({
 
 					<ButtonGroupSeparator className="mx-0.5 h-6" />
 
-					<ToolbarButton
-						label="Insert table"
-						disabled={disabled}
-						isActive={editor.isActive("table")}
-						onClick={() =>
-							editor
-								.chain()
-								.focus()
-								.insertTable({ rows: 3, cols: 2, withHeaderRow: false })
-								.run()
-						}
-					>
-						<TableIcon weight="bold" />
-					</ToolbarButton>
+					<RichTextEditorTablePicker editor={editor} disabled={disabled} />
 					<ToolbarButton
 						label="Blockquote"
 						disabled={disabled}
@@ -267,7 +259,9 @@ export function RichTextEditor({
 				</ButtonGroup>
 			</div>
 
-			<EditorContent editor={editor} />
+			<div className="max-h-[420px] overflow-y-auto">
+				<EditorContent editor={editor} />
+			</div>
 		</div>
 	);
 }

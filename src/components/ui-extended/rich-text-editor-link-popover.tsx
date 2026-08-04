@@ -57,6 +57,9 @@ export function RichTextEditorLinkPopover({
 					type="button"
 					variant={isActive ? "default" : "ghost"}
 					size="icon-sm"
+					onMouseDown={(event) => {
+						event.preventDefault();
+					}}
 					disabled={disabled}
 					aria-label="Link"
 					aria-pressed={isActive}

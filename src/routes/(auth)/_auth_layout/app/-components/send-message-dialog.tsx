@@ -200,7 +200,9 @@ export function SendMessageDialog({
 										aria-invalid={field.state.meta.errors.length > 0}
 									/>
 									<p className="text-xs text-muted-foreground">
-										Formatting from the toolbar is preserved in the email.
+										Formatting from the toolbar is preserved in the email. The
+										formatted body must stay within 2,000 characters (tables and
+										rich formatting count toward this limit).
 									</p>
 									<FieldError errors={field.state.meta.errors} />
 								</Field>
