@@ -6,10 +6,6 @@ import { getV2ErrorMessage } from "#/api/http/shared";
 import { useSendCustomMessageV2Mutation } from "#/api/http/v2/mail/mail.hooks";
 import { USERS_V2_API } from "#/api/http/v2/users/users.api";
 import type { AdminUser } from "#/api/http/v2/users/users.types";
-import {
-	AsyncCombobox,
-	type AsyncComboboxOption,
-} from "#/components/ui-extended/combobox-async";
 import { Button } from "#/components/ui/button";
 import {
 	Dialog,
@@ -22,7 +18,12 @@ import {
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "#/components/ui/radio-group";
-import { Textarea } from "#/components/ui/textarea";
+import {
+	AsyncCombobox,
+	type AsyncComboboxOption,
+} from "#/components/ui-extended/combobox-async";
+import { RichTextEditor } from "#/components/ui-extended/rich-text-editor";
+import { isRichTextEmpty } from "#/lib/rich-text";
 import {
 	Field,
 	FieldError,
@@ -40,7 +41,9 @@ type SendMessageFormValues = {
 
 const SendMessageFormSchema = z.object({
 	subject: z.string().trim().min(1, "Subject is required").max(200),
-	message: z.string().trim().min(1, "Message is required"),
+	message: z
+		.string()
+		.refine((value) => !isRichTextEmpty(value), "Message is required"),
 	audience: z.enum(["all_users", "selected_users"]),
 });
 
@@ -137,14 +140,8 @@ export function SendMessageDialog({
 	};
 
 	return (
-		<Dialog
-			open={open}
-			onOpenChange={handleOpenChange}
-		>
-			<DialogContent
-				className="sm:max-w-lg"
-				showCloseButton={!isSubmitting}
-			>
+		<Dialog open={open} onOpenChange={handleOpenChange}>
+			<DialogContent className="sm:max-w-2xl" showCloseButton={!isSubmitting}>
 				<DialogHeader>
 					<DialogTitle className="font-semibold">
 						Send custom message
@@ -193,18 +190,17 @@ export function SendMessageDialog({
 									data-invalid={field.state.meta.errors.length > 0}
 								>
 									<FieldLabel htmlFor="custom-message-body">Message</FieldLabel>
-									<Textarea
+									<RichTextEditor
 										id="custom-message-body"
 										value={field.state.value}
 										onBlur={field.handleBlur}
-										onChange={(event) => field.handleChange(event.target.value)}
+										onChange={field.handleChange}
 										disabled={isSubmitting}
-										rows={8}
 										placeholder="Write the announcement body…"
 										aria-invalid={field.state.meta.errors.length > 0}
 									/>
 									<p className="text-xs text-muted-foreground">
-										Line breaks from this field are preserved in the email.
+										Formatting from the toolbar is preserved in the email.
 									</p>
 									<FieldError errors={field.state.meta.errors} />
 								</Field>
@@ -289,10 +285,7 @@ export function SendMessageDialog({
 						>
 							Cancel
 						</Button>
-						<Button
-							type="submit"
-							disabled={isSubmitting}
-						>
+						<Button type="submit" disabled={isSubmitting}>
 							{isSubmitting ? "Sending…" : "Send message"}
 						</Button>
 					</DialogFooter>
