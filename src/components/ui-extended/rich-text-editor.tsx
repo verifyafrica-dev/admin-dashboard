@@ -5,11 +5,17 @@ import {
 	ListBulletsIcon,
 	ListNumbersIcon,
 	QuotesIcon,
+	TableIcon,
 	TextBolderIcon,
 	TextItalicIcon,
 	TextStrikethroughIcon,
 } from "@phosphor-icons/react";
+import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
+import { Table } from "@tiptap/extension-table";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { TableRow } from "@tiptap/extension-table-row";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { type ReactNode, useEffect } from "react";
@@ -18,6 +24,7 @@ import {
 	ButtonGroup,
 	ButtonGroupSeparator,
 } from "#/components/ui/button-group";
+import { RichTextEditorLinkPopover } from "#/components/ui-extended/rich-text-editor-link-popover";
 import { cn } from "#/lib/utils.ts";
 
 type RichTextEditorProps = {
@@ -62,6 +69,22 @@ function ToolbarButton({
 	);
 }
 
+const editorContentClassName = cn(
+	"rich-text-editor-content min-h-48 w-full px-2.5 py-2 text-sm outline-none",
+	"prose prose-sm max-w-none dark:prose-invert",
+	"prose-p:my-2 prose-p:leading-relaxed",
+	"prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5",
+	"prose-blockquote:my-3 prose-blockquote:rounded-md prose-blockquote:border-0 prose-blockquote:bg-foreground prose-blockquote:px-4 prose-blockquote:py-3 prose-blockquote:not-italic prose-blockquote:text-background",
+	"prose-code:rounded prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:text-foreground prose-code:before:content-none prose-code:after:content-none",
+	"[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4",
+	"[&_table]:my-3 [&_table]:w-full [&_table]:border-collapse",
+	"[&_td]:border-t [&_td]:border-border [&_td]:py-3 [&_td]:align-top [&_td]:text-foreground",
+	"[&_th]:border-t [&_th]:border-border [&_th]:py-3 [&_th]:align-top [&_th]:text-left [&_th]:font-semibold",
+	"[&_tr:first-child_td]:border-t-0 [&_tr:first-child_th]:border-t-0",
+	"[&_td:first-child]:w-[34%] [&_td:first-child]:pr-4 [&_td:first-child]:font-semibold",
+	"[&_th:first-child]:w-[34%] [&_th:first-child]:pr-4",
+);
+
 export function RichTextEditor({
 	id,
 	value,
@@ -78,7 +101,26 @@ export function RichTextEditor({
 			StarterKit.configure({
 				heading: false,
 				horizontalRule: false,
+				link: false,
 			}),
+			Link.configure({
+				openOnClick: false,
+				autolink: true,
+				linkOnPaste: true,
+				defaultProtocol: "https",
+				HTMLAttributes: {
+					class: "text-primary underline underline-offset-4",
+				},
+			}),
+			Table.configure({
+				resizable: false,
+				HTMLAttributes: {
+					class: "rich-text-table",
+				},
+			}),
+			TableRow,
+			TableHeader,
+			TableCell,
 			Placeholder.configure({
 				placeholder,
 				emptyEditorClass:
@@ -96,14 +138,7 @@ export function RichTextEditor({
 		editorProps: {
 			attributes: {
 				...(id ? { id } : {}),
-				class: cn(
-					"rich-text-editor-content min-h-48 w-full px-2.5 py-2 text-sm outline-none",
-					"prose prose-sm max-w-none dark:prose-invert",
-					"prose-p:my-2 prose-p:leading-relaxed",
-					"prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5",
-					"prose-blockquote:my-3 prose-blockquote:rounded-md prose-blockquote:border-0 prose-blockquote:bg-foreground prose-blockquote:px-4 prose-blockquote:py-3 prose-blockquote:not-italic prose-blockquote:text-background",
-					"prose-code:rounded prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:text-foreground prose-code:before:content-none prose-code:after:content-none",
-				),
+				class: editorContentClassName,
 			},
 		},
 	});
@@ -176,6 +211,10 @@ export function RichTextEditor({
 
 					<ButtonGroupSeparator className="mx-0.5 h-6" />
 
+					<RichTextEditorLinkPopover editor={editor} disabled={disabled} />
+
+					<ButtonGroupSeparator className="mx-0.5 h-6" />
+
 					<ToolbarButton
 						label="Bullet list"
 						disabled={disabled}
@@ -195,6 +234,20 @@ export function RichTextEditor({
 
 					<ButtonGroupSeparator className="mx-0.5 h-6" />
 
+					<ToolbarButton
+						label="Insert table"
+						disabled={disabled}
+						isActive={editor.isActive("table")}
+						onClick={() =>
+							editor
+								.chain()
+								.focus()
+								.insertTable({ rows: 3, cols: 2, withHeaderRow: false })
+								.run()
+						}
+					>
+						<TableIcon weight="bold" />
+					</ToolbarButton>
 					<ToolbarButton
 						label="Blockquote"
 						disabled={disabled}
