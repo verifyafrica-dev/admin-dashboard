@@ -147,9 +147,9 @@ export function SendMessageDialog({
 						Send custom message
 					</DialogTitle>
 					<DialogDescription>
-						Send an announcement email using the VerifyAfrica custom message
-						template. Batch delivery is queued through Celery (up to 100
-						recipients per Resend request).
+						Send an announcement email using the VerifyAfrica custom message layout.
+						Batch delivery is queued through Celery (up to 100 recipients per Resend
+						request).
 					</DialogDescription>
 				</DialogHeader>
 
@@ -200,9 +200,7 @@ export function SendMessageDialog({
 										aria-invalid={field.state.meta.errors.length > 0}
 									/>
 									<p className="text-xs text-muted-foreground">
-										Formatting from the toolbar is preserved in the email. The
-										formatted body must stay within 2,000 characters (tables and
-										rich formatting count toward this limit).
+										Formatting from the toolbar is preserved in the email.
 									</p>
 									<FieldError errors={field.state.meta.errors} />
 								</Field>

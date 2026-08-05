@@ -80,13 +80,12 @@ const editorContentClassName = cn(
 	"prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5",
 	"prose-blockquote:my-3 prose-blockquote:rounded-md prose-blockquote:border-0 prose-blockquote:bg-foreground prose-blockquote:px-4 prose-blockquote:py-3 prose-blockquote:not-italic prose-blockquote:text-background",
 	"prose-code:rounded prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:text-foreground prose-code:before:content-none prose-code:after:content-none",
+	"prose-th:font-normal prose-td:font-normal",
 	"[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4",
-	"[&_table]:my-3 [&_table]:w-full [&_table]:border-collapse",
-	"[&_td]:border-t [&_td]:border-border [&_td]:py-3 [&_td]:align-top [&_td]:text-foreground",
-	"[&_th]:border-t [&_th]:border-border [&_th]:py-3 [&_th]:align-top [&_th]:text-left [&_th]:font-semibold",
+	"[&_table]:my-3 [&_table]:w-full [&_table]:border-collapse [&_table]:bg-primary/20",
+	"[&_td]:border-t [&_td]:border-primary/25 [&_td]:px-4 [&_td]:py-3 [&_td]:align-top [&_td]:font-normal [&_td]:text-foreground",
+	"[&_th]:border-t [&_th]:border-primary/25 [&_th]:px-4 [&_th]:py-3 [&_th]:align-top [&_th]:text-left [&_th]:font-normal [&_th]:text-foreground",
 	"[&_tr:first-child_td]:border-t-0 [&_tr:first-child_th]:border-t-0",
-	"[&_td:first-child]:w-[34%] [&_td:first-child]:pr-4 [&_td:first-child]:font-semibold",
-	"[&_th:first-child]:w-[34%] [&_th:first-child]:pr-4",
 );
 
 export function RichTextEditor({
